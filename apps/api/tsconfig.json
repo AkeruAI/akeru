@@ -1,5 +1,16 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+        "@/*": ["src/*"],
+        "core/*": ["src/core/*"],
+        "infrastructure/*": ["src/infrastructure/*"],
+        "adapter/*": ["src/infrastructure/adapter/*"],
+        "config/*": ["src/infrastructure/config/*"],
+        "domain/*": ["src/core/domain/*"],
+        "services/*": ["src/core/application/services/*"],
+        "ports/*": ["src/core/application/ports/*"],
+    },
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
     /* Projects */

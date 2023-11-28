@@ -1,15 +1,16 @@
 {
   "name": "ossistant",
-  "version": "1.0.50",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev:database:up": "cd apps/database && docker compose up -d",
+    "dev:database:down": "cd apps/database && docker compose down",
+    "dev:redis:up": "cd apps/redis && docker compose up -d",
+    "dev:redis:down": "cd apps/redis && docker compose down",
+    "dev:api": "cd apps/api && bun dev",
+    "dev": "bun run dev:redis:up && bun run dev:database:up && bun run dev:api",
+    "dev:down": "bun run dev:redis:down && bun run dev:database:down"
   },
-  "dependencies": {
-    "elysia": "latest"
-  },
-  "devDependencies": {
-    "bun-types": "latest"
-  },
-  "module": "src/index.js"
+  "workspaces": [
+    "apps/*"
+  ]
 }

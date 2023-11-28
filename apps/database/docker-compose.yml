@@ -1,0 +1,13 @@
+version: '3'
+services:
+  neo4j:
+    image: neo4j:latest
+    environment:
+      NEO4J_AUTH: neo4j/your_password # Set your Neo4j password
+    ports:
+      - "7474:7474" # HTTP
+      - "7473:7473" # HTTPS
+      - "7687:7687" # Bolt
+    volumes:
+      - ./data:/data # Persist data
+      - ./logs:/logs # Persist logs
