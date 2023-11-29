@@ -35,3 +35,29 @@ export async function getTokenPermissions(
   const { permissions } = JSON.parse(tokenData);
   return permissions;
 }
+
+/**
+ * Parses a JWT and returns the decoded token data.
+ * @param {string} token - The JWT to parse.
+ * @returns {Promise<{ userId: string, permissionsArray: string[] } | null>} A promise that resolves to the decoded token data if valid, or null otherwise.
+ */
+export async function parseToken(
+  token: string
+): Promise<{ userId: string; permissionsArray: string[] } | null> {
+  try {
+    const tokenData = jwt.verify(token, process.env.API_ENCRYPTION_KEY!) as {
+      userId: string;
+      permissionsArray: string[];
+    };
+
+    if (!tokenData.userId || !tokenData.permissionsArray) {
+      console.error("Invalid token data:", tokenData);
+      return null;
+    }
+
+    return tokenData;
+  } catch (err) {
+    console.error("Failed to parse token:", err);
+    return null;
+  }
+}

@@ -1,9 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
 import { assignRole, createUser } from "core/application/services/userService";
-import { createToken } from "@/core/application/services/tokens";
+import { createToken } from "@/core/application/services/tokenService";
+import { getNeo4jSession } from "@/infrastructure/adaptaters/neo4jAdapter";
 
 /**
  * Creates a new user with a random ID and assigns them the "super admin" role.
+ * Also creates the user in Neo4j.
  * WARNING: This function should only be used in seeding scripts.
  * @param {Object} userData - The data of the user to create.
  * @returns {Promise<string>} A promise that resolves to the ID of the new user if the user was created and assigned the role successfully, or null otherwise.
@@ -22,6 +24,16 @@ export async function createSuperAdmin(
     if (!roleAssigned) {
       return null;
     }
+
+    // Create the user in Neo4j
+    const session = getNeo4jSession();
+    await session.run(
+      `
+      CREATE (u:User {id: $userId, data: $userData})
+      `,
+      { userId, userData }
+    );
+    session.close();
 
     return userId;
   } catch (err) {

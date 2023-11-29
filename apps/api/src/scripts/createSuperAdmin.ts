@@ -1,7 +1,7 @@
 import {
   createApiToken,
   createSuperAdmin,
-} from "@/core/application/controlers/userControler";
+} from "@/core/application/controllers/userController";
 
 async function createSuperAdminWithApiKey() {
   const userData = {
