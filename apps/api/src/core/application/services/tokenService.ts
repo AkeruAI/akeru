@@ -11,8 +11,6 @@ export async function createToken(userId: string): Promise<string> {
   const permissions = await getUserPermissions(userId);
   const tokenData = { userId, permissions };
 
-  console.log(process.env.API_ENCRYPTION_KEY);
-
   // Sign the token data with a secret key to create the JWT
   const token = jwt.sign(tokenData, process.env.API_ENCRYPTION_KEY!);
 
@@ -23,11 +21,11 @@ export async function createToken(userId: string): Promise<string> {
 /**
  * Retrieves the permissions associated with a specific API token.
  * @param {string} token - The API token to retrieve permissions for.
- * @returns {Promise<string[]|null>} A promise that resolves to an array of permissions, or null if the token was not found.
+ * @returns {Promise<{ key: string, description: string }[] | null>} A promise that resolves to an array of permissions, or null if the token was not found.
  */
 export async function getTokenPermissions(
   token: string
-): Promise<string[] | null> {
+): Promise<{ key: string; description: string }[] | null> {
   const tokenData = await redis.hget("api_tokens", token);
   if (!tokenData) {
     return null;
@@ -39,18 +37,19 @@ export async function getTokenPermissions(
 /**
  * Parses a JWT and returns the decoded token data.
  * @param {string} token - The JWT to parse.
- * @returns {Promise<{ userId: string, permissionsArray: string[] } | null>} A promise that resolves to the decoded token data if valid, or null otherwise.
+ * @returns {Promise<{ userId: string, permissions: { key: string, description: string }[] } | null>} A promise that resolves to the decoded token data if valid, or null otherwise.
  */
-export async function parseToken(
-  token: string
-): Promise<{ userId: string; permissionsArray: string[] } | null> {
+export async function parseToken(token: string): Promise<{
+  userId: string;
+  permissions: { key: string; description: string }[];
+} | null> {
   try {
     const tokenData = jwt.verify(token, process.env.API_ENCRYPTION_KEY!) as {
       userId: string;
-      permissionsArray: string[];
+      permissions: { key: string; description: string }[];
     };
 
-    if (!tokenData.userId || !tokenData.permissionsArray) {
+    if (!tokenData.userId || !tokenData.permissions) {
       console.error("Invalid token data:", tokenData);
       return null;
     }

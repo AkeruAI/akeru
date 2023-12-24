@@ -1,5 +1,6 @@
 {
-  "name": "ossistant",
+  "name": "sprout",
+  "description": "A monorepo for the Sprout application",
   "private": true,
   "scripts": {
     "dev:database:up": "cd apps/database && docker compose up -d",
@@ -8,7 +9,10 @@
     "dev:redis:down": "cd apps/redis && docker compose down",
     "dev:api": "cd apps/api && bun dev",
     "dev": "bun run dev:redis:up && bun run dev:database:up && bun run dev:api",
-    "dev:down": "bun run dev:redis:down && bun run dev:database:down"
+    "dev:containers": "bun run dev:redis:up && bun run dev:database:up",
+    "dev:down": "bun run dev:redis:down && bun run dev:database:down",
+    "db:clean": "cd apps/api && bun ./scripts/cleanDB.ts",
+    "test:integration": "bun run dev:containers && cd apps/api && bun test && cd ../.. && bun run db:clean"
   },
   "workspaces": [
     "apps/*"

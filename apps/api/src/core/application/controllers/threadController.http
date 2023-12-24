@@ -1,0 +1,17 @@
+@bearer = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMUhISkJSOUVSRTczUFRGQzFHWllTOTI1SiIsInBlcm1pc3Npb25zIjpbeyJrZXkiOiIqIiwiZGVzY3JpcHRpb24iOiJBbGxvd3MgdGhlIHVzZXIgdG8gcGVyZm9ybSBhbnkgYWN0aW9uLiJ9XSwiaWF0IjoxNzAyNDk3MTAxfQ.popm-HtCIbLaixGHudOhspUXPJm_NVRG2Iz6IjOEh2k
+@baseurl = http://localhost:3000/thread
+
+# @name createThread
+POST {{baseurl}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{bearer}}
+
+###
+
+@threadId = {{createThread.response.body.id}}
+
+# @name getThread
+GET {{baseurl}}/{{threadId}} HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{bearer}}
+

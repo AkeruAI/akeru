@@ -22,6 +22,7 @@ async function createSuperAdminWithApiKey() {
 
   console.log(`Super admin user created with ID: ${userId}`);
   console.log(`API key for super admin user: ${apiKey}`);
+  process.exit();
 }
 
 createSuperAdminWithApiKey().catch((err) => {

@@ -10,6 +10,7 @@
         "domain/*": ["src/core/domain/*"],
         "services/*": ["src/core/application/services/*"],
         "ports/*": ["src/core/application/ports/*"],
+        "controllers/*": ["src/infrastructure/controllers/*"],
     },
     /* Visit https://aka.ms/tsconfig to read more about this file */
 

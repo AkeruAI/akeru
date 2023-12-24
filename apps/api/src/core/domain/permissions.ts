@@ -12,6 +12,7 @@ export type Permission =
   | "create_thread"
   | "add_user_to_thread"
   | "view_own_threads"
+  | "delete_own_thread"
   | "create_message_in_own_thread"
   | "create_document"
   | "view_own_documents"
@@ -54,6 +55,9 @@ export const permissions: Record<Permission, PermissionDetails> = {
   },
   view_own_threads: {
     description: "Allows the user to view their own threads.",
+  },
+  delete_own_thread: {
+    description: "Allows the user to delete their own thread.",
   },
   create_message_in_own_thread: {
     description: "Allows the user to create a message in their own thread.",
