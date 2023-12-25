@@ -1,0 +1,21 @@
+name: "Integration Tests"
+on:
+  pull_request:
+    branches:
+      - main
+  pull_request_target:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: oven-sh/setup-bun@v1
+      - uses: actions/checkout@v2
+      - name: Start stack
+        run: bun dev:containers
+      - name: Run integration tests
+        run: echo hello
+      - name: Tear down
+        if: always()
+        run: bun run dev:down
