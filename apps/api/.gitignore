@@ -42,3 +42,5 @@ package-lock.json
 **/*.bun
 
 .env
+.env.development
+.env.test
