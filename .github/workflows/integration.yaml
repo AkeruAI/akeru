@@ -10,12 +10,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      # install bun
       - uses: oven-sh/setup-bun@v1
       - uses: actions/checkout@v2
-      - name: Start stack
-        run: bun dev:containers
-      - name: Run integration tests
-        run: echo hello
-      - name: Tear down
-        if: always()
-        run: bun run dev:down
+      - name: install dependencies
+        run: bun install
