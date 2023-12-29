@@ -15,12 +15,3 @@ jobs:
       - uses: actions/checkout@v2
       - name: install dependencies
         run: bun install
-      # start docker containers
-      - name: Start stack
-        run: bun dev:containers
-        # future commands for integrations tests
-      - name: Run integration tests
-        run: bun run test:api:integration
-      - name: Tear down
-        if: always()
-        run: bun run dev:down

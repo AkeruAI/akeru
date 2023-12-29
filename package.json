@@ -23,7 +23,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run test:integration"
+      "pre-push": "bun run test:integration"
     }
   }
 }
