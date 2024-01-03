@@ -1,28 +1,25 @@
 {
-  "name": "sprout",
-  "description": "A monorepo for the Sprout application",
-  "private": true,
+  "name": "sprout-api",
+  "version": "1.0.50",
+  "module": "src/indes.ts",
   "scripts": {
-    "dev:database:up": "cd apps/database && docker compose up -d",
-    "dev:database:down": "cd apps/database && docker compose down",
-    "dev:redis:up": "cd apps/redis && docker compose up -d",
-    "dev:redis:down": "cd apps/redis && docker compose down",
-    "dev:api": "cd apps/api && bun dev",
-    "dev": "bun run dev:redis:up && bun run dev:database:up && bun run dev:api",
-    "dev:containers": "bun run dev:redis:up && bun run dev:database:up",
-    "dev:down": "bun run dev:redis:down && bun run dev:database:down",
-    "db:clean": "cd apps/api && bun ./scripts/cleanDB.ts",
-    "test:api:integration": "cd apps/api && bun test; exit_code=$?; cd ../..; exit $exit_code"
+    "dev:db:up": "docker-compose up -d",
+    "dev:db:down": "docker-compose down",
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts"
   },
-  "workspaces": [
-    "apps/*"
-  ],
+  "dependencies": {
+    "@elysiajs/bearer": "^0.7.0",
+    "elysia": "latest",
+    "ioredis": "^5.3.2",
+    "jsonwebtoken": "8.5.1",
+    "langchain": "^0.0.197-rc.1",
+    "neo4j-driver-lite": "^5.16.0",
+    "ulid": "^2.3.0"
+  },
   "devDependencies": {
-    "husky": "^8.0.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "bun run test:integration"
-    }
+    "@types/jsonwebtoken": "^9.0.5",
+    "neo4j-driver": "^5.14.0",
+    "bun-types": "latest"
   }
 }
