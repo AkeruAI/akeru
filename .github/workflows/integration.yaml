@@ -9,6 +9,8 @@ jobs:
       # install bun
       - uses: oven-sh/setup-bun@v1
       - uses: actions/checkout@v2
+      - name: bun version
+        run: bun -v
       - name: install dependencies
         run: bun install
       - name: integrtion tests
