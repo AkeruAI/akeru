@@ -1,3 +1,5 @@
+> :warning: **Warning:** This project is currently under development and most of the features mentioned below are not yet implemented. It is not usable in its current state. Please check back later for updates on the progress of this project.
+
 # Open Source Assistant API
 
 This project is an open-source alternative to OpenAI's Assistant API. It provides a powerful, flexible AI model for generating human-like text based on the input provided.
