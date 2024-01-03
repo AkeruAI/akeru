@@ -54,6 +54,6 @@ export async function createApiToken(userId: string): Promise<string | null> {
     return token;
   } catch (err) {
     console.error("Error creating API token:", err);
-    return null;
+    throw err;
   }
 }
