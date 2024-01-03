@@ -8,8 +8,6 @@ export async function createSuperAdminForTesting(): Promise<string | null> {
     // Add any necessary user data here
   };
 
-  console.log(process.env);
-
   const userId = await createSuperAdmin(userData);
   if (!userId) {
     throw new Error("Failed to create super admin user");

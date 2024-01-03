@@ -33,6 +33,7 @@ describe("threadController", async () => {
     const idInDb = node.properties.id;
 
     expect(idInDb).toEqual(id);
+    expect(1).toBe(2);
   });
 
   test("prevents from creating a test if there is no api token present", async () => {
