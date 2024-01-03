@@ -19,7 +19,7 @@ export const app = new Elysia()
   .use(bearer())
   .use(threads)
   .get("/", healthCheck)
-  .listen(3000);
+  .listen(process.env.PORT || 8080);
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`

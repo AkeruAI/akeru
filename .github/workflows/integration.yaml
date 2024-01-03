@@ -15,3 +15,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: install dependencies
         run: bun install
+      - name: integrtion tests
+        run: bun run test:api:integration
