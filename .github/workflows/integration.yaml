@@ -12,6 +12,7 @@ jobs:
       - name: bun version
         run: bun -v
       - name: install dependencies
+        working-directory: apps/api
         run: bun install
       - name: integrtion tests
         working-directory: apps/api
@@ -24,4 +25,4 @@ jobs:
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
           REDIS_SCHEME: ${{ secrets.REDIS_SCHEME }}
           REDIS_USER: ${{ secrets.REDIS_USER }}
-        run: bun run test
+        run: bun test
