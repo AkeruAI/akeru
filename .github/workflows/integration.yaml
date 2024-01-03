@@ -7,7 +7,12 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - shell: bash
+      # install bun
+      - uses: oven-sh/setup-bun@v1
+      - uses: actions/checkout@v2
+      - name: install dependencies
+        run: bun install
+      - name: integrtion tests
         env:
           NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
           NEO4J_URI: ${{ secrets.NEO4J_URI }}
@@ -17,10 +22,4 @@ jobs:
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
           REDIS_SCHEME: ${{ secrets.REDIS_SCHEME }}
           REDIS_USER: ${{ secrets.REDIS_USER }}
-      # install bun
-      - uses: oven-sh/setup-bun@v1
-      - uses: actions/checkout@v2
-      - name: install dependencies
-        run: bun install
-      - name: integrtion tests
         run: bun run test:api:integration
