@@ -14,6 +14,7 @@ jobs:
       - name: install dependencies
         run: bun install
       - name: integrtion tests
+        working-directory: apps/api
         env:
           NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
           NEO4J_URI: ${{ secrets.NEO4J_URI }}
@@ -23,4 +24,4 @@ jobs:
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
           REDIS_SCHEME: ${{ secrets.REDIS_SCHEME }}
           REDIS_USER: ${{ secrets.REDIS_USER }}
-        run: bun run test:api:integration
+        run: bun run test
