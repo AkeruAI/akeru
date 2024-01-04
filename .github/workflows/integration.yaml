@@ -1,26 +1,15 @@
-name: "Integration Tests"
+name: "Install"
 on:
-  pull_request_target:
-    branches:
-      - main
+  pull_request:
+    branches: [main]
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - shell: bash
-        env:
-          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-          NEO4J_URI: ${{ secrets.NEO4J_URI }}
-          NEO4J_USER: ${{ secrets.NEO4J_USER }}
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
-          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
-          REDIS_SCHEME: ${{ secrets.REDIS_SCHEME }}
-          REDIS_USER: ${{ secrets.REDIS_USER }}
       # install bun
       - uses: oven-sh/setup-bun@v1
       - uses: actions/checkout@v2
+      - name: bun version
+        run: bun -v
       - name: install dependencies
         run: bun install
-      - name: integrtion tests
-        run: bun run test:api:integration

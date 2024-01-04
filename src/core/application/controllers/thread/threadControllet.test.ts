@@ -1,7 +1,7 @@
 import { createSuperAdminForTesting } from "@/__tests__/utils";
 import { app } from "@/index";
 import { getNeo4jSession } from "@/infrastructure/adaptaters/neo4jAdapter";
-import { test, expect, describe } from "bun:test";
+import { test, expect, describe } from "vitest";
 import { UNAUTHORIZED_MISSING_TOKEN } from "./returnValues";
 
 describe("threadController", async () => {
