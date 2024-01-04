@@ -1,19 +1,48 @@
-# Elysia with Bun runtime
+More experiments coming soon
+
+# Open Source Assistant API
+
+This project is an open-source alternative to OpenAI's Assistant API. It provides a powerful, flexible AI model for generating human-like text based on the input provided.
+
+## Features
+
+- Natural language processing and generation
+- Can be used for creating applications like chatbots, content creators, and more
+- User permissions for thread creation, participation, and deletion
 
 ## Getting Started
 
-To get started with this template, simply paste this command into your terminal:
+To get a local copy up and running, follow these steps:
 
-```bash
-bun create elysia ./elysia-example
+1. Clone the repository
+
+```
+git clone https://github.com/guibibeau/sprout.git
 ```
 
-## Development
+2. Install the dependencies
 
-To start the development server run:
+```
+npm install
 
-```bash
-bun run dev
 ```
 
-Open http://localhost:8080/ with your browser to see the result.
+3. Start the server
+
+```
+npm start
+```
+
+## Contributing
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
