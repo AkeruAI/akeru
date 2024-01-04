@@ -5,7 +5,6 @@ import { test, expect, describe } from "vitest";
 import { UNAUTHORIZED_MISSING_TOKEN } from "./returnValues";
 
 describe("threadController", async () => {
-  console.log(process.env);
   const token = await createSuperAdminForTesting();
 
   test("allows creating a thread and the thread is saved in the database", async () => {
