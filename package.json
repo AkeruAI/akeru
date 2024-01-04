@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.5",
-    "neo4j-driver": "^5.14.0",
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "neo4j-driver": "^5.14.0"
   }
 }
