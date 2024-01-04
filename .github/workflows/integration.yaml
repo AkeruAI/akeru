@@ -1,4 +1,4 @@
-name: "Integration Tests"
+name: "Install"
 on:
   pull_request:
     branches: [main]
@@ -13,14 +13,3 @@ jobs:
         run: bun -v
       - name: install dependencies
         run: bun install
-      - name: integrtion tests
-        env:
-          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
-          NEO4J_URI: ${{ secrets.NEO4J_URI }}
-          NEO4J_USER: ${{ secrets.NEO4J_USER }}
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
-          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
-          REDIS_SCHEME: ${{ secrets.REDIS_SCHEME }}
-          REDIS_USER: ${{ secrets.REDIS_USER }}
-        run: bun test

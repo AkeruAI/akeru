@@ -5,9 +5,10 @@ import { test, expect, describe } from "vitest";
 import { UNAUTHORIZED_MISSING_TOKEN } from "./returnValues";
 
 describe("threadController", async () => {
+  console.log(process.env);
   const token = await createSuperAdminForTesting();
 
-  test.skip("allows creating a thread and the thread is saved in the database", async () => {
+  test("allows creating a thread and the thread is saved in the database", async () => {
     const request = new Request("http://localhost:3000/thread", {
       headers: {
         authorization: `Bearer ${token}`,
