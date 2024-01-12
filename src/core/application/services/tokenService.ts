@@ -1,6 +1,7 @@
 import { redis } from "@/infrastructure/adaptaters/redisAdapter";
 import { getUserPermissions } from "@/core/application/services/userService";
 import jwt from "jsonwebtoken";
+import { PermissionDetailArray } from "@/core/domain/permissions";
 
 /**
  * Creates a new API token for a user with their associated permissions.
@@ -25,7 +26,7 @@ export async function createToken(userId: string): Promise<string> {
  */
 export async function getTokenPermissions(
   token: string
-): Promise<{ key: string; description: string }[] | null> {
+): Promise<PermissionDetailArray | null> {
   const tokenData = await redis.hget("api_tokens", token);
   if (!tokenData) {
     return null;

@@ -17,11 +17,19 @@ export type Permission =
   | "create_document"
   | "view_own_documents"
   | "edit_own_documents"
-  | "link_own_documents";
+  | "link_own_documents"
+  | "create_assistant"
+  | "delete_assistant"
+  | "view_assistants";
 
 export type PermissionDetails = {
   description: string;
 };
+
+export type PermissionDetailArray = {
+  key: keyof typeof permissions;
+  description: string;
+}[];
 
 /**
  * An object that defines a set of permissions.
@@ -74,6 +82,15 @@ export const permissions: Record<Permission, PermissionDetails> = {
   },
   link_own_documents: {
     description: "Allows the user to link their own documents to a thread.",
+  },
+  create_assistant: {
+    description: "Allows the user to create an assistant.",
+  },
+  delete_assistant: {
+    description: "Allows the user to delete an assistant.",
+  },
+  view_assistants: {
+    description: "Allows the user to view all assistants.",
   },
 };
 

@@ -2,6 +2,7 @@ import { Elysia } from "elysia";
 import { bearer } from "@elysiajs/bearer";
 
 import { threads } from "@/core/application/controllers/thread/threadController";
+import { assistants } from "@/core/application/controllers/assistant/assistantController";
 
 export const name = "Sprout";
 
@@ -17,6 +18,7 @@ export const healthCheck = async () => {
 
 export const app = new Elysia()
   .use(bearer())
+  .use(assistants)
   .use(threads)
   .get("/", healthCheck)
   .listen(process.env.PORT || 8080);
