@@ -10,7 +10,9 @@ In the context of Sprout, a thread refers to a sequence of messages or interacti
 
 ## Users
 
-Users are individuals or entities who interact with or utilize the Sprout API typically for generating or receiving AI-based text responses. In Sprout, users can be developers integrating the API into their applications, or end-users interacting with the final product. The user experience is central to Sprout's design and functionality.
+In the Sprout project, 'Users' encompasses a broad category that includes both human users and assistants (agents). Human users can be developers who integrate the Sprout API into their applications or end-users who interact with the final product. The user experience, whether for a developer or an end-user, is central to Sprout's design and functionality.
+
+Additionally, users within Sprout also refer to assistants (agents) – AI-driven entities capable of performing tasks and making decisions autonomously. The permission system in Sprout is designed to apply universally to this diverse user base, governing both human interactions and automated processes performed by assistants. This ensures a controlled, secure operation and facilitates the potential for greater autonomy in AI-driven assistants, aligning with Sprout's vision of advanced AI functionality.
 
 ## API Keys
 
