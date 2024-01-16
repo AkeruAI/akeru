@@ -1,7 +1,3 @@
-export const UNAUTHORIZED_MISSING_TOKEN = {
-  message: "Unauthorized: Missing token",
-  code: 401,
-};
 export const UNAUTHORIZED_USER_NOT_PARTICIPANT = {
   message: "Unauthorized: User is not a participant in the thread",
   code: 403,

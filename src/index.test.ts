@@ -1,5 +1,5 @@
 // test/index.test.ts
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "bun:test";
 import { app } from ".";
 
 describe("Elysia", () => {

@@ -10,13 +10,13 @@ import {
 } from "@/core/application/services/threadService";
 import {
   THREAD_DELETED_SUCCESSFULLY,
-  UNAUTHORIZED_MISSING_TOKEN,
   UNAUTHORIZED_NO_PERMISSION_CREATE,
   UNAUTHORIZED_NO_PERMISSION_DELETE,
   UNAUTHORIZED_NO_PERMISSION_READ,
   UNAUTHORIZED_USER_NOT_OWNER,
   UNAUTHORIZED_USER_NOT_PARTICIPANT,
 } from "./returnValues";
+import { UNAUTHORIZED_MISSING_TOKEN } from "@/core/application/ports/returnValues";
 
 type ThreadDecorator = {
   request: {
@@ -37,6 +37,11 @@ threads.post("/thread", async ({ bearer, set }) => {
   const permissions = await getTokenPermissions(bearer!);
   const decodedToken = await parseToken(bearer!);
 
+  if (!permissions?.some((p) => p.key === "create_thread" || p.key === "*")) {
+    set.status = 403;
+    return UNAUTHORIZED_NO_PERMISSION_CREATE;
+  }
+
   if (decodedToken) {
     const { userId } = decodedToken;
     // // Create a new thread
@@ -54,11 +59,6 @@ threads.post("/thread", async ({ bearer, set }) => {
       };
     }
   }
-
-  if (!permissions?.some((p) => p.key === "create_thread" || p.key === "*")) {
-    set.status = 403;
-    return UNAUTHORIZED_NO_PERMISSION_CREATE;
-  }
 });
 
 threads.delete("/thread/:id", async ({ params, bearer, set }) => {
@@ -70,7 +70,9 @@ threads.delete("/thread/:id", async ({ params, bearer, set }) => {
     const threadId = params.id;
 
     // Check if the user has the permission to delete their own thread or * permission
-    if (permissions?.some((p) => p.key === "delete_thread" || p.key === "*")) {
+    if (
+      permissions?.some((p) => p.key === "delete_own_thread" || p.key === "*")
+    ) {
       // If the user has * permission, delete the thread without checking ownership
       if (permissions.some((p) => p.key === "*")) {
         await deleteThread(threadId, userId);
@@ -102,7 +104,9 @@ threads.get("/thread/:id", async ({ params, bearer, set }) => {
     const threadId = params.id;
 
     // Check if the user has the permission to see their own threads or * permission
-    if (permissions?.some((p) => p.key === "read_thread" || p.key === "*")) {
+    if (
+      permissions?.some((p) => p.key === "view_own_threads" || p.key === "*")
+    ) {
       // If the user has * permission or is a participant in the thread, get the thread
       if (
         permissions.some((p) => p.key === "*") ||
