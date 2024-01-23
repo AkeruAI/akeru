@@ -1,6 +1,7 @@
 import OpenAI from "openai";
 import type { ChatCompletionChunk } from "openai/resources";
 import type { Stream } from "openai/streaming";
+import "dotenv/config";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
