@@ -1,13 +1,10 @@
 please follow the PULL REQUEST TEMPLATE pattern for generating pull requests
 
-## ISSUE ADDRESSED
-<!-- please enter the issue number and specify the issue -->
+## DESCRIPTION
 
-## ISSUE DESCRIPTION (OPTIONAL)
-<!-- provide a small description of the issue that the PR is aming to solve -->
+<!-- Provide a brief description of the changes and what it is addressing. ->
 
-## PULL REQUEST DESCRIPTION
-<!-- provide a purpose of the Pull request -->
+
 
 ## CHANGES MADE 
 <!-- provide brief information about the changes made -->
@@ -26,8 +23,8 @@ please follow the PULL REQUEST TEMPLATE pattern for generating pull requests
 ## RELATED ISSUES
 <!-- provide the related issues that are being solved or addressed by this PR (if any) -->
 
-## TESTINGS DONE (OPTIONAL)
-<!-- provide the test cases that you have tested -->
+## TESTINGS DONE
+<!-- provide an happy path to test and reproduce this issue-->
 
 ## SCREENSHOTS (IF ANY)
 <!-- provide the screenshots of the changes made and how it affects the project -->
@@ -35,3 +32,4 @@ please follow the PULL REQUEST TEMPLATE pattern for generating pull requests
 ## CHECKLIST
 - [ ] I have read the [CONTRIBUTING.md]
 - [ ] I have followed the [CODE_OF_CONDUCT.md]
+- [ ] I have written tests 
