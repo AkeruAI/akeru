@@ -31,3 +31,7 @@ please follow the PULL REQUEST TEMPLATE pattern for generating pull requests
 
 ## SCREENSHOTS (IF ANY)
 <!-- provide the screenshots of the changes made and how it affects the project -->
+
+## CHECKLIST
+- [ ] I have read the [CONTRIBUTING.md]
+- [ ] I have followed the [CODE_OF_CONDUCT.md]
