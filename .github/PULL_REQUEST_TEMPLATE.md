@@ -1,19 +1,18 @@
-please follow the PULL REQUEST TEMPLATE pattern for generating pull requests
+<!-- please follow this PULL REQUEST TEMPLATE pattern for generating pull requests -->
 
-## DESCRIPTION
+## DESCRIPTION OF THE PULL REQUEST
 
 <!-- Provide a brief description of the changes and what it is addressing. ->
-
-
+<!-- Please do specify the issue number clearly -->
 
 ## CHANGES MADE 
 <!-- provide brief information about the changes made -->
 - [ ] change 1
 - [ ] change 2
-- ...
+- [ ] ....
 
 ## DESCRIPTION OF THE CHANGES MADE
-<!-- provide a detailed explanation of the changes made -->
+<!-- provide detailed explanation of the changes made -->
 - [ ] change 1:
 - description of change 1
 
