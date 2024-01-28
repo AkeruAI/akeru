@@ -1,4 +1,4 @@
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
 import { ulid } from "ulid";
 
 import { getTokenPermissions, parseToken } from "../../services/tokenService";
@@ -17,6 +17,7 @@ import {
   UNAUTHORIZED_USER_NOT_PARTICIPANT,
 } from "./returnValues";
 import { UNAUTHORIZED_MISSING_TOKEN } from "@/core/application/ports/returnValues";
+import { createMessage } from "../../services/messageService";
 
 type ThreadDecorator = {
   request: {
@@ -127,3 +128,48 @@ threads.get("/thread/:id", async ({ params, bearer, set }) => {
   set.status = 401;
   return UNAUTHORIZED_MISSING_TOKEN;
 });
+
+threads.post(
+  "/thread/:id/message",
+  async ({ params, bearer, set, body }) => {
+    const permissions = await getTokenPermissions(bearer!);
+    const decodedToken = await parseToken(bearer!);
+
+    if (decodedToken) {
+      const { userId } = decodedToken;
+      const threadId = params.id;
+
+      // Check if the user has the permission to add a message
+      if (
+        permissions?.some(
+          (p) => p.key === "create_message_in_own_thread" || p.key === "*"
+        )
+      ) {
+        // if the user has * they can send a message anywhere, if not they need to be in conversation
+        if (
+          permissions.some((p) => p.key === "*") ||
+          (await userOwnsOrParticipatesInThread(threadId, userId))
+        ) {
+          const { message } = body;
+          const res = await createMessage(userId, threadId, message);
+          set.status = 200;
+          return res;
+        } else {
+          set.status = 403;
+          return UNAUTHORIZED_USER_NOT_PARTICIPANT;
+        }
+      } else {
+        set.status = 403;
+        return UNAUTHORIZED_NO_PERMISSION_READ;
+      }
+    }
+
+    set.status = 401;
+    return UNAUTHORIZED_MISSING_TOKEN;
+  },
+  {
+    body: t.Object({
+      message: t.String(),
+    }),
+  }
+);

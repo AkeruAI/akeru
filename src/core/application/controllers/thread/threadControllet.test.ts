@@ -46,4 +46,39 @@ describe("threadController", async () => {
 
     expect(response.message).toBe(UNAUTHORIZED_MISSING_TOKEN.message);
   });
+
+  test.only("should add a message to a thread", async () => {
+    const createThreadRequest = new Request("http://localhost:8080/thread", {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+      method: "POST",
+    });
+
+    const createThreadResponse = await app.handle(createThreadRequest);
+    const createThreadResponseJson: any = await createThreadResponse.json();
+
+    expect(createThreadResponseJson).toHaveProperty("id");
+
+    const id = createThreadResponseJson.id;
+
+    const message = "why are cats cute?";
+
+    const request = new Request(`http://localhost:8080/thread/${id}/message`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        message,
+      }),
+    });
+
+    const response: any = await app
+      .handle(request)
+      .then((response) => response.json());
+
+    expect(response.content).toBe(message);
+  });
 });
