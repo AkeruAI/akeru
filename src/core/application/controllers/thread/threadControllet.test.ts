@@ -47,7 +47,7 @@ describe("threadController", async () => {
     expect(response.message).toBe(UNAUTHORIZED_MISSING_TOKEN.message);
   });
 
-  test.only("should add a message to a thread", async () => {
+  test("should add a message to a thread", async () => {
     const createThreadRequest = new Request("http://localhost:8080/thread", {
       headers: {
         authorization: `Bearer ${token}`,
