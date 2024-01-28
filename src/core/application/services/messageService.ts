@@ -31,7 +31,6 @@ export async function createMessage(
 
     const record = result.records[0];
     const message = record.get("m").properties;
-    console.log(message);
 
     return {
       id: message.id,
