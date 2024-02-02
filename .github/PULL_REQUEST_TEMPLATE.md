@@ -1,34 +1,32 @@
-<!-- please follow this PULL REQUEST TEMPLATE pattern for generating pull requests -->
+<!-- Please follow this pattern for generating pull requests -->
 
-## DESCRIPTION OF THE PULL REQUEST
+## Description of the pull request
 
-<!-- Provide a brief description of the changes and what it is addressing. ->
+<!-- Provide a brief description of the changes and what it is addressing. -->
 <!-- Please do specify the issue number clearly -->
 
-## CHANGES MADE 
-<!-- provide brief information about the changes made -->
-- [ ] change 1
-- [ ] change 2
-- [ ] ....
+## Changes made
 
-## DESCRIPTION OF THE CHANGES MADE
-<!-- provide detailed explanation of the changes made -->
-- [ ] change 1:
-- description of change 1
+<!-- Provide brief information about the changes made -->
 
-- [ ] change 2:
-- description of change 2
+- Change 1
+- Change 2
+- ....
 
-## RELATED ISSUES
-<!-- provide the related issues that are being solved or addressed by this PR (if any) -->
+## Related issues
 
-## TESTINGS DONE
-<!-- provide an happy path to test and reproduce this issue-->
+<!-- Provide the related issues that are being solved or addressed by this PR (if any) -->
 
-## SCREENSHOTS (IF ANY)
-<!-- provide the screenshots of the changes made and how it affects the project -->
+## Testings done
 
-## CHECKLIST
-- [ ] I have read the [CONTRIBUTING.md]
-- [ ] I have followed the [CODE_OF_CONDUCT.md]
-- [ ] I have written tests 
+<!-- Provide a happy path to test and reproduce this issue-->
+
+## Screenshots (if any)
+
+<!-- Provide the screenshots of the changes made and how it affects the project -->
+
+## Checklist
+
+- [ ] I have written tests
+- [ ] My code does not produce new errors
+- [ ] I gave myself a code review before asking others.
