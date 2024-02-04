@@ -1,71 +1,65 @@
-import type { Message } from "@/core/domain/messages";
-import { getNeo4jSession } from "@/infrastructure/adaptaters/neo4jAdapter";
+import { v4 as uuidv4 } from "uuid";
+import { redis } from "@/infrastructure/adaptaters/redisAdapter";
+import { Message } from "@/core/domain/messages";
 
 export async function createMessage(
   userId: string,
   threadId: string,
   messageContent: string
 ): Promise<Message> {
-  const session = getNeo4jSession();
+  const messageId = uuidv4();
+  const timestamp = Date.now();
 
-  try {
-    const result = await session.run(
-      `
-      MATCH (u:User {id: $userId})
-      MATCH (t:Thread {id: $threadId})
-      CREATE (m:Message {id: randomUUID(), content: $messageContent, timestamp: timestamp()})
-      CREATE (u)-[:POSTS]->(m)
-      CREATE (m)-[:BELONGS_TO]->(t)
-      RETURN m
-      `,
-      {
-        userId,
-        threadId,
-        messageContent,
-      }
-    );
+  // Create a pipeline for atomic operations
+  const pipeline = redis.pipeline();
 
-    if (result.records.length === 0) {
-      throw new Error("Failed to create message");
-    }
-
-    const record = result.records[0];
-    const message = record.get("m").properties;
-
-    return {
-      id: message.id,
-      content: message.content,
+  // Store the message data
+  pipeline.set(
+    `message:${messageId}`,
+    JSON.stringify({
+      id: messageId,
+      content: messageContent,
       senderId: userId,
-      timestamp: new Date(Number(message.timestamp)),
-    };
-  } catch (err) {
-    console.log(err);
-    throw err;
-  } finally {
-    session.close();
-  }
+      timestamp,
+    })
+  );
+
+  // Store the relationship between the user and the message
+  pipeline.sadd(`user:${userId}:messages`, messageId);
+
+  // Store the relationship between the message and the thread
+  pipeline.sadd(`thread:${threadId}:messages`, messageId);
+
+  // Execute the operations
+  await pipeline.exec();
+
+  return {
+    id: messageId,
+    content: messageContent,
+    senderId: userId,
+    timestamp: new Date(timestamp),
+  };
 }
 
 export async function getLastMessage(threadId: string) {
-  const session = getNeo4jSession();
-  const query = `
-  MATCH (u:User)-[:POSTS]->(m:Message)-[:BELONGS_TO]->(t:Thread {threadId: $threadId})
-  RETURN u, m
-  ORDER BY m.timestamp DESC
-  LIMIT 1
-`;
+  // Get all the message IDs for the thread
+  const messageIds = await redis.smembers(`thread:${threadId}:messages`);
 
-  try {
-    const result = await session.run(query, { threadId });
-    const singleRecord = result.records[0];
-    const user = singleRecord.get("u");
-    const message = singleRecord.get("m");
-
-    return {
-      user: user.properties,
-      message: message.properties,
-    };
-  } finally {
-    await session.close();
+  // If there are no messages, return null
+  if (messageIds.length === 0) {
+    return null;
   }
+
+  // Get the data for all messages
+  const messages = await Promise.all(
+    messageIds.map(async (messageId) => {
+      const messageData = await redis.get(`message:${messageId}`);
+      return JSON.parse(messageData as string);
+    })
+  );
+
+  // Sort the messages by timestamp in descending order and return the first one
+  const lastMessage = messages.sort((a, b) => b.timestamp - a.timestamp)[0];
+
+  return lastMessage;
 }

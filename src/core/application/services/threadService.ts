@@ -1,54 +1,34 @@
 import { Thread } from "@/core/domain/thread";
-import { getNeo4jSession } from "@/infrastructure/adaptaters/neo4jAdapter";
+import { redis } from "@/infrastructure/adaptaters/redisAdapter";
 
 /**
- * Creates a new thread in Neo4j.
+ * Creates a new thread in Redis.
  * @param {Thread} thread - The thread data.
  * @returns {Promise<string>} A promise that resolves to the created thread.
  */
 export async function createThread(thread: Thread): Promise<string> {
-  const session = getNeo4jSession();
+  // Create a pipeline for atomic operations
+  const pipeline = redis.pipeline();
 
-  try {
-    // Automatically add the user creating the thread to the participants list
-    if (!thread.participants.includes(thread.createdBy)) {
-      thread.participants.push(thread.createdBy);
-    }
+  // Store the thread data
+  pipeline.set(`thread:${thread.id}`, JSON.stringify(thread));
 
-    await session.run(
-      `
-      MERGE (u:User {id: $createdBy}) 
-      CREATE (t:Thread {id: $id, startDate: $startDate}) 
-      CREATE (u)-[:CREATED]->(t)  
-      
-      WITH t 
-      UNWIND $participants AS participantId 
-      MERGE (p:User {id: participantId})
-      CREATE (p)-[:PARTICIPATES_IN]->(t)  
-      
-      WITH t
-      UNWIND $messageIds AS messageId  
-      MERGE (m:Message {id: messageId})
-      CREATE (t)-[:HAS_MESSAGE]->(m)
-      
-      RETURN t
-      `,
-      {
-        ...thread,
-        startDate: new Date().toString(),
-      }
-    );
+  // Store the relationship between the thread and its creator
+  pipeline.sadd(`user:${thread.createdBy}:threads`, thread.id);
 
-    return thread.id;
-  } catch (err) {
-    throw err;
-  } finally {
-    session.close();
-  }
+  // Store the relationship between the thread and its participants
+  thread.participants.forEach((participantId) => {
+    pipeline.sadd(`user:${participantId}:threads`, thread.id);
+  });
+
+  // Execute the operations
+  await pipeline.exec();
+
+  return thread.id;
 }
 
 /**
- * Deletes a thread from Neo4j if the user is the owner of the thread.
+ * Deletes a thread from Redis if the user is the owner of the thread.
  * @param {string} threadId - The ID of the thread to delete.
  * @param {string} userId - The ID of the user attempting to delete the thread.
  * @returns {Promise<void>} A promise that resolves when the thread is deleted.
@@ -57,59 +37,29 @@ export async function deleteThread(
   threadId: string,
   userId: string
 ): Promise<void> {
-  const session = getNeo4jSession();
+  // Create a pipeline for atomic operations
+  const pipeline = redis.pipeline();
 
-  try {
-    const result = await session.run(
-      `
-      MATCH (u:User {id: $userId})-[:CREATED]->(t:Thread {id: $threadId})
-      WITH t
-      DETACH DELETE t
-      RETURN COUNT(t) as deletedCount
-      `,
-      {
-        threadId,
-        userId,
-      }
-    );
+  // Delete the thread data
+  pipeline.del(`thread:${threadId}`);
 
-    if (result.records[0].get("deletedCount") === 0) {
-      throw new Error(
-        "Unauthorized: User does not own the thread or thread does not exist"
-      );
-    }
-  } catch (err) {
-    throw err;
-  } finally {
-    session.close();
-  }
+  // Remove the relationship between the thread and its creator
+  pipeline.srem(`user:${userId}:threads`, threadId);
+
+  // Execute the operations
+  await pipeline.exec();
 }
 
 /**
- * Retrieves all threads created by a user from Neo4j.
+ * Retrieves all threads created by a user from Redis.
  * @param {string} userId - The ID of the user.
  * @returns {Promise<string[]>} A promise that resolves to an array of thread IDs.
  */
 export async function getUserThreads(userId: string): Promise<string[]> {
-  const session = getNeo4jSession();
+  // Fetch the set of thread IDs associated with the user
+  const threadIds = await redis.smembers(`user:${userId}:threads`);
 
-  try {
-    const result = await session.run(
-      `
-      MATCH (u:User {id: $userId})-[:CREATED]->(t:Thread)
-      RETURN t.id
-      `,
-      {
-        userId,
-      }
-    );
-
-    return result.records.map((record) => record.get("t.id"));
-  } catch (err) {
-    throw err;
-  } finally {
-    session.close();
-  }
+  return threadIds;
 }
 
 /**
@@ -122,57 +72,29 @@ export async function userOwnsOrParticipatesInThread(
   threadId: string,
   userId: string
 ): Promise<boolean> {
-  const session = getNeo4jSession();
+  // Check if the user is the creator of the thread
+  const isCreator = await redis.sismember(`user:${userId}:threads`, threadId);
 
-  try {
-    const result = await session.run(
-      `
-      MATCH (u:User {id: $userId})-[:CREATED|:PARTICIPATES_IN]->(t:Thread {id: $threadId})
-      RETURN COUNT(t) as threadCount
-      `,
-      {
-        threadId,
-        userId,
-      }
-    );
+  // Check if the user is a participant in the thread
+  const isParticipant = await redis.sismember(
+    `thread:${threadId}:participants`,
+    userId
+  );
 
-    return result.records[0].get("threadCount") > 0;
-  } catch (err) {
-    throw err;
-  } finally {
-    session.close();
-  }
+  return Boolean(isCreator || isParticipant);
 }
 
 /**
- * Retrieves a thread from Neo4j.
+ * Retrieves a thread from Redis.
  * @param {string} threadId - The ID of the thread to retrieve.
- * @returns {Promise<any>} A promise that resolves to the thread.
+ * @returns {Promise<Thread | null>} A promise that resolves to the thread or null if not found.
  */
-export async function getThread(threadId: string): Promise<any> {
-  const session = getNeo4jSession();
+export async function getThread(threadId: string): Promise<Thread | null> {
+  const threadData = await redis.get(`thread:${threadId}`);
 
-  console.log(threadId);
-
-  try {
-    const result = await session.run(
-      `
-      MATCH (t:Thread {id: $threadId})
-      RETURN t
-      `,
-      {
-        threadId,
-      }
-    );
-
-    if (result.records.length === 0) {
-      throw new Error("Thread not found");
-    }
-
-    return result.records[0].get("t");
-  } catch (err) {
-    throw err;
-  } finally {
-    session.close();
+  if (!threadData) {
+    return null;
   }
+
+  return JSON.parse(threadData);
 }
