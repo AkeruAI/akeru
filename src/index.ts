@@ -3,6 +3,7 @@ import { bearer } from "@elysiajs/bearer";
 
 import { threads } from "@/core/application/controllers/thread/threadController";
 import { assistants } from "@/core/application/controllers/assistant/assistantController";
+import { users } from "./core/application/controllers/user/userController";
 
 export const name = "Sprout";
 
@@ -20,6 +21,7 @@ export const app = new Elysia()
   .use(bearer())
   .use(assistants)
   .use(threads)
+  .use(users)
   .get("/", healthCheck)
   .listen(process.env.PORT || 8080);
 
