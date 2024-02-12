@@ -1,7 +1,9 @@
 // userService.js
 
 import { Role, getRolePermissions } from "@/core/domain/roles";
+import { HumanUserBody, User } from "@/core/domain/user";
 import { redis } from "@/infrastructure/adaptaters/redisAdapter";
+import { ulid } from "ulid";
 
 /**
  * Function to create a new user
@@ -119,3 +121,30 @@ export const getUserPermissions = async (userId: string): Promise<string[]> => {
     return [];
   }
 };
+
+export const getUser = async (userId: string): Promise<User | null> => {
+  const userData = await redis.hget("users", userId);
+  if (!userData) return null
+
+  return JSON.parse(userData)
+}
+
+/**
+ * Creates a new human user with a unique identifier and assigns them a 'user' role.
+ * If the user cannot be created or the role cannot be assigned, the function returns `null`.
+ *
+ * @param {User} userData - An object containing the data of the user to be created.
+ * @returns {Promise<string|null>} A promise that resolves to the user ID of the newly created user,
+ * or `null` if the user could not be created or the role could not be assigned.
+ */
+export const createHumanUser = async (userData: HumanUserBody): Promise<string | null> => {
+  const userId = ulid();
+
+  const userCreated = await createUser(userId, userData);
+  if (!userCreated) return null
+
+  const roleAssigned = await assignRole(userId, "user");
+  if (!roleAssigned) return null
+
+  return userId
+}
