@@ -3,7 +3,7 @@ import { app } from "@/index";
 import { test, expect, describe, beforeAll } from "bun:test";
 import { getUser } from "../../services/userService";
 import { UNAUTHORIZED_MISSING_TOKEN } from "../../ports/returnValues";
-import { UNAUTHORIZED_NO_PERMISSION_DELETE } from "./returnValues";
+import { UNAUTHORIZED_NO_PERMISSION_CREATE } from "./returnValues";
 import { getThread } from "../../services/threadService";
 import { parseToken } from "../../services/tokenService";
 import { Thread } from "@/core/domain/thread";
@@ -48,8 +48,11 @@ describe.only("userController", async () => {
     }
   });
 
-  test.todo("prevents from creating a user if there is no api token present", async () => {
+  test("prevents from creating a user if there is no api token present", async () => {
     const request = new Request("http://localhost:8080/users", {
+      headers: {
+        "Content-Type": "application/json",
+      },
       method: "POST",
       body: JSON.stringify({
         name: "Mr. Sprout",
@@ -57,15 +60,15 @@ describe.only("userController", async () => {
       })
     });
 
-    const response: any = await app.handle(request)
-    const responseJson = await response.json();
-    expect(responseJson.message).toBe(UNAUTHORIZED_MISSING_TOKEN.message);
+    const response: any = await app.handle(request).then((response) => response.json())
+    expect(response.message).toBe(UNAUTHORIZED_MISSING_TOKEN.message);
   });
 
-  test.todo("prevents from creating a user if the user does not have CREATE_USER permission", async () => {
+  test("prevents from creating a user if the user does not have CREATE_USER permission", async () => {
     const request = new Request("http://localhost:8080/users", {
       headers: {
         authorization: `Bearer ${humanUserToken}`,
+        "Content-Type": "application/json"
       },
       method: "POST",
       body: JSON.stringify({
@@ -74,14 +77,16 @@ describe.only("userController", async () => {
       })
     });
 
-    const response: any = await app.handle(request).then((response) => response.json());
-    expect(response.message).toBe(UNAUTHORIZED_NO_PERMISSION_DELETE.message);
+    const response: any = await app.handle(request);
+    const responseJson = await response.json();
+    expect(responseJson.message).toBe(UNAUTHORIZED_NO_PERMISSION_CREATE.message);
   });
 
   test("allows a human user to create a thread", async () => {
     const request = new Request("http://localhost:8080/thread", {
       headers: {
         authorization: `Bearer ${humanUserToken}`,
+        "Content-type": "application/json",
       },
       method: "POST",
     });
@@ -99,10 +104,13 @@ describe.only("userController", async () => {
     expect(thread?.id).toEqual(id);
   })
 
-  test.todo("allows a human user to add messages to a thread they created", async () => {
+  test("allows a human user to add messages to a thread they created", async () => {
     // Creating a thread for the test
     const createThreadResponse = await app.handle(new Request("http://localhost:8080/thread", {
-      headers: { authorization: `Bearer ${humanUserToken}` },
+      headers: {
+        authorization: `Bearer ${humanUserToken}`,
+        "Content-type": "application/json",
+      },
       method: "POST",
     }));
     const thread: Thread = await createThreadResponse.json() as Thread;
@@ -110,7 +118,10 @@ describe.only("userController", async () => {
 
     // Adding a message to the thread
     const response = await app.handle(new Request(`http://localhost:8080/thread/${thread.id}/message`, {
-      headers: { authorization: `Bearer ${humanUserToken}` },
+      headers: {
+        authorization: `Bearer ${humanUserToken}`,
+        "Content-type": "application/json",
+      },
       method: "POST",
       body: JSON.stringify({ message: "Human user from userController test!" })
     }));
@@ -120,5 +131,4 @@ describe.only("userController", async () => {
     expect(messageResponse).toHaveProperty("content");
     expect(messageResponse.content).toBe("Human user from userController test!");
   });
-
 })
