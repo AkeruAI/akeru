@@ -16,6 +16,11 @@ type UserDecorator = {
 
 export const users = new Elysia<"/users", UserDecorator>();
 
+/**
+ * Guard for the user controller.
+ * @param {string | undefined} bearer - The bearer token.
+ * @returns {Promise<Error | undefined>} - Returns an error if the token is missing, invalid or does not have CREATE_USER.
+ */
 users.guard({
   beforeHandle: [async ({ bearer, set }) => {
     if (!bearer) {
@@ -39,6 +44,7 @@ users.guard({
 
 
 users.post("/users", async ({ set, body }) => {
+  // Human user uses the User role
   const humanUserId = await createHumanUser(body);
   if (humanUserId) {
     const humanUserToken = await createToken(humanUserId);

@@ -127,7 +127,6 @@ describe.only("userController", async () => {
     }));
     const messageResponse = await response.json() as any;
 
-    // Assertions
     expect(messageResponse).toHaveProperty("content");
     expect(messageResponse.content).toBe("Human user from userController test!");
   });
