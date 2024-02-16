@@ -1,5 +1,7 @@
 export type User = {
   id: string;
   name: string;
-  description: string;
+  email: string;
 };
+
+export type HumanUserBody = Omit<User, 'id'>;
