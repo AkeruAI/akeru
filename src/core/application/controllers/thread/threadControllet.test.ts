@@ -11,6 +11,7 @@ describe.only("threadController", async () => {
     const request = new Request("http://localhost:8080/thread", {
       headers: {
         authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
       method: "POST",
     });

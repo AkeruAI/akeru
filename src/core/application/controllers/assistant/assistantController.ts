@@ -1,14 +1,13 @@
 import { Elysia, t } from "elysia";
 import { ulid } from "ulid";
 
-import { getTokenPermissions, parseToken } from "../../services/tokenService";
-import { UNAUTHORIZED_NO_PERMISSION_CREATE_ASSISTANT } from "./returnValues";
-import { UNAUTHORIZED_MISSING_TOKEN } from "../../ports/returnValues";
+import { parseToken } from "../../services/tokenService";
 import {
   assignRole,
   createUser,
 } from "@/core/application/services/userService";
 import { createAssistant } from "@/core/application/services/assistantService";
+import { AuthMiddleware } from "../../middlewares/authorizationMiddleware";
 
 type AssistantDecorator = {
   request: {
@@ -23,20 +22,8 @@ export const assistants = new Elysia<"/assistant", AssistantDecorator>();
 
 assistants.post(
   "/assistant",
-  async ({ bearer, set, body }) => {
-    if (!bearer) {
-      set.status = 401;
-      return UNAUTHORIZED_MISSING_TOKEN;
-    }
-    const permissions = await getTokenPermissions(bearer!);
+  async ({ bearer, body }) => {
     const decodedToken = await parseToken(bearer!);
-
-    if (
-      !permissions?.some((p) => p.key === "create_assistant" || p.key === "*")
-    ) {
-      set.status = 403;
-      return UNAUTHORIZED_NO_PERMISSION_CREATE_ASSISTANT;
-    }
 
     if (decodedToken) {
       const { userId } = decodedToken;
@@ -69,5 +56,6 @@ assistants.post(
     body: t.Object({
       name: t.String(),
     }),
-  }
+    beforeHandle: AuthMiddleware(["create_assistant", "*"]),
+  },
 );
