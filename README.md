@@ -14,6 +14,8 @@ This project is an open-source alternative to OpenAI's Assistant API. It provide
 
 To get a local copy up and running, follow these steps:
 
+Sprout uses [Bun](https://bun.sh/) as its JavaScript runtime environment, replacing Node.js. Please ensure Bun is installed before you proceed. Additionally, Sprout employs [Elysia](https://elysiajs.com) as its web framework for constructing the backend server.
+
 1. Clone the repository
 
 ```
@@ -23,15 +25,19 @@ git clone https://github.com/guibibeau/sprout.git
 2. Install the dependencies
 
 ```
-npm install
+bun install
 
 ```
 
-3. Start the server
+3. Start Elysia in development mode with auto-reload on code change
 
 ```
-npm start
+bun run dev
 ```
+
+4. Access endpoint documentation
+
+Access `/swagger` to view the endpoint documentation 
 
 ## Contributing
 
