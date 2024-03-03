@@ -17,6 +17,8 @@ describe("assistantController", async () => {
       method: "POST",
       body: JSON.stringify({
         name,
+        model: "gpt-4",
+        instruction: "You're an expert at golf"
       }),
     });
 
@@ -45,6 +47,8 @@ describe("assistantController", async () => {
       },
       body: JSON.stringify({
         name: "test assistant",
+        model: "gpt-4",
+        instruction: "You're an expert at golf"
       }),
     });
 
