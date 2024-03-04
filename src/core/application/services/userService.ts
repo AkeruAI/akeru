@@ -1,7 +1,7 @@
 // userService.js
 
 import { Role, getRolePermissions } from "@/core/domain/roles";
-import { HumanUserBody, User } from "@/core/domain/user";
+import { HumanUserBody, User, UserRole } from "@/core/domain/user";
 import { redis } from "@/infrastructure/adaptaters/redisAdapter";
 import { ulid } from "ulid";
 
@@ -127,6 +127,13 @@ export const getUser = async (userId: string): Promise<User | null> => {
   if (!userData) return null
 
   return JSON.parse(userData)
+}
+
+export const getUserRole = async (userId: string): Promise<UserRole | null> => {
+  const roleData = await redis.hget("user_roles", userId);
+  if (!roleData) return null
+
+  return JSON.parse(roleData) as UserRole
 }
 
 /**
