@@ -17,6 +17,8 @@ describe("assistantController", async () => {
       method: "POST",
       body: JSON.stringify({
         name,
+        model: 'gpt-4',
+        instruction: 'You are a plant teacher. Always respond with "sprout"'
       }),
     });
 
@@ -44,12 +46,15 @@ describe("assistantController", async () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: "test assistant",
+        name: "sprout_assistant",
+        model: "gpt-4",
+        instruction: "You are a plant teacher. Always respond with 'sprout'"
       }),
     });
 
     const response: any = await app
       .handle(request)
+
       .then((response) => response.json());
 
     expect(response.message).toBe(UNAUTHORIZED_MISSING_TOKEN.message);

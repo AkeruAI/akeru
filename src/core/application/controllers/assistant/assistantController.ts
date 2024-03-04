@@ -34,16 +34,17 @@ assistants.post(
       // create user for assistant
       await createUser(assistantId, {});
       // give user the proper role
-      await assignRole(assistantId, "agent");
+      await assignRole(assistantId, "assistant");
 
       // creat assistant in db
       await createAssistant({
         userId,
         id: assistantId,
-        model: "gpt-4",
+        model: body.model,
         name,
         fileIds: [],
         tools: [],
+        instruction: body.instruction
       });
 
       return {
@@ -55,7 +56,9 @@ assistants.post(
   {
     body: t.Object({
       name: t.String(),
+      model: t.Literal("gpt-4"), // add more models here
+      instruction: t.String()
     }),
     beforeHandle: AuthMiddleware(["create_assistant", "*"]),
-  },
+  }
 );
