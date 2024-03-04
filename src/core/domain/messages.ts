@@ -1,3 +1,5 @@
+import { Role } from "./roles";
+
 /**
  * Represents a message in the system.
  */
@@ -6,4 +8,5 @@ export type Message = {
   content: string;
   senderId: string;
   timestamp: Date;
+  role: Role
 };
