@@ -4,11 +4,11 @@ import {
 } from "@/__tests__/utils";
 import { app } from "@/index";
 import { test, expect, describe, beforeAll } from "bun:test";
-import { getUser } from "../../services/userService";
 import { UNAUTHORIZED_MISSING_TOKEN } from "../../ports/returnValues";
 import { getThread } from "../../services/threadService";
 import { parseToken } from "../../services/tokenService";
 import { Thread } from "@/core/domain/thread";
+import { getUser } from "../../services/userService";
 
 describe.only("userController", async () => {
   let superAdminToken: string | null;

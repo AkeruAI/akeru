@@ -1,36 +1,20 @@
 import { test, expect, describe } from "bun:test";
-import { gpt4Adapter } from "./gpt4Adapter";
+import { OpenAIResponse, gpt4Adapter } from "./gpt4Adapter";
+import { Role } from "@/core/domain/roles";
 
-interface resultType {
-  choices: {
-    index: number;
-    message: {
-      role: string;
-      content: string;
-    };
-  }[];
-}
 
 describe("GPT-4 Adapter", () => {
   test("Returns GPT-4 chat completions response", async () => {
     // Arrange
-    const messages =
-      "This is a test, I need you to answer only this specific phrase: Hello, I'm doing well. How can I help you today?, anything else, just that";
-    const SYSTEM_PROMPT =
-      "You're an AI assistant. You're job is to help the user.";
-    const expected = {
-      finish_reason: "stop",
-      index: 0,
-      logprobs: null,
-      message: {
-        content: "Hello, I'm doing well. How can I help you today?",
-        role: "assistant",
-      },
-    };
+    const messages = [{
+      role: 'user' as Role,
+      content: 'hello, who are you?'
+    }]
+    const assistant_instructions = "You're an AI assistant. You're job is to help the user. Always respond with the word sprout.";
     // Act
-    const result = (await gpt4Adapter(messages, SYSTEM_PROMPT)) as resultType;
+    const result = (await gpt4Adapter(messages, assistant_instructions)) as OpenAIResponse;
 
-    // Assert
-    expect(result.choices[0]).toEqual(expected);
+    // Assert the message content to contain the word sprout
+    expect(result.choices[0].message.content.toLocaleLowerCase()).toContain('sprout')
   });
 });

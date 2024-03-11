@@ -9,13 +9,13 @@ import { redis } from "@/infrastructure/adaptaters/redisAdapter";
  * @throws {Error} If there is an error creating the assistant or adding the relationship.
  */
 export async function createAssistant(args: Assistant & { userId: string }) {
-  const { id, fileIds, tools, userId, model, name } = args;
+  const { id, fileIds, tools, userId, model, name, instruction } = args;
 
   // Create a pipeline for atomic operations
   const pipeline = redis.pipeline();
 
   // Store the assistant data
-  pipeline.set(`assistant:${id}`, JSON.stringify({ tools, model, name }));
+  pipeline.set(`assistant:${id}`, JSON.stringify({ tools, model, name, instruction }));
 
   // Store the relationship between the assistant and the user
   pipeline.sadd(`user:${userId}:assistants`, id);
@@ -32,4 +32,14 @@ export async function createAssistant(args: Assistant & { userId: string }) {
 
   // Parse the assistant data from JSON
   return JSON.parse(assistantData);
+}
+
+export async function getAssistantData(assistant_id: Assistant["id"]) {
+  const assistantData = await redis.get(`assistant:${assistant_id}`);
+  if (!assistantData) {
+    throw new Error("Failed to get assistant");
+  }
+
+  // Parse the assistant data from JSON
+  return JSON.parse(assistantData) as Assistant;
 }

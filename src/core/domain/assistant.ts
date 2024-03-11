@@ -4,4 +4,5 @@ export type Assistant = {
   model: "gpt-4";
   tools: { type: string }[];
   fileIds: string[];
+  instruction: string
 };

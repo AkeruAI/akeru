@@ -4,7 +4,7 @@
 
 import { getPermissions, type Permission } from "./permissions";
 
-export type Role = "super_admin" | "user" | "agent";
+export type Role = "super_admin" | "user" | "assistant";
 
 const roles: Record<Role, { permissions: Permission[] }> = {
   super_admin: {
@@ -16,9 +16,10 @@ const roles: Record<Role, { permissions: Permission[] }> = {
       "create_thread",
       "view_own_threads",
       "create_message_in_own_thread",
+      "create_assistant",
     ],
   },
-  agent: {
+  assistant: {
     permissions: [
       "view_own_records",
       "create_thread",

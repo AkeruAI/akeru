@@ -1,7 +1,7 @@
 import { Elysia, t } from "elysia";
 import { ulid } from "ulid";
 
-import { getTokenPermissions, parseToken } from "../../services/tokenService";
+import { parseToken } from "../../services/tokenService";
 import {
   createThread,
   deleteThread,
@@ -10,12 +10,12 @@ import {
 } from "@/core/application/services/threadService";
 import {
   THREAD_DELETED_SUCCESSFULLY,
-  UNAUTHORIZED_NO_PERMISSION_DELETE,
   UNAUTHORIZED_USER_NOT_OWNER,
   UNAUTHORIZED_USER_NOT_PARTICIPANT,
 } from "./returnValues";
 import { createMessage } from "../../services/messageService";
 import { AuthMiddleware } from "../../middlewares/authorizationMiddleware";
+import { runAssistantWithThread } from "../../services/runService";
 
 type ThreadDecorator = {
   request: {
@@ -113,6 +113,9 @@ threads.get(
   },
 );
 
+/**
+ * This adds a message to the thread, it can be from the assistant or from the human user
+ */
 threads.post(
   "/thread/:id/message",
   async ({ params, bearer, set, body }) => {
@@ -126,7 +129,7 @@ threads.post(
         threadId,
         userId,
       );
-
+      
       // Check if the user has the permission to add a message
       // if the user has * they can send a message anywhere, if not they need to be in conversation
       if (isSuperUser || isParticipant) {
@@ -147,3 +150,38 @@ threads.post(
     beforeHandle: AuthMiddleware(["create_message_in_own_thread", "*"]),
   },
 );
+
+/**
+ * This runs and responds once with anything that's in the thread
+ */
+threads.post("/thread/:id/run", async ({ params, bearer, set, body }) => {
+  const decodedToken = await parseToken(bearer!); 
+
+  if(decodedToken) {
+    const { userId, permissions } = decodedToken
+    const threadId = params.id; 
+    const isSuperUser = permissions.some((p) => p.key === "*");
+    const isParticipant = await userOwnsOrParticipatesInThread(threadId, userId);
+
+
+    if(isSuperUser || isParticipant) {
+      // run the assistant with thread once, and get a single response
+      // this also adds the message to the thread
+      const response = await runAssistantWithThread({
+        thread_id: threadId,
+        assistant_id: body.assistant_id
+      })
+      set.status = 200
+      return response
+    } 
+
+    set.status = 403
+    return UNAUTHORIZED_USER_NOT_PARTICIPANT;
+  }
+
+}, {
+  body: t.Object({
+    assistant_id: t.String()
+  }),
+  beforeHandle: AuthMiddleware(['create_message_in_own_thread', '*'])
+})
