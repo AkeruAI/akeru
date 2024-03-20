@@ -1,0 +1,7 @@
+{
+    "name": "sprout",
+    "private": true,
+    "workspaces": [
+      "packages/*"
+    ]
+  }
