@@ -1,7 +1,10 @@
 {
-    "name": "sprout",
-    "private": true,
-    "workspaces": [
-      "packages/*"
-    ]
+  "name": "sprout",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "api:dev": "cd packages/sprout-server && bun run dev"
   }
+}

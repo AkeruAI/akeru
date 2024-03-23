@@ -3,8 +3,6 @@
   "version": "1.0.50",
   "module": "src/indes.ts",
   "scripts": {
-    "dev:db:up": "docker-compose up -d",
-    "dev:db:down": "docker-compose down",
     "dev": "bun run --watch src/index.ts",
     "start": "bun run src/index.ts"
   },
