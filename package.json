@@ -5,6 +5,7 @@
     "packages/*"
   ],
   "scripts": {
+    "next:dev": "cd packages/sprout-frontend && bun run dev",
     "api:dev": "cd packages/sprout-server && bun run dev"
   }
 }
