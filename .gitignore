@@ -172,3 +172,7 @@ dist
 # docker
 
 .dockerignore
+
+
+.env.development
+.env.test
