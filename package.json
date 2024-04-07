@@ -1,6 +1,7 @@
 {
   "name": "akeru",
   "private": true,
+  "description": "Akeru is a plafrom for open source ai.",
   "workspaces": [
     "packages/*"
   ],
