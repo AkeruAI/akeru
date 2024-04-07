@@ -1,6 +1,7 @@
 import bittensor as bt
 import argparse
 import os
+import socket
 
 
 def check_config(cls, config: "bt.Config"):
@@ -17,6 +18,12 @@ def check_config(cls, config: "bt.Config"):
     config.miner.full_path = os.path.expanduser(full_path)
     if not os.path.exists(config.miner.full_path):
         os.makedirs(config.miner.full_path)
+
+
+def get_ip_address():
+    hostname = socket.gethostname()
+    ip_address = socket.gethostbyname(hostname)
+    return ip_address
 
 
 def get_config() -> "bt.Config":

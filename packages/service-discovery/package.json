@@ -1,0 +1,6 @@
+{
+  "module": "NodeNext",
+  "dependencies": {
+    "@upstash/redis": "^1.29.0"
+  }
+}

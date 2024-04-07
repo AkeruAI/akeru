@@ -14,12 +14,12 @@ This project is an open-source alternative to OpenAI's Assistant API. It provide
 
 To get a local copy up and running, follow these steps:
 
-Sprout uses [Bun](https://bun.sh/) as its JavaScript runtime environment, replacing Node.js. Please ensure Bun is installed before you proceed. Additionally, Sprout employs [Elysia](https://elysiajs.com) as its web framework for constructing the backend server.
+Akeru uses [Bun](https://bun.sh/) as its JavaScript runtime environment, replacing Node.js. Please ensure Bun is installed before you proceed. Additionally, Akeru employs [Elysia](https://elysiajs.com) as its web framework for constructing the backend server.
 
 1. Clone the repository
 
 ```
-git clone https://github.com/guibibeau/sprout.git
+git clone https://github.com/guibibeau/akeru.git
 ```
 
 2. Install the dependencies
@@ -37,7 +37,7 @@ bun run dev
 
 4. Access endpoint documentation
 
-Access `/swagger` to view the endpoint documentation 
+Access `/swagger` to view the endpoint documentation
 
 ## Contributing
 
@@ -51,7 +51,7 @@ Contributions are what make the open-source community such an amazing place to l
 
 ## Glossary
 
-For a list of terms and definitions used in this project, see the [Sprout Glossary](docs/GLOSSARY.md).
+For a list of terms and definitions used in this project, see the [Akeru Glossary](docs/GLOSSARY.md).
 
 ## License
 

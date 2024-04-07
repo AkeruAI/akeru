@@ -1,8 +1,8 @@
 {
-  "name": "miner-cloudflare",
+  "name": "akeru-validator",
   "description": "A python application allowing mining on the akeru subnet. This miner is for users willing to give access to their cloudflare models instead of hosting them directly",
   "scripts": {
     "bootstrap": "python -m pip install -e .",
-    "dev:local": "python main.py --netuid 1 --subtensor.chain_endpoint ws://127.0.0.1:9946 --wallet.name miner --wallet.hotkey default --logging.debug"
+    "dev:local": "python main.py --netuid 1 --subtensor.chain_endpoint ws://127.0.0.1:9946 --wallet.name validator --wallet.hotkey default --logging.debug"
   }
 }
