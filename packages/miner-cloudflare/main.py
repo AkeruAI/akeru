@@ -1,10 +1,13 @@
+import json
 import time
 import argparse
+import aiohttp
 import bittensor as bt
 from protocol import StreamPrompting
 import requests
 
 from stream_miner import StreamMiner
+from flask import Flask, current_app, jsonify, request, make_response
 
 
 class Miner(StreamMiner):
@@ -17,22 +20,37 @@ class Miner(StreamMiner):
     def add_args(cls, parser: argparse.ArgumentParser):
         pass
 
-    def prompt(self, synapse: StreamPrompting) -> StreamPrompting:
-        response = requests.post(
-            f"https://api.cloudflare.com/client/v4/accounts/{self.CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/meta/{synapse.model}",
-            headers={"Authorization": f"Bearer {self.CLOUDFLARE_AUTH_TOKEN}"},
-            json={
-                "messages": synapse.messages
-            }
-        )
-        json_resp = response.json()
+    async def prompt(self, messages, model) -> StreamPrompting:
+        async with aiohttp.ClientSession() as session:
+            response = await session.post(
+                f"https://api.cloudflare.com/client/v4/accounts/{self.CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/meta/{model}",
+                headers={"Authorization": f"Bearer {self.CLOUDFLARE_AUTH_TOKEN}"},
+                json={
+                    "messages": messages
+                }
+            )
+            json_resp = await response.json()
 
-        synapse.completion = json_resp['result']['response']
-        return synapse
+            return json_resp['result']['response']
 
 
-# This is the main function, which runs the miner.
+app = Flask(__name__)
+app.miner = Miner()
+
+
+@app.route("/", methods=['POST'])
+async def chat():
+    data = request.get_json()
+    miner = current_app.miner
+    messages = data['messages']
+    model = data['model']
+
+    response = await miner.prompt(messages=messages, model=model)
+    messages.append({"role": "system", "content": response})
+    return jsonify(messages)
+
+
+# The main function parses the configuration and runs the validator.
 if __name__ == "__main__":
-    with Miner():
-        while True:
-            time.sleep(1)
+
+    app.run(host='0.0.0.0', port=9000)

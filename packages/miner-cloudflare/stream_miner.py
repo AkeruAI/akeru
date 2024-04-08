@@ -1,4 +1,5 @@
 import copy
+import json
 import os
 import time
 import asyncio
@@ -12,20 +13,28 @@ from typing import Dict, Tuple
 
 from protocol import StreamPrompting
 
-from config import check_config, get_config
+from config import check_config, get_config, get_ip_address
 from dotenv import load_dotenv
+from requests import post
 
 
 class StreamMiner(ABC):
     def __init__(self, config=None, axon=None, wallet=None, subtensor=None):
         # load env variables
         load_dotenv()
+
         self.CLOUDFLARE_AUTH_TOKEN = os.getenv('CLOUDFLARE_AUTH_TOKEN')
         self.CLOUDFLARE_ACCOUNT_ID = os.getenv('CLOUDFLARE_ACCOUNT_ID')
         # Setup base config from Miner.config() and merge with subclassed config.
         base_config = copy.deepcopy(config or get_config())
         self.config = self.config()
         self.config.merge(base_config)
+
+        self.miner_services = {
+            "type": 'cloudflare',
+            "models": ['llama-2-7b-chat-int8', 'mistral-7b-instruct-v0.1'],
+            "address": os.getenv('ADDRESS')
+        }
 
         check_config(StreamMiner, self.config)
         bt.logging.info(self.config)
@@ -61,20 +70,30 @@ class StreamMiner(ABC):
             self.my_subnet_uid = self.metagraph.hotkeys.index(
                 self.wallet.hotkey.ss58_address
             )
+
+            # identify to the edge compute network service discovery
+
+            # TODO replace with hosted endpoint of service map
+            url = os.getenv('SERVICE_MESH_URL')
+            secret = os.getenv('SECRET_KEY')
+            # for now miners are allow listed manually and given a secret key to identify
+            headers = {'Content-Type': 'application/json',
+                       'Authorization': f'Bearer {secret}'}
+
+            print(self.wallet.hotkey.ss58_address)
+
+            service_map_dict = {
+                # must map the netuid for validation by validators later
+                "netuid": self.my_subnet_uid,
+                "hotkey": self.wallet.hotkey.ss58_address,
+                **self.miner_services
+            }
+
+            # send to the service map
+            post(f'{url}/api/miner',
+                 data=json.dumps(service_map_dict), headers=headers)
+
             bt.logging.info(f"Running miner on uid: {self.my_subnet_uid}")
-
-        # The axon handles request processing, allowing validators to send this process requests.
-        self.axon = axon or bt.axon(
-            wallet=self.wallet, port=self.config.axon.port
-        )
-        # Attach determiners which functions are called when servicing a request.
-        bt.logging.info(f"Attaching forward function to axon.")
-
-        self.axon.attach(
-            forward_fn=self._prompt,
-            verify_fn=self.verify_fn
-        )
-        bt.logging.info(f"Axon created: {self.axon}")
 
         # Instantiate runners
         self.should_exit: bool = False
@@ -83,12 +102,12 @@ class StreamMiner(ABC):
         self.lock = asyncio.Lock()
         self.request_timestamps: Dict = {}
 
-    @abstractmethod
+    @ abstractmethod
     def config(self) -> "bt.Config":
         ...
 
-    @classmethod
-    @abstractmethod
+    @ classmethod
+    @ abstractmethod
     def add_args(cls, parser: argparse.ArgumentParser):
         ...
 
@@ -96,8 +115,10 @@ class StreamMiner(ABC):
         return True
 
     def _prompt(self, synapse: StreamPrompting) -> StreamPrompting:
+        print('received a prompt')
         messages = synapse.messages
         prompt_key = ''.join(prompt['content'] for prompt in messages)
+        print(messages)
 
         if prompt_key in self.prompt_cache:
             response, timestamp = self.prompt_cache[prompt_key]
@@ -110,7 +131,7 @@ class StreamMiner(ABC):
         self.prompt_cache[prompt_key] = (synapse.completion, time.time())
         return synapse
 
-    @abstractmethod
+    @ abstractmethod
     def prompt(self, synapse: StreamPrompting) -> StreamPrompting:
         ...
 
@@ -129,19 +150,6 @@ class StreamMiner(ABC):
                 f"Please register the hotkey using `btcli subnets register` before trying again"
             )
             exit()
-
-        # Serve passes the axon information to the network + netuid we are hosting on.
-        # This will auto-update if the axon port of external ip have changed.
-        bt.logging.info(
-            f"Serving axon {StreamPrompting} on network: {self.config.subtensor.chain_endpoint} with netuid: {self.config.netuid}"
-        )
-        self.axon.serve(netuid=self.config.netuid, subtensor=self.subtensor)
-
-        # Start  starts the miner's axon, making it active on the network.
-        bt.logging.info(
-            f"Starting axon server on port: {self.config.axon.port}"
-        )
-        self.axon.start()
 
         # --- Run until should_exit = True.
         self.last_epoch_block = self.subtensor.get_current_block()
@@ -192,7 +200,6 @@ class StreamMiner(ABC):
 
         # If someone intentionally stops the miner, it'll safely terminate operations.
         except KeyboardInterrupt:
-            self.axon.stop()
             bt.logging.success("Miner killed by keyboard interrupt.")
             exit()
 

@@ -1,0 +1,3 @@
+
+class Services:
+    services = {}

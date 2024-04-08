@@ -1,11 +1,12 @@
 {
-  "name": "sprout",
+  "name": "akeru",
   "private": true,
+  "description": "Akeru is a plafrom for open source ai.",
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "next:dev": "cd packages/sprout-frontend && bun run dev",
-    "api:dev": "cd packages/sprout-server && bun run dev"
+    "next:dev": "cd packages/akeru-frontend && bun run dev",
+    "api:dev": "cd packages/akeru-server && bun run dev"
   }
 }
