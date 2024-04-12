@@ -3,6 +3,7 @@ import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import Header from "./components/layout/header/header";
 import Footer from "./components/layout/footer/footer";
+import Drawer from "./components/ui/drawer/Drawer";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -30,9 +31,11 @@ export default function RootLayout({
         <meta name="description" content="AI for you" />
       </head>
       <body className={montserrat.variable}>
-        <Header />
-        {children}
-        <Footer />
+        <Drawer>
+          <Header />
+          {children}
+          <Footer />
+        </Drawer>
       </body>
     </html>
   );
