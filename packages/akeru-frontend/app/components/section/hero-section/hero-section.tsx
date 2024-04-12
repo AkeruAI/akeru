@@ -13,7 +13,7 @@ function HeroSection() {
 
       <div className="mt-[20px]">
         <button className="font-montserrat text-[14px] bg-[#074707] py-[9px] w-[25%] rounded-[5px] font-[500] hover:bg-[#65ef65] hover:text-black transition-transform duration-500">
-          Try Sprout
+          Try Akeru
         </button>
       </div>
     </section>
