@@ -177,7 +177,6 @@ dist
 .env.development
 .env.test
 
-
 # Ignore all .tfvars files
 # Local .terraform directories
 **/.terraform/*
@@ -204,3 +203,4 @@ terraform.rc
 
 
 id_rsa.pub
+.DS_Store
