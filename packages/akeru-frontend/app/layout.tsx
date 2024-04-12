@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
+import Header from "./components/layout/header/header";
+import Footer from "./components/layout/footer/footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-montserrat",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +22,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <head>
+        <meta charSet="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/groove.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Akeru</title>
+        <meta name="description" content="AI for you" />
+      </head>
+      <body className={montserrat.variable}>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

@@ -8,5 +8,8 @@
   "scripts": {
     "next:dev": "cd packages/akeru-frontend && bun run dev",
     "api:dev": "cd packages/akeru-server && bun run dev"
+  },
+  "dependencies": {
+    "react-icons": "^5.0.1"
   }
 }

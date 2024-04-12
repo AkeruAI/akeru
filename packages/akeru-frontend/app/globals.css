@@ -2,32 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: white;
+  background: linear-gradient(180deg, #002501 0%, #001301 100%);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.akeru-logo {
+  background: linear-gradient(90deg, #3dff8b 0%, #88a2ff 100%, #88a2ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
