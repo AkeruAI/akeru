@@ -1,3 +1,4 @@
+import { FaGithub } from "react-icons/fa";
 import { headerRoutes } from "../../../utils/header-routes";
 
 type DrawerProps = {
@@ -17,11 +18,18 @@ function Drawer({ children }: DrawerProps) {
         ></label>
         <ul className="menu p-4 pt-20 w-80 min-h-full text-base-content bg-[#074707] ">
           {headerRoutes.map((route) => (
-            <li className="hover:bg-[#65ef65] hover:text-black" key={route.href}>
+            <li
+              className="hover:bg-[#65ef65] hover:text-black"
+              key={route.href}
+            >
               <a href={route.href}>{route.text}</a>
             </li>
           ))}
         </ul>
+        <a href="https://github.com/GuiBibeau/akeru" target="_blank">
+          {" "}
+          <FaGithub className="w-[20.56px] h-[20px] cursor-pointer hover:text-[#3dff8b] " />
+        </a>
       </div>
     </div>
   );
