@@ -22,7 +22,10 @@ function Header() {
               </li>
             ))}
             <div className="h-[21px] w-[1px] bg-white" />
-            <FaGithub className="w-[20.56px] h-[20px] cursor-pointer hover:text-[#3dff8b] " />
+            <a href="https://github.com/GuiBibeau/akeru" target="_blank">
+              {" "}
+              <FaGithub className="w-[20.56px] h-[20px] cursor-pointer hover:text-[#3dff8b] " />
+            </a>
           </ul>
         </div>
         <div className="hidden sm:block">
