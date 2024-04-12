@@ -19,13 +19,12 @@ spec_version = (
 
 
 class BaseNeuron(ABC):
-    """
-    Base class for Bittensor miners. This class is abstract and should be inherited by a subclass. It contains the core logic for all neurons; validators and miners.
-
-    In addition to creating a wallet, subtensor, and metagraph, this class also handles the synchronization of the network state via a basic checkpointing mechanism based on epoch length.
-    """
 
     neuron_type: str = "BaseNeuron"
+
+    @property
+    def subtensor_connected(self):
+        return hasattr(self, 'subtensor') and self.subtensor is not None
 
     @classmethod
     def check_config(cls, config: "bt.Config"):
@@ -70,6 +69,31 @@ class BaseNeuron(ABC):
         # The wallet holds the cryptographic key pairs for the miner.
         if self.config.mock:
             self.wallet = bt.MockWallet(config=self.config)
+        else:
+            self.wallet = bt.wallet(config=self.config)
+
+        if self.config.api_only is False:
+            self.instantiate_subtensor_and_metagraph()
+
+        if self.subtensor_connected:
+            bt.logging.info(f"Wallet: {self.wallet}")
+            bt.logging.info(f"Subtensor: {self.subtensor}")
+            bt.logging.info(f"Metagraph: {self.metagraph}")
+
+            # Check if the miner is registered on the Bittensor network before proceeding further.
+            self.check_registered()
+
+            # Each miner gets a unique identity (UID) in the network for differentiation.
+            self.uid = self.metagraph.hotkeys.index(
+                self.wallet.hotkey.ss58_address
+            )
+            bt.logging.info(
+                f"Running neuron on subnet: {self.config.netuid} with uid {self.uid} using network: {self.subtensor.chain_endpoint}"
+            )
+            self.step = 0
+
+    def instantiate_subtensor_and_metagraph(self):
+        if self.config.mock:
             self.subtensor = MockSubtensor(
                 self.config.netuid, wallet=self.wallet
             )
@@ -77,33 +101,8 @@ class BaseNeuron(ABC):
                 self.config.netuid, subtensor=self.subtensor
             )
         else:
-            self.wallet = bt.wallet(config=self.config)
             self.subtensor = bt.subtensor(config=self.config)
             self.metagraph = self.subtensor.metagraph(self.config.netuid)
-
-        bt.logging.info(f"Wallet: {self.wallet}")
-        bt.logging.info(f"Subtensor: {self.subtensor}")
-        bt.logging.info(f"Metagraph: {self.metagraph}")
-
-        # Check if the miner is registered on the Bittensor network before proceeding further.
-        self.check_registered()
-
-        # Each miner gets a unique identity (UID) in the network for differentiation.
-        self.uid = self.metagraph.hotkeys.index(
-            self.wallet.hotkey.ss58_address
-        )
-        bt.logging.info(
-            f"Running neuron on subnet: {self.config.netuid} with uid {self.uid} using network: {self.subtensor.chain_endpoint}"
-        )
-        self.step = 0
-
-    @abstractmethod
-    async def forward(self, synapse: bt.Synapse) -> bt.Synapse:
-        ...
-
-    @abstractmethod
-    def run(self):
-        ...
 
     def sync(self):
         """

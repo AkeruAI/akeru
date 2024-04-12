@@ -53,62 +53,6 @@ class Validator(BaseValidatorNeuron):
 
                 return data
 
-    async def forward(self, messages, model):
-        miner_uids = get_random_uids(self, k=self.config.neuron.sample_size)
-
-        synapse = StreamPrompting(
-            messages=messages,
-            model=model
-        )
-
-        responses = await self.dendrite(
-            axons=[self.metagraph.axons[uid] for uid in miner_uids],
-            synapse=synapse,
-            deserialize=True,
-            streaming=True,
-        )
-
-        rewards = []
-        processed_responses = []
-
-        async def process_response(response, model, messages):
-            i = 0
-            async for chunk in response:
-                i += 1
-                if i % 5 == 0:
-                    print()
-                if isinstance(chunk, list):
-                    print(chunk[0], end="", flush=True)
-                else:
-                    processed_responses.append(chunk)
-                    res = json.loads(chunk)
-
-                    # parameters used for the reward
-                    completion_len = len(res['completion'])
-                    model_used = model
-                    prompt_len = sum(len(message['content'])
-                                     for message in messages)
-
-                    reward = get_reward(
-                        model=model_used, completion_len=completion_len, prompt_len=prompt_len)
-
-                    rewards.append(reward)
-                    break
-
-        await asyncio.gather(process_response(responses[0], model, messages))
-
-        # format rewards to bittensor format
-        bt_rewards = torch.FloatTensor(rewards).to(self.device)
-        bt.logging.info(f"Scored responses: {rewards}")
-        # update subnet rewards
-        self.update_scores(bt_rewards, miner_uids)
-        # return the response to the API func
-        return processed_responses[0]
-
-    async def run(self, inputs):
-        # Provide your implementation here
-        pass
-
 
 app = Flask(__name__)
 app.validator = Validator()
@@ -127,8 +71,6 @@ async def chat():
         async with session.post(url, json=data) as resp:
             response = await resp.json()
             return jsonify(response)
-
-    return "hello"
 
 
 # The main function parses the configuration and runs the validator.

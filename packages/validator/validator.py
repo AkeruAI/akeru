@@ -27,33 +27,26 @@ class BaseValidatorNeuron(BaseNeuron):
     def __init__(self, config=None):
         super().__init__(config=config)
         # Save a copy of the hotkeys to local memory.
-        self.hotkeys = copy.deepcopy(self.metagraph.hotkeys)
+        if self.subtensor_connected:
+            self.hotkeys = copy.deepcopy(self.metagraph.hotkeys)
 
-        # Set up initial scoring weights for validation
-        bt.logging.info("Building validation weights.")
-        self.scores = torch.zeros(
-            self.metagraph.n, dtype=torch.float32, device=self.device
-        )
+            # Set up initial scoring weights for validation
+            bt.logging.info("Building validation weights.")
+            self.scores = torch.zeros(
+                self.metagraph.n, dtype=torch.float32, device=self.device
+            )
 
-        # Init sync with the network. Updates the metagraph.
-        self.sync()
+            # Init sync with the network. Updates the metagraph.
+            self.sync()
 
-        # Create asyncio event loop to manage async tasks.
-
-        self.loop = asyncio.get_event_loop()
+            # Create asyncio event loop to manage async tasks.
+            self.loop = asyncio.get_event_loop()
 
         # Instantiate runners
         self.should_exit: bool = False
         self.is_running: bool = False
         self.thread: threading.Thread = None
         self.lock = asyncio.Lock()
-
-    async def concurrent_forward(self):
-        coroutines = [
-            self.forward()
-            for _ in range(self.config.neuron.num_concurrent_forwards)
-        ]
-        await asyncio.gather(*coroutines)
 
     def run_in_background_thread(self):
         """
