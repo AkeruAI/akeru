@@ -16,8 +16,8 @@ function Form() {
   };
 
   return (
-    <form className="w-[100%]">
-      <div className="mt-[10px] tablet_max:mt-[8px] mobile_lg:mt-[15px]">
+    <form className="w-full">
+      <div className="mt-2.5 tablet_max:mt-2 mobile_lg:mt-3.5">
         <FormInput
           type="email"
           name="emailAddress"
@@ -26,8 +26,8 @@ function Form() {
           required
         />
       </div>
-      <div className="mt-[10px] tablet_max:mt-[8px] mobile_lg:mt-[15px]">
-        <button className="border border-solid border-white w-[100%] py-[4px] text-[14px] text-white transition-opacity duration-500 hover:opacity-60">
+      <div className="mt-2.5 tablet_max:mt-2 mobile_lg:mt-3.5">
+        <button className="border border-solid border-white w-full py-1 text-sm text-white transition-opacity duration-500 hover:opacity-60">
           GET AKERU
         </button>
       </div>

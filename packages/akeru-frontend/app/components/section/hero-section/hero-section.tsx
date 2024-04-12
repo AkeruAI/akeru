@@ -10,22 +10,22 @@ function HeroSection() {
   }, []);
 
   return (
-    <section className="w-[45%] text-center lg:w-[60%] air:w-[70%] md:w-[80%] sm:w-[90%]">
+    <section className="w-2/4 text-center lg:w-3/5 air:w-4/6 md:w-4/5 sm:w-[95%]">
       <div>
-        <h2 className="font-montserrat font-[700] text-[50px] capitalize leading-[65px] sm:text-[40px] sm:leading-[50px]">
+        <h2 className="font-montserrat font-bold text-5xl capitalize m:text-4xl ">
           The best API to setup your AI Project{" "}
         </h2>
-        <p className="font-montserrat mt-[12px] text-[#F5FFF5] text-[16px] font-[500] opacity-70 sm:text-[14px]">
+        <p className="font-montserrat mt-3 text-[#F5FFF5] text-base font-medium opacity-70 sm:text-sm">
           Lorem ipsum dolor sit amet consectetur. Turpis pellentesque praesent
           mattis a nisl augue. Ipsum nullam at facilisis tortor. Feugiat{" "}
         </p>
       </div>
 
       {showForm === false && (
-        <div className="mt-[20px] ">
+        <div className="mt-5">
           <button
             onClick={handleWaitlistForm}
-            className="font-montserrat text-[14px] bg-[#074707] py-[9px] w-[25%] rounded-[5px] font-[500] hover:bg-[#65ef65] hover:text-black transition-transform duration-500 sm:w-[100%]"
+            className="font-montserrat text-sm bg-[#074707] py-2 w-3/12 rounded font-medium hover:bg-[#65ef65] hover:text-black transition-transform duration-500 sm:w-full"
           >
             Try Akeru
           </button>
@@ -33,7 +33,7 @@ function HeroSection() {
       )}
 
       {showForm && (
-        <div className="w-[100%] mt-[20px]">
+        <div className="w-full mt-5">
           <Form />
         </div>
       )}

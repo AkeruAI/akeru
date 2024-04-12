@@ -25,11 +25,13 @@ function Drawer({ children }: DrawerProps) {
               <a href={route.href}>{route.text}</a>
             </li>
           ))}
+          <li>
+            <a href="https://github.com/GuiBibeau/akeru" target="_blank">
+              {" "}
+              <FaGithub className="w-5 h-5 cursor-pointer hover:text-[#3dff8b]" />
+            </a>
+          </li>
         </ul>
-        <a href="https://github.com/GuiBibeau/akeru" target="_blank">
-          {" "}
-          <FaGithub className="w-[20.56px] h-[20px] cursor-pointer hover:text-[#3dff8b] " />
-        </a>
       </div>
     </div>
   );
