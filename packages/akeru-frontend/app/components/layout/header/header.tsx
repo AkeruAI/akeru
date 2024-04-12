@@ -13,12 +13,12 @@ function Header() {
         <div className="">
           <ul className="flex gap-[25px] items-center">
             {headerRoutes.map((route) => (
-              <li className="text-[12px] cursor-pointer" key={route.href}>
+              <li className="text-[12px] cursor-pointer hover:text-[#3dff8b] font-[500]" key={route.href}>
                 {route.text}
               </li>
             ))}
             <div className="h-[21px] w-[1px] bg-white" />
-            <FaGithub className="w-[20.56px] h-[20px] cursor-pointer" />
+            <FaGithub className="w-[20.56px] h-[20px] cursor-pointer hover:text-[#3dff8b] " />
           </ul>
         </div>
       </nav>
