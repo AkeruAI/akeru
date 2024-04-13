@@ -15,7 +15,8 @@ function FormInput({
   ...rest
 }: FormInputProps) {
   return (
-    <div className="text-[#ffffff] bg-[#32323C] text-[14px] p-[8px]  w-full h-full tablet_max:text-[13px]">
+<div className="text-white bg-gray-800 text-lg py-2 px-4 w-full h-full sm:text-sm">
+
       <input
         type={type}
         name={name}
