@@ -1,20 +1,17 @@
 import os
 import bittensor as bt
-from protocol import StreamPrompting
 
 from validator import BaseValidatorNeuron
 from flask import Flask, current_app, jsonify, request, make_response
 import aiohttp
 import random
 
-import asyncio
 import bittensor as bt
-import torch
 from reward import get_reward
 from uids import get_random_uids
-import json
 from requests_async import get
 from typing import TypedDict, Union, List
+from urllib.parse import urljoin, urlencode
 
 
 class Miner(TypedDict):
@@ -43,9 +40,22 @@ class Validator(BaseValidatorNeuron):
             dict: If the response data is a list, it returns a random miner from the list.
                   If the response data is not a list, it returns the data as is.
         """
+
+        api_only = self.subtensor_connected
+        service_map_url = os.getenv('SERVICE_MESH_URL')
+        secret = os.getenv('SECRET_KEY')
+        # for now miners are allow listed manually and given a secret key to identify
+        headers = {'Content-Type': 'application/json',
+                   'Authorization': f'Bearer {secret}'}
+
+        base_url = urljoin(service_map_url, '/api/miner')
+        params = {'model': model_name,
+                  'api-only': 'true' if api_only else 'false'}
+
+        request_url = f"{base_url}?{urlencode(params)}"
+
         async with aiohttp.ClientSession() as session:
-            url = os.getenv('SERVICE_MESH_URL')
-            async with session.get(f'{url}/api/miner?model={model_name}') as resp:
+            async with session.get(request_url, headers=headers) as resp:
                 data = await resp.json()
 
                 if isinstance(data, list) and data:

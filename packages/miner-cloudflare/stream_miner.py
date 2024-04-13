@@ -7,6 +7,9 @@ import argparse
 import threading
 import traceback
 from abc import ABC, abstractmethod
+from urllib.parse import urlencode, urljoin
+import uuid
+
 
 import bittensor as bt
 from typing import Dict, Tuple
@@ -19,6 +22,10 @@ from requests import post
 
 
 class StreamMiner(ABC):
+    @property
+    def subtensor_connected(self):
+        return hasattr(self, 'subtensor') and self.subtensor is not None
+
     def __init__(self, config=None, axon=None, wallet=None, subtensor=None):
         # load env variables
         load_dotenv()
@@ -41,59 +48,83 @@ class StreamMiner(ABC):
 
         self.prompt_cache: Dict[str, Tuple[str, int]] = {}
 
-        # Activating Bittensor's logging with the set configurations.
-        bt.logging(config=self.config, logging_dir=self.config.full_path)
-        bt.logging.info("Setting up bittensor objects.")
+        if self.config.api_only != True:
+            # Activating Bittensor's logging with the set configurations.
+            bt.logging(config=self.config, logging_dir=self.config.full_path)
+            bt.logging.info("Setting up bittensor objects.")
 
-        # Wallet holds cryptographic information, ensuring secure transactions and communication.
-        self.wallet = wallet or bt.wallet(config=self.config)
-        bt.logging.info(f"Wallet {self.wallet}")
+            # Wallet holds cryptographic information, ensuring secure transactions and communication.
+            self.wallet = wallet or bt.wallet(config=self.config)
+            bt.logging.info(f"Wallet {self.wallet}")
 
-        # subtensor manages the blockchain connection, facilitating interaction with the Bittensor blockchain.
-        self.subtensor = subtensor or bt.subtensor(config=self.config)
-        bt.logging.info(f"Subtensor: {self.subtensor}")
-        bt.logging.info(
-            f"Running miner for subnet: {self.config.netuid} on network: {self.subtensor.chain_endpoint} with config:"
-        )
-
-        # metagraph provides the network's current state, holding state about other participants in a subnet.
-        self.metagraph = self.subtensor.metagraph(self.config.netuid)
-        bt.logging.info(f"Metagraph: {self.metagraph}")
-
-        if self.wallet.hotkey.ss58_address not in self.metagraph.hotkeys:
-            bt.logging.error(
-                f"\nYour validator: {self.wallet} if not registered to chain connection: {self.subtensor} \nRun btcli register and try again. "
+            # subtensor manages the blockchain connection, facilitating interaction with the Bittensor blockchain.
+            self.subtensor = subtensor or bt.subtensor(config=self.config)
+            bt.logging.info(f"Subtensor: {self.subtensor}")
+            bt.logging.info(
+                f"Running miner for subnet: {self.config.netuid} on network: {self.subtensor.chain_endpoint} with config:"
             )
-            exit()
+
+            # metagraph provides the network's current state, holding state about other participants in a subnet.
+            self.metagraph = self.subtensor.metagraph(self.config.netuid)
+            bt.logging.info(f"Metagraph: {self.metagraph}")
+
+            if self.wallet.hotkey.ss58_address not in self.metagraph.hotkeys:
+                bt.logging.error(
+                    f"\nYour validator: {self.wallet} if not registered to chain connection: {self.subtensor} \nRun btcli register and try again. "
+                )
+                exit()
+            else:
+                # Each miner gets a unique identity (UID) in the network for differentiation.
+                self.my_subnet_uid = self.metagraph.hotkeys.index(
+                    self.wallet.hotkey.ss58_address
+                )
+
+                # identify to the edge compute network service discovery
+
+                # TODO replace with hosted endpoint of service map
+                url = os.getenv('SERVICE_MESH_URL')
+                secret = os.getenv('SECRET_KEY')
+                # for now miners are allow listed manually and given a secret key to identify
+                headers = {'Content-Type': 'application/json',
+                           'Authorization': f'Bearer {secret}'}
+
+                service_map_dict = {
+                    # must map the netuid for validation by validators later
+                    "netuid": self.my_subnet_uid,
+                    "hotkey": self.wallet.hotkey.ss58_address,
+                    **self.miner_services
+                }
+
+                # send to the service map
+                post(f'{url}/api/miner',
+                     data=json.dumps(service_map_dict), headers=headers)
+
+                bt.logging.info(f"Running miner on uid: {self.my_subnet_uid}")
         else:
-            # Each miner gets a unique identity (UID) in the network for differentiation.
-            self.my_subnet_uid = self.metagraph.hotkeys.index(
-                self.wallet.hotkey.ss58_address
-            )
-
-            # identify to the edge compute network service discovery
-
-            # TODO replace with hosted endpoint of service map
+            self.uuid = os.getenv('UUID') or uuid.uuid4()
             url = os.getenv('SERVICE_MESH_URL')
             secret = os.getenv('SECRET_KEY')
             # for now miners are allow listed manually and given a secret key to identify
             headers = {'Content-Type': 'application/json',
                        'Authorization': f'Bearer {secret}'}
 
-            print(self.wallet.hotkey.ss58_address)
-
             service_map_dict = {
                 # must map the netuid for validation by validators later
-                "netuid": self.my_subnet_uid,
-                "hotkey": self.wallet.hotkey.ss58_address,
+                "uid": str(self.uuid),
                 **self.miner_services
             }
 
-            # send to the service map
-            post(f'{url}/api/miner',
-                 data=json.dumps(service_map_dict), headers=headers)
+            # Base URL
+            base_url = urljoin(url, '/api/miner')
 
-            bt.logging.info(f"Running miner on uid: {self.my_subnet_uid}")
+            # Query parameters
+            params = {'api-only': 'true'}
+
+            # Construct the full URL with query parameters
+            full_url = f"{base_url}?{urlencode(params)}"
+            data = json.dumps(service_map_dict)
+            # send to the service map
+            post(full_url, data=data, headers=headers)
 
         # Instantiate runners
         self.should_exit: bool = False

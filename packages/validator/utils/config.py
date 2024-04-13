@@ -48,7 +48,7 @@ def add_args(cls, parser):
     parser.add_argument(
         "--api_only",
         action="store_true",
-        help="Bypass connection to metagraph and subtensor and only starts the akery API layer",
+        help="Bypass connection to metagraph and subtensor and only starts the akeru API layer",
         default=False,
     )
 
