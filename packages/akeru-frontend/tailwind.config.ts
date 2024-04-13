@@ -17,7 +17,7 @@ const config: Config = {
       lg: { max: "1024px" },
       // => @media (max-width: 1023px) { ... }
 
-      air: {max: "1000px"},
+      air: { max: "1000px" },
 
       md: { max: "768px" },
       // => @media (max-width: 767px) { ... }
@@ -27,6 +27,11 @@ const config: Config = {
     },
 
     extend: {
+      colors: {
+        'textHover': "#3dff8b",
+        'buttonBg': "#074707",
+        'buttonBgHover': "#65ef65",
+      },
       backgroundImage: {},
       fontFamily: {
         montserrat: ["var(--font-montserrat)"],

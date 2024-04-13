@@ -16,7 +16,7 @@ function Header() {
           <ul className="flex gap-5 items-center">
             {headerRoutes.map((route) => (
               <li
-                className="text-xs cursor-pointer hover:text-[#3dff8b] font-medium"
+                className="text-xs cursor-pointer hover:text-textHover font-medium"
                 key={route.href}
               >
                 <Link href={route.href}>{route.text}</Link>
@@ -25,7 +25,7 @@ function Header() {
             <div className="h-5 w-px bg-white" />
             <Link href="https://github.com/GuiBibeau/akeru" target="_blank">
               {" "}
-              <FaGithub className="w-5 h-5 cursor-pointer hover:text-[#3dff8b]" />
+              <FaGithub className="w-5 h-5 cursor-pointer hover:text-textHover " />
             </Link>
           </ul>
         </div>
