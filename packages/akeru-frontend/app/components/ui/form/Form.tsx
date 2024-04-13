@@ -20,7 +20,7 @@ function Form() {
       "https://sheet.best/api/sheets/6b8ad6e3-f87c-4649-b435-ef5a1051f4b3";
     const data = { email: emailAddress };
 
-    console.log(data);
+
 
     try {
       const response = await fetch(url, {
