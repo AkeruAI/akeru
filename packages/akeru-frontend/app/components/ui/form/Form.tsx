@@ -1,14 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import FormInput from "./FormInput";
 
 function Form() {
   const [emailAddress, setEmailAddress] = useState("");
 
-  const handleInputChange = (value: string) => {
-    setEmailAddress(value);
-  };
+  const handleInputChange = useCallback(
+    (value: string) => {
+      setEmailAddress(value);
+    },
+    [emailAddress]
+  );
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
