@@ -4,7 +4,7 @@ type FormInputProps = InputHTMLAttributes<HTMLInputElement> & {
   type?: string;
   name: string;
   value?: string;
-  handleInputChange: (name: string, value: string) => void;
+  handleInputChange: (value: string) => void;
 };
 
 function FormInput({
@@ -21,7 +21,7 @@ function FormInput({
         name={name}
         className="bg-transparent border-none outline-none w-full h-full"
         value={value}
-        onChange={(e) => handleInputChange(name, e.target.value)}
+        onChange={(e) => handleInputChange(e.target.value)}
         {...rest}
       />
     </div>
