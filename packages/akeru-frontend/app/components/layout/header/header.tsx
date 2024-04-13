@@ -19,7 +19,7 @@ function Header() {
                 className="text-xs cursor-pointer hover:text-[#3dff8b] font-medium"
                 key={route.href}
               >
-                {route.text}
+                <Link href={route.href}>{route.text}</Link>
               </li>
             ))}
             <div className="h-5 w-px bg-white" />

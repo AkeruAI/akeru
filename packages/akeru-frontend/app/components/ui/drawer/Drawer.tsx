@@ -1,5 +1,6 @@
 import { FaGithub } from "react-icons/fa";
 import { headerRoutes } from "../../../utils/header-routes";
+import Link from "next/link";
 
 type DrawerProps = {
   children: React.ReactNode;
@@ -22,14 +23,14 @@ function Drawer({ children }: DrawerProps) {
               className="hover:bg-[#65ef65] hover:text-black"
               key={route.href}
             >
-              <a href={route.href}>{route.text}</a>
+              <Link href={route.href}>{route.text}</Link>
             </li>
           ))}
           <li>
-            <a href="https://github.com/GuiBibeau/akeru" target="_blank">
+          <Link href="https://github.com/GuiBibeau/akeru" target="_blank">
               {" "}
               <FaGithub className="w-5 h-5 cursor-pointer hover:text-[#3dff8b]" />
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
