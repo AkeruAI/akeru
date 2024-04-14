@@ -1,18 +1,19 @@
-import json
-import time
 import argparse
+import os
 import aiohttp
 import bittensor as bt
+from flask.cli import load_dotenv
 from protocol import StreamPrompting
-import requests
+from fastapi import FastAPI
+from pydantic import BaseModel
 
 from stream_miner import StreamMiner
-from flask import Flask, current_app, jsonify, request, make_response
+
+load_dotenv()
 
 
 class Miner(StreamMiner):
     def config(self) -> "bt.Config":
-
         parser = argparse.ArgumentParser(description="Streaming Miner Configs")
         self.add_args(parser)
         return bt.config(parser)
@@ -34,23 +35,31 @@ class Miner(StreamMiner):
             return json_resp['result']['response']
 
 
-app = Flask(__name__)
-app.miner = Miner()
+app = FastAPI()
+miner = Miner()
 
 
-@app.route("/", methods=['POST'])
-async def chat():
-    data = request.get_json()
-    miner = current_app.miner
-    messages = data['messages']
-    model = data['model']
+class ChatRequest(BaseModel):
+    messages: list
+    model: str
+
+
+@app.get("/")
+def index():
+    return "ok"
+
+
+@app.post("/chat")
+async def chat(request: ChatRequest):
+    messages = request.messages
+    model = request.model
 
     response = await miner.prompt(messages=messages, model=model)
     messages.append({"role": "system", "content": response})
-    return jsonify(messages)
+
+    return messages
 
 
-# The main function parses the configuration and runs the validator.
 if __name__ == "__main__":
-
-    app.run(host='0.0.0.0', port=9000)
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=os.getenv('PORT', 9000))
