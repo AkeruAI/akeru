@@ -2,9 +2,13 @@ import { useCallback, useState } from "react";
 import FormInput from "./FormInput";
 import { handleSubmit } from "@/app/server";
 
-function Form() {
+type FormProps = {
+  formAction: (payload: FormData) => void;
+};
+
+function Form({ formAction}: FormProps) {
   return (
-    <form className="w-full" action={handleSubmit}>
+    <form className="w-full" action={formAction}>
       <div className="mt-2.5 tablet_max:mt-2 mobile_lg:mt-3.5">
         <FormInput
           type="email"

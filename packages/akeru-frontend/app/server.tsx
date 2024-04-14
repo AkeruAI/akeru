@@ -1,8 +1,13 @@
 "use server";
 
-export const handleSubmit = async (formData: FormData) => {
+import { redirect } from "next/navigation";
+
+export const handleSubmit = async (
+  prevState: { email: string },
+  formData: FormData
+) => {
   const url = process.env.NEXT_GOOGLE_SHEETS_API!;
-  const rawFormData = { email: formData.get("emailAddress") };
+  let rawFormData = { email: formData.get("emailAddress") };
 
   try {
     const response = await fetch(url, {
@@ -24,4 +29,5 @@ export const handleSubmit = async (formData: FormData) => {
   } catch (error) {
     console.error("Error:", error);
   }
+  redirect("/success");
 };

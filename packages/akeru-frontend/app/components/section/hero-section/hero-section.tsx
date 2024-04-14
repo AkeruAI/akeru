@@ -1,9 +1,16 @@
 "use client";
 import { useCallback, useState } from "react";
 import Form from "../../ui/form/Form";
+import { useFormState } from "react-dom";
+import { handleSubmit } from "@/app/server";
+
+const initialState = {
+  email: "",
+};
 
 function HeroSection() {
   const [showForm, setShowForm] = useState(false);
+  const [state, formAction] = useFormState(handleSubmit, initialState);
 
   const handleWaitlistForm = useCallback(() => {
     setShowForm(true);
@@ -21,20 +28,18 @@ function HeroSection() {
         </p>
       </div>
 
-      {showForm === false && (
-        <div className="mt-5">
-          <button
-            onClick={handleWaitlistForm}
-            className="font-montserrat text-sm bg-buttonBg py-2 w-3/12 rounded font-medium hover:bg-buttonBgHover hover:text-black transition-transform duration-500 sm:w-full"
-          >
-            Try Akeru
-          </button>
-        </div>
-      )}
+      <div className="mt-5">
+        <button
+          onClick={handleWaitlistForm}
+          className="font-montserrat text-sm bg-buttonBg py-2 w-3/12 rounded font-medium hover:bg-buttonBgHover hover:text-black transition-transform duration-500 sm:w-full"
+        >
+          Try Akeru
+        </button>
+      </div>
 
       {showForm && (
         <div className="w-full mt-5">
-          <Form />
+          <Form formAction={formAction} />
         </div>
       )}
     </section>
