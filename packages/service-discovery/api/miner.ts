@@ -78,7 +78,6 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
-  console.log("getting answer");
   const url = new URL(request.url);
   const params = new URLSearchParams(url.search);
 
