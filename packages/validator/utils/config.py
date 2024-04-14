@@ -46,6 +46,13 @@ def add_args(cls, parser):
     parser.add_argument("--netuid", type=int, help="Subnet netuid", default=1)
 
     parser.add_argument(
+        "--api_only",
+        action="store_true",
+        help="Bypass connection to metagraph and subtensor and only starts the akeru API layer",
+        default=False,
+    )
+
+    parser.add_argument(
         "--neuron.device",
         type=str,
         help="Device to run on.",
@@ -78,27 +85,6 @@ def add_args(cls, parser):
         action="store_true",
         help="If set, we dont save events to a log file.",
         default=False,
-    )
-
-    parser.add_argument(
-        "--wandb.off",
-        action="store_true",
-        help="Turn off wandb.",
-        default=False,
-    )
-
-    parser.add_argument(
-        "--wandb.offline",
-        action="store_true",
-        help="Runs wandb in offline mode.",
-        default=False,
-    )
-
-    parser.add_argument(
-        "--wandb.notes",
-        type=str,
-        help="Notes to add to the wandb run.",
-        default="",
     )
 
 

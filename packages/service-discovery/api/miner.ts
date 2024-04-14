@@ -17,12 +17,46 @@ type MinerService = {
   address: string;
 };
 
+// this is the data format when we are not running the edge network alongside the subnet.
+type MinerServiceApiOnly = {
+  uid: string;
+  type: string;
+  models: string[];
+  address: string;
+};
+
 export async function POST(request: Request) {
   const authHeader = request.headers.get("Authorization");
   const expectedAuthHeader = `Bearer ${process.env.SECRET_KEY}`;
 
+  const url = new URL(request.url);
+  const params = new URLSearchParams(url.search);
+
   if (!authHeader || authHeader !== expectedAuthHeader) {
     return new Response("Unauthorized", { status: 401 });
+  }
+
+  const apiOnly = params.has("api-only")
+    ? Boolean(params.get("api-only"))
+    : false;
+
+  // if we run with API only mode, we will not register bittensor specific properties in the data model
+  if (apiOnly) {
+    const miner = (await request.json()) as MinerServiceApiOnly;
+    const pipe = redis
+      .pipeline()
+      .hset(`apionly:miner:${String(miner.uid)}`, miner)
+      .sadd(`apionly:miners:${miner.type}`, miner.uid)
+      .set(`apionly:address:${miner.uid}`, miner.address)
+      .set(`apionly:miner:uid:${miner.uid}:address`, miner.address);
+
+    miner.models.forEach((modelName) => {
+      pipe.sadd(`apionly:${modelName}`, miner.uid);
+    });
+
+    await pipe.exec();
+
+    return new Response(`ok`);
   }
 
   const miner = (await request.json()) as MinerService;
@@ -47,6 +81,17 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const params = new URLSearchParams(url.search);
 
+  const authHeader = request.headers.get("Authorization");
+  const expectedAuthHeader = `Bearer ${process.env.SECRET_KEY}`;
+
+  if (!authHeader || authHeader !== expectedAuthHeader) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  const apiOnly = params.has("api-only")
+    ? Boolean(params.get("api-only"))
+    : false;
+
   const model = params.get("model");
 
   if (!model) {
@@ -55,7 +100,9 @@ export async function GET(request: Request) {
     });
   }
 
-  const minersUidForModel = await redis.smembers(model);
+  const minersUidForModel = apiOnly
+    ? await redis.smembers(`apionly:${model}`)
+    : await redis.smembers(model);
 
   // If the model set does not exist, return an error response
   if (minersUidForModel.length === 0) {
@@ -67,7 +114,7 @@ export async function GET(request: Request) {
   const pipe = redis.pipeline();
 
   minersUidForModel.forEach((uid) => {
-    pipe.hgetall(`miner:${uid}`);
+    pipe.hgetall(apiOnly ? `apionly:miner:${uid}` : `miner:${uid}`);
   });
 
   const miners = await pipe.exec();
