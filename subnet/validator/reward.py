@@ -17,6 +17,13 @@ text_completion_models = {
 }
 
 
+def calculate_total_message_length(data):
+    total_length = 0
+    for message in data["messages"]:
+        total_length += len(message["content"])
+    return total_length
+
+
 def get_reward(model, completion_len, prompt_len) -> float:
     print(model, completion_len, prompt_len)
     # Define the maximum and minimum completion lengths in characters
@@ -46,18 +53,6 @@ def get_reward(model, completion_len, prompt_len) -> float:
     reward = max(0, min(1, reward))
 
     return reward
-
-
-def reward(query: int, response: int) -> float:
-    """
-    Reward the miner response to the dummy request. This method returns a reward
-    value for the miner, which is used to update the miner's score.
-
-    Returns:
-    - float: The reward value for the miner.
-    """
-
-    return 1.0 if response == query * 2 else 0
 
 
 def get_rewards(

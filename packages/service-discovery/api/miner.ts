@@ -89,7 +89,7 @@ export async function GET(request: Request) {
   }
 
   const apiOnly = params.has("api-only")
-    ? Boolean(params.get("api-only"))
+    ? JSON.parse(params.get("api-only")!)
     : false;
 
   const model = params.get("model");
