@@ -1,58 +1,42 @@
-More experiments coming soon
+# Akeru.ai
 
-# Open Source Assistant API
+Akeru is an open source AI platform built on top of the Akeru AI edge network. The network runs as a Bittensor Subnet, providing a transparent, safe and highly avaialble AI capacities.
 
-This project is an open-source alternative to OpenAI's Assistant API. It provides a powerful, flexible AI model for generating human-like text based on the input provided.
+## For developers
 
-## Features
+Akeru's AI features are all available through an API that we are currentlt working on. We are aiming at full compatibility with OpenAI's assistant API and are working on the following features:
 
-- Natural language processing and generation
-- Can be used for creating applications like chatbots, content creators, and more
-- User permissions for thread creation, participation, and deletion
+- Retrieval: Enables the system to retrieve information or files to enhance its responses.
+- Function Calling: Allows the system to call external functions or APIs to perform specific tasks.
+- Conversation Management: Manages conversations between users and the system, organizing messages into threads and runs to facilitate interactions.
+- Custom Instructions: Users can define custom instructions for the system, specifying its purpose, model, and tools to tailor its functionality.
+- Data Input Optimization: Ensures the quality and relevance of data input for accurate and efficient responses.
+- User Privacy: Implements robust data privacy protocols to protect user information and comply with relevant data protection laws.
+- Testing and Iteration: Involves regularly testing the system in real-world scenarios and iterating based on feedback to improve performance and user experience.
+- Comprehensive Documentation: Provides clear documentation on using the system to help users understand its functionalities and limitations.
 
-## Getting Started
+## Bittensor Subnet design
 
-To get a local copy up and running, follow these steps:
+Akeru's mission is to open AI technologies to everybody. At the core of this mission, we run our services on a fleet of Bittensor validators and miners. The subnet is open for everybody to participate in and offer their compute.
 
-Akeru uses [Bun](https://bun.sh/) as its JavaScript runtime environment, replacing Node.js. Please ensure Bun is installed before you proceed. Additionally, Akeru employs [Elysia](https://elysiajs.com) as its web framework for constructing the backend server.
+The subnet rewards miners in the following ways:
 
-1. Clone the repository
+1. A dynamic supply and demand model rewards miners for offering highly popular Models
+1. Validators select highly available and performing miners that are the closest to a request
+1. Miners reputation is verified using a ZK watermarking and benchmarking system.
 
-```
-git clone https://github.com/guibibeau/akeru.git
-```
+## API Architecture
 
-2. Install the dependencies
+The Akeru API is the entry point for any developers wanting to build over akeru.ai, the API is being built in compliance with popular providers like langchain and Vercel AI.
 
-```
-bun install
+## Self hosting
 
-```
+Self hosting is planned for the API and UI. To self host validators and miners, see the next section.
 
-3. Start Elysia in development mode with auto-reload on code change
+## Validating and Mining
 
-```
-bun run dev
-```
+The subnet is in active development, guides will come for those topics
 
-4. Access endpoint documentation
+## Contributing requirements
 
-Access `/swagger` to view the endpoint documentation
-
-## Contributing
-
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## Glossary
-
-For a list of terms and definitions used in this project, see the [Akeru Glossary](docs/GLOSSARY.md).
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+TODO
