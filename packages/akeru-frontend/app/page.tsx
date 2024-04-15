@@ -4,11 +4,11 @@ import HomeCard from "./components/ui/home-card/home-card";
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <div className="flex items-center justify-center mt-40 lg:mt-20 ">
+      <div className="flex items-center justify-center mt-40 ">
         <HeroSection />
       </div>
 
-      <div className="flex w-9/12 gap-12 mx-auto pt-52 lg:pt-12 lg:w-11/12 sm:flex-col sm:gap-3.5 ">
+      <div className="flex w-full gap-12 mx-auto pt-52 md:pt-12 md:flex-col sm:flex-col md:gap-3.5 ">
         <HomeCard
           title="Fast and secure"
           description="Lorem ipsum dolor sit amet consectetur. Ac commodo proin montes mattis."

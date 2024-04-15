@@ -8,7 +8,7 @@ type HomeCardProps = {
 
 function HomeCard({ title, description, icon }: HomeCardProps) {
   return (
-    <article className="border py-7 px-5 rounded-lg xl:py-6 lg:py-5  md:lg:py-3.5">
+    <article className="border border-white border-opacity-50 py-7 px-5 rounded-lg xl:py-6 lg:py-5  md:lg:py-3.5">
       <div className="flex justify-between items-center mb-2.5">
         <div>
           <p className="font-montserrat font-bold lg:text-sm">{title}</p>
