@@ -19,7 +19,7 @@ function Form({ formAction, setShowForm }: FormProps) {
           className="text-2xl text-gray-400 cursor-pointer"
         />
       </div>
-      <span className="text-gray-400 text-left">
+      <span className="text-gray-500 text-opacity-90 text-left">
         Stay in the loop! Enter your email address to receive an exclusive
         notification when Akeru goes live.
       </span>
