@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      className="bg-gradient-to-b from-green-900 via-green-950 to-green-950"
+      className="bg-gradient-to-b from-green-800 via-green-950 to-green-950"
       lang="en"
     >
       <head>
@@ -37,13 +37,13 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} max-w-6xl mx-auto text-slate-50 px-5`}
       >
-        <div className="sm:hidden fixed flex flex-wrap left-0 top-0">
-          {Array.from({ length: 900 }).map((_, i) => (
+        <div className="sm:hidden -z-20 fixed flex flex-wrap left-0 top-0">
+          {Array.from({ length: 1000 }).map((_, i) => (
             <BgSquare key={i} />
           ))}
         </div>
-        <div className="absolute hidden sm:flex flex-wrap left-0 top-0 overflow-hidden">
-          {Array.from({ length: 200 }).map((_, i) => (
+        <div className="absolute -z-20 hidden sm:flex flex-wrap left-0 top-0 overflow-hidden">
+          {Array.from({ length: 250 }).map((_, i) => (
             <BgSquare key={i} />
           ))}
         </div>

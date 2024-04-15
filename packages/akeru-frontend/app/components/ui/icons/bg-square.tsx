@@ -10,7 +10,7 @@ const bgSquare = (props: SVGProps<SVGSVGElement>) => (
     {...props}
   >
     <g clipPath="url(#a)">
-      <path stroke="#052e16" strokeOpacity={0.3} d="M0 .5h31.5V32" />
+      <path stroke="#052e16" strokeOpacity={0.2} d="M0 .5h31.5V32" />
     </g>
     <defs>
       <clipPath id="a">
