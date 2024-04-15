@@ -37,7 +37,7 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} max-w-6xl mx-auto text-slate-50 px-5`}
       >
-        <div className="sm:hidden absolute flex flex-wrap left-0 top-0">
+        <div className="sm:hidden fixed flex flex-wrap left-0 top-0">
           {Array.from({ length: 900 }).map((_, i) => (
             <BgSquare key={i} />
           ))}
