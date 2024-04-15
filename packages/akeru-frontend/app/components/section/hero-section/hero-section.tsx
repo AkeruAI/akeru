@@ -27,19 +27,16 @@ function HeroSection() {
           mattis a nisl augue. Ipsum nullam at facilisis tortor. Feugiat{" "}
         </p>
       </div>
-
-      <div className="mt-5">
-        <button
-          onClick={handleWaitlistForm}
-          className="font-montserrat text-sm bg-buttonBg py-2 w-3/12 rounded font-medium hover:bg-buttonBgHover hover:text-black transition-transform duration-500 sm:w-full"
-        >
-          Try Akeru
-        </button>
-      </div>
+      <button
+        onClick={handleWaitlistForm}
+        className="mt-5 w-full max-w-xs font-montserrat text-sm bg-green-950 py-3 rounded font-medium hover:bg-green-600 shadow-green-950 shadow-md hover:shadow-green-950 hover:shadow-xl duration-200 sm:w-full"
+      >
+        Try Akeru
+      </button>
 
       {showForm && (
-        <div className="w-full mt-5">
-          <Form formAction={formAction} />
+        <div className="fixed top-0 z-10 h-screen bg-black w-full left-0 flex items-center justify-center bg-opacity-20 backdrop-blur-sm">
+          <Form formAction={formAction} setShowForm={setShowForm} />
         </div>
       )}
     </section>
