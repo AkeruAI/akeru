@@ -5,8 +5,8 @@ import { GiHamburgerMenu } from "react-icons/gi";
 
 function Header() {
   return (
-    <header>
-      <nav className="w-4/5 my-0 mx-auto p-5 flex justify-between items-center  sm:w-11/12">
+    <header className="w-full mx-auto py-5">
+      <nav className="flex justify-between items-center">
         <div className="w-full">
           <h1 className="akeru-logo font-extrabold text-3xl tracking-wider cursor-pointer lg:text-2xl">
             <a href="#">AKERU</a>
@@ -16,7 +16,7 @@ function Header() {
           <ul className="flex gap-5 items-center">
             {headerRoutes.map((route) => (
               <li
-                className="text-xs cursor-pointer hover:text-textHover font-medium"
+                className="text-sm cursor-pointer hover:text-textHover"
                 key={route.href}
               >
                 <Link href={route.href}>{route.text}</Link>

@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/layout/header/header";
 import Footer from "./components/layout/footer/footer";
 import Drawer from "./components/ui/drawer/Drawer";
+import BgSquare from "./components/ui/icons/bg-square";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -22,7 +23,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      className="bg-gradient-to-b from-green-900 via-green-950 to-green-950"
+      lang="en"
+    >
       <head>
         <meta charSet="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/groove.svg" />
@@ -30,7 +34,19 @@ export default function RootLayout({
         <title>Akeru</title>
         <meta name="description" content="AI for you" />
       </head>
-      <body className={montserrat.variable}>
+      <body
+        className={`${montserrat.variable} max-w-6xl mx-auto text-slate-50 px-5`}
+      >
+        <div className="sm:hidden fixed flex flex-wrap left-0 top-0">
+          {Array.from({ length: 900 }).map((_, i) => (
+            <BgSquare key={i} />
+          ))}
+        </div>
+        <div className="absolute hidden sm:flex flex-wrap left-0 top-0 overflow-hidden">
+          {Array.from({ length: 200 }).map((_, i) => (
+            <BgSquare key={i} />
+          ))}
+        </div>
         <Drawer>
           <Header />
           {children}
