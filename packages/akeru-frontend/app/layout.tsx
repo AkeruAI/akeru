@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      className="bg-gradient-to-b from-green-800 via-green-950 to-green-950"
+      className="bg-gradient-to-b from-green-800 via-green-900 to-green-950"
       lang="en"
     >
       <head>
