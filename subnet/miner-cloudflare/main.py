@@ -46,7 +46,6 @@ class ChatRequest(BaseModel):
 
 @app.get("/")
 def index():
-    print('index')
     return "ok"
 
 
