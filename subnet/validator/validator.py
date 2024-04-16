@@ -40,14 +40,13 @@ class BaseValidatorNeuron(BaseNeuron):
             # Init sync with the network. Updates the metagraph.
             self.sync()
 
+        # Create asyncio event loop to manage async tasks.
+        self.loop = asyncio.get_event_loop()
         # Instantiate runners
         self.should_exit: bool = False
         self.is_running: bool = False
         self.thread: threading.Thread = None
         self.lock = asyncio.Lock()
-
-        # Create asyncio event loop to manage async tasks.
-        self.loop = asyncio.get_event_loop()
 
     def run_in_background_thread(self):
         """
