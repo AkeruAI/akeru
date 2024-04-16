@@ -46,6 +46,9 @@ class BaseValidatorNeuron(BaseNeuron):
         self.thread: threading.Thread = None
         self.lock = asyncio.Lock()
 
+        # Create asyncio event loop to manage async tasks.
+        self.loop = asyncio.get_event_loop()
+
     def run_in_background_thread(self):
         """
         Starts the validator's operations in a background thread upon entering the context.
