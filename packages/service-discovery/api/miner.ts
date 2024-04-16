@@ -35,8 +35,6 @@ export async function POST(request: Request) {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  console.log("post request");
-
   const apiOnly = params.has("api-only")
     ? Boolean(params.get("api-only"))
     : false;
