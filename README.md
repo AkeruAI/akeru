@@ -1,6 +1,6 @@
 # Akeru.ai
 
-Akeru is an open source AI platform built on top of the Akeru AI edge network. The network runs as a Bittensor Subnet, providing a transparent, safe and highly avaialble AI capacities.
+Akeru is an open source AI platform built on top of the Akeru AI edge network. The network runs as a Bittensor Subnet, providing a transparent, safe and highly available AI capacities.
 
 ## For developers
 
