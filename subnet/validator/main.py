@@ -1,6 +1,9 @@
+import argparse
+import asyncio
 import os
 import bittensor as bt
 import torch
+from miner_manager import MinerManager
 from validator import BaseValidatorNeuron
 from fastapi import FastAPI, Request
 import aiohttp
@@ -9,6 +12,18 @@ from reward import calculate_total_message_length, get_reward
 from typing import TypedDict, Union, List
 from urllib.parse import urljoin, urlencode
 from dotenv import load_dotenv
+
+load_dotenv()
+
+
+api_only = os.getenv('API_ONLY')
+miner_manager = MinerManager(api_only=api_only == 'True')
+
+
+async def run_miner_manager():
+    while True:
+        await miner_manager.run()
+        await asyncio.sleep(10)
 
 
 class Miner(TypedDict):
@@ -23,7 +38,6 @@ class Validator(BaseValidatorNeuron):
     def __init__(self, config=None):
         super(Validator, self).__init__(config=config)
         bt.logging.info("load_state()")
-        load_dotenv()
         self.load_state()
 
     async def get_miner_with_model(self, model_name) -> Union[Miner, dict]:
@@ -68,15 +82,18 @@ validator = Validator()
 @app.post("/chat")
 async def chat(request: Request):
     data = await request.json()
-
+    print('hello')
     model = data['model']
-    miner = await validator.get_miner_with_model(model_name=model)
-    miner_uid = miner['netuid']
+    test = miner_manager.get_miners()
+    print(test)
+    miner = miner_manager.get_fastest_miner_for_model(model=model)
+    print(miner)
+    miner_id = miner["id"]
     prompt_len = calculate_total_message_length(data)
 
     async with aiohttp.ClientSession() as session:
         url = miner['address']
-        async with session.post(url, json=data) as resp:
+        async with session.post(f'{url}/chat', json=data) as resp:
             response = await resp.json()
             completion_len = len(response[-1])
 
@@ -85,10 +102,14 @@ async def chat(request: Request):
             print(f'reward for prompt: {reward}')
             if (validator.subtensor_connected):
                 validator.update_scores(
-                    torch.FloatTensor([reward]), [int(miner_uid)])
+                    torch.FloatTensor([reward]), [int(miner_id)])
 
             return response
 
+
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(run_miner_manager())
 
 # The main function parses the configuration and runs the validator.
 if __name__ == "__main__":

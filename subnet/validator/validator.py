@@ -10,6 +10,7 @@ from typing import List
 from neuron import BaseNeuron
 from mock import MockDendrite
 from utils.config import add_validator_args
+from miner_manager import MinerManager
 
 
 class BaseValidatorNeuron(BaseNeuron):
@@ -38,9 +39,6 @@ class BaseValidatorNeuron(BaseNeuron):
 
             # Init sync with the network. Updates the metagraph.
             self.sync()
-
-            # Create asyncio event loop to manage async tasks.
-            self.loop = asyncio.get_event_loop()
 
         # Instantiate runners
         self.should_exit: bool = False

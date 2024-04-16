@@ -95,10 +95,11 @@ class StreamMiner(ABC):
                     **self.miner_services
                 }
 
+                print(url)
+
                 # send to the service map
                 post(f'{url}/api/miner',
                      data=json.dumps(service_map_dict), headers=headers)
-
                 bt.logging.info(f"Running miner on uid: {self.my_subnet_uid}")
         else:
             self.uuid = os.getenv('UUID') or uuid.uuid4()
