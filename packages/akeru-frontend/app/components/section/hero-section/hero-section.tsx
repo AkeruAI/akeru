@@ -23,14 +23,13 @@ function HeroSection() {
           The best API to setup your AI Project{" "}
         </h2>
         <p className="font-montserrat mt-3  text-base font-medium opacity-70 sm:text-sm">
-          Lorem ipsum dolor sit amet consectetur. Turpis pellentesque praesent
-          mattis a nisl augue. Ipsum nullam at facilisis tortor. Feugiat{" "}
+          Lorem ipsum dolor sit amet consectetur. Turpis pellentesque praesent mattis a nisl augue. Ipsum
+          nullam at facilisis tortor. Feugiat{" "}
         </p>
       </div>
       <button
         onClick={handleWaitlistForm}
-        className="mt-5 w-full max-w-xs font-montserrat text-sm bg-green-950 py-3 rounded font-medium hover:bg-green-600 shadow-green-950 shadow-md hover:shadow-green-950 hover:shadow-xl duration-200 sm:w-full"
-      >
+        className="mt-5 w-full max-w-xs font-montserrat text-sm lg:bg-green-900 bg-green-950 py-3 rounded font-medium hover:bg-green-600 shadow-green-950 shadow-md hover:shadow-green-950 hover:shadow-xl duration-200 sm:w-full">
         Try Akeru
       </button>
 
