@@ -23,7 +23,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="bg-gradient-to-b from-green-800 to-green-950 via-green-900" lang="en">
+    <html
+      className="bg-gradient-to-b from-green-800 via-green-950 to-green-950"
+      lang="en"
+    >
       <head>
         <meta charSet="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/groove.svg" />
@@ -31,7 +34,9 @@ export default function RootLayout({
         <title>Akeru</title>
         <meta name="description" content="AI for you" />
       </head>
-      <body className={`${montserrat.variable} max-w-6xl mx-auto text-slate-50 px-5`}>
+      <body
+        className={`${montserrat.variable} max-w-6xl mx-auto text-slate-50 px-5`}
+      >
         <div className="sm:hidden -z-20 fixed flex flex-wrap left-0 top-0">
           {Array.from({ length: 1000 }).map((_, i) => (
             <BgSquare key={i} />
