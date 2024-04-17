@@ -103,11 +103,7 @@ export async function GET(request: Request) {
       ? await redis.keys("apionly:miner:*")
       : await redis.keys("miner:*");
 
-    console.log(minerKeys);
-
     minersUidForModel = minerKeys.map((key) => key.split(":")[apiOnly ? 2 : 1]);
-
-    console.log(minerKeys.map((key) => key.split(":")[apiOnly ? 2 : 1]));
   }
 
   const pipe = redis.pipeline();

@@ -82,7 +82,6 @@ validator = Validator()
 @app.post("/chat")
 async def chat(request: Request):
     data = await request.json()
-    print('hello')
     model = data['model']
     test = miner_manager.get_miners()
     print(test)
