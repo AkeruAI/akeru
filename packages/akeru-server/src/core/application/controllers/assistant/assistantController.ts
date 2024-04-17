@@ -16,14 +16,17 @@ type AssistantDecorator = {
   store: {};
   derive: {};
   resolve: {};
+  decorator: {};
 };
 
-export const assistants = new Elysia<"/assistant", AssistantDecorator>();
+export const assistants = new Elysia<"/assistant", false, AssistantDecorator>();
 
 assistants.post(
   "/assistant",
-  async ({ bearer, body }) => {
-    const decodedToken = await parseToken(bearer!);
+  async ({ headers, body }) => {
+    const decodedToken = await parseToken(
+      headers.authorization?.split(" ")[1]!
+    );
 
     if (decodedToken) {
       const { userId } = decodedToken;
@@ -44,7 +47,7 @@ assistants.post(
         name,
         fileIds: [],
         tools: [],
-        instruction: body.instruction
+        instruction: body.instruction,
       });
 
       return {
@@ -57,7 +60,7 @@ assistants.post(
     body: t.Object({
       name: t.String(),
       model: t.Literal("gpt-4"), // add more models here
-      instruction: t.String()
+      instruction: t.String(),
     }),
     beforeHandle: AuthMiddleware(["create_assistant", "*"]),
   }

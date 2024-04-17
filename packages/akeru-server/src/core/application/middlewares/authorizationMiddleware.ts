@@ -18,6 +18,7 @@ type AuthContext = Pick<Context, "set"> & {
 export function AuthMiddleware(requiredPermissions: Permission[]) {
   return async (context: AuthContext) => {
     const { bearer, set } = context;
+
     if (!bearer) {
       set.status = 401;
       return UNAUTHORIZED_MISSING_TOKEN;
