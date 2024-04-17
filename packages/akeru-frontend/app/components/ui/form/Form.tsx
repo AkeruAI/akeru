@@ -10,16 +10,10 @@ type FormProps = {
 function Form({ formAction, setShowForm }: FormProps) {
   return (
     <form
-      className="w-full max-w-lg bg-white px-6 rounded-xl h-fit pb-10 pt-5 flex flex-col gap-2.5"
+      className="w-full  px-6 rounded-xl h-fit pb-10 pt-5 flex flex-col gap-2.5"
       action={formAction}
     >
-      <div className="flex justify-end">
-        <IoMdClose
-          onClick={() => setShowForm(false)}
-          className="text-2xl text-gray-400 cursor-pointer"
-        />
-      </div>
-      <span className="text-gray-500 text-opacity-90 text-left">
+      <span className=" text-center text-opacity-90 sm:text-sm">
         Stay in the loop! Enter your email address to receive an exclusive
         notification when Akeru goes live.
       </span>

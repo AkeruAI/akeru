@@ -1,10 +1,27 @@
+import { Metadata } from "next";
 import HeroSection from "./components/section/hero-section/hero-section";
 import HomeCard from "./components/ui/home-card/home-card";
+
+export const metadata: Metadata = {
+  title: "Akeru AI - Home",
+  description: "The best API to setup your AI Project",
+  openGraph: {
+    url: "/",
+    type: "website",
+    locale: "en_US",
+    images: "/layout/og-image.png",
+    title: "Akeru AI - Home",
+    siteName: "The best API to setup your AI Project",
+  },
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <div className="flex items-center justify-center mt-40 ">
+      <div className="flex items-center justify-center mt-40 air:mt-20 sm:mt-10 ">
         <HeroSection />
       </div>
 
