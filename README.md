@@ -1,42 +1,71 @@
 # Akeru.ai
 
-Akeru is an open source AI platform built on top of the Akeru AI edge network. The network runs as a Bittensor Subnet, providing a transparent, safe and highly available AI capacities.
+**Akeru.ai** is an open-source AI platform built on the cutting edge of decentralization. Leveraging the power of the Akeru AI edge network running on a Bittensor Subnet, Akeru.ai offers transparent, safe, and highly available AI capabilities.
 
-## For developers
+## What Sets Akeru.ai Apart?
 
-Akeru's AI features are all available through an API that we are currentlt working on. We are aiming at full compatibility with OpenAI's assistant API and are working on the following features:
+Akeru.ai solves the critical problem of giving developers access to open-source and transparent AI resources. Unlike other platforms, Akeru.ai stands out with its decentralized, open-source nature hosted on an edge network, promising superior UI and UX in the long term.
 
-- Retrieval: Enables the system to retrieve information or files to enhance its responses.
-- Function Calling: Allows the system to call external functions or APIs to perform specific tasks.
-- Conversation Management: Manages conversations between users and the system, organizing messages into threads and runs to facilitate interactions.
-- Custom Instructions: Users can define custom instructions for the system, specifying its purpose, model, and tools to tailor its functionality.
-- Data Input Optimization: Ensures the quality and relevance of data input for accurate and efficient responses.
-- User Privacy: Implements robust data privacy protocols to protect user information and comply with relevant data protection laws.
-- Testing and Iteration: Involves regularly testing the system in real-world scenarios and iterating based on feedback to improve performance and user experience.
-- Comprehensive Documentation: Provides clear documentation on using the system to help users understand its functionalities and limitations.
+## For Developers
 
-## Bittensor Subnet design
+The Akeru API, currently under development, aims for full compatibility with OpenAI's assistant API. It introduces a range of features designed to enrich applications across platforms:
 
-Akeru's mission is to open AI technologies to everybody. At the core of this mission, we run our services on a fleet of Bittensor validators and miners. The subnet is open for everybody to participate in and offer their compute.
+- **Retrieval**: Retrieve information or files to enhance response accuracy.
+- **Function Calling**: Perform specific tasks by calling external functions or APIs.
+- **Conversation Management**: Organize interactions into threads for streamlined conversations.
+- **Custom Instructions**: Tailor system functionality with user-defined instructions.
+- **Data Input Optimization**: Ensure data quality for efficient and accurate responses.
+- **User Privacy**: Robust protocols to protect user data and ensure compliance with data protection laws.
+- **Testing and Iteration**: Continuously improve performance through real-world testing and feedback.
+- **Comprehensive Documentation**: Detailed guides and documentation to help users maximize their use of the platform.
 
-The subnet rewards miners in the following ways:
+### API Features Coming Soon
 
-1. A dynamic supply and demand model rewards miners for offering highly popular Models
-1. Validators select highly available and performing miners that are the closest to a request
-1. Miners reputation is verified using a ZK watermarking and benchmarking system.
+- **Full Conversations**: Engage in detailed, dynamic dialogues.
+- **Document Processing and Image Generation**: Expand the capabilities of your applications.
+- **Function Calls for LLMs**: Integrate advanced AI features into your services.
+
+### Use Cases
+
+The Akeru API is ideal for creating AI agents and enhancing web and mobile applications with advanced AI capabilities. (Rate limits and costs are TBD).
+
+## Bittensor Subnet Design
+
+Akeru.ai's mission is to democratize AI technology. Running on a fleet of Bittensor validators and miners, our subnet is open to all, promoting an equitable AI future.
+
+### Enhancements from Bittensor Subnet
+
+While decentralization poses challenges, slowing development compared to centralized solutions, Akeru.ai embraces these challenges to ensure a decentralized and equitable AI ecosystem. Security features include:
+
+- **Watermarking**: Verifies LLM authenticity.
+- **Network Pings**: Regular checks to ensure miner availability.
+
+### Rewards for Miners
+
+- **Dynamic Model Popularity Rewards**: Miners offering popular models earn more.
+- **Performance-Based Selection**: Validators prioritize high-performing, available miners.
 
 ## API Architecture
 
-The Akeru API is the entry point for any developers wanting to build over akeru.ai, the API is being built in compliance with popular providers like langchain and Vercel AI.
+Utilizing a loosely formed hexagonal architecture, the Akeru API integrates with technologies like Bun for backend operations, Redis for data management, and Elysia for web frameworks, ensuring a robust, scalable solution.
 
-## Self hosting
+## Self Hosting
 
-Self hosting is planned for the API and UI. To self host validators and miners, see the next section.
+While self-hosting options for validators and miners will require specific guidelines, general hosting on platforms like Vercel and through Docker will be supported with comprehensive guides.
 
 ## Validating and Mining
 
-The subnet is in active development, guides will come for those topics
+Details on how to engage with Akeru.ai as a validator or miner are in development, with full guides forthcoming.
 
-## Contributing requirements
+## Contributing to Akeru.ai
 
-TODO
+We welcome contributions of all forms, from code to documentation. Here’s how you can help:
+
+- **Get Involved**: Check out our issues tab on GitHub.
+- **Submit Pull Requests**: Contributions are reviewed regularly—ensure your code adheres to our standards.
+- **See full Contributing guide [here](#).**
+
+## Visuals and Diagrams
+
+Coming soon are detailed diagrams illustrating our network architecture and API workflows, helping clarify the complexities of our systems.
+
