@@ -2,20 +2,9 @@ import { Metadata } from "next";
 import HeroSection from "./components/section/hero-section/hero-section";
 import HomeCard from "./components/ui/home-card/home-card";
 
-export const metadata: Metadata = {
-  title: "Akeru AI - Home",
+export const metadata = {
+  title: "AkeruAI - HOME",
   description: "The best API to setup your AI Project",
-  openGraph: {
-    url: "/",
-    type: "website",
-    locale: "en_US",
-    images: "/layout/og-image.png",
-    title: "Akeru AI - Home",
-    siteName: "The best API to setup your AI Project",
-  },
-  alternates: {
-    canonical: "/",
-  },
 };
 
 export default function Home() {

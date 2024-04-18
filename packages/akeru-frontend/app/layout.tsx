@@ -13,19 +13,39 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://akeru.ai"),
+  title: {
+    default: "AkeruAI",
+    template: "%s | Akeru AI",
+  },
+  description: "The best API to setup your AI Project",
+  openGraph: {
+    title: "AKeru AI",
+    description: "The best API to setup your AI Project",
+    url: "https://akeru.ai",
+    siteName: "Akeru AI",
+    locale: "en_US",
+    type: "website",
+  },
   robots: {
     index: true,
     follow: true,
-    "max-snippet": -1,
-    "max-video-preview": -1,
-    "max-image-preview": "large",
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
-
-  keywords: "Open source AI, Decentralized AI, AI, Assistant AI",
   twitter: {
+    title: "Akeru AI",
     card: "summary_large_image",
   },
-  metadataBase: new URL("https://akeru.ai"),
+  // verification: {
+  //   google: 'eZSdmzAXlLkKhNJzfgwDqWORghxnJ8qR9_CHdAh5-xw',
+  //   yandex: '14d2e73487fa6c71',
+  // },
 };
 
 export default function RootLayout({
