@@ -14,7 +14,7 @@ function FormInput({
   ...rest
 }: FormInputProps) {
   return (
-    <div className="text-green-950 border bg-gray-50 rounded-md text-lg py-2 px-4 w-full h-full sm:text-sm">
+    <div className="text-green-950 border bg-gray-50 rounded-md py-2 px-4 w-full h-full text-sm md:text-base">
       <input
         type={type}
         name={name}

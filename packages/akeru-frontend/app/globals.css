@@ -9,9 +9,3 @@ body {
   background-repeat: no-repeat;
 }
 
-.akeru-logo {
-  background: linear-gradient(90deg, #3dff8b 0%, #88a2ff 100%, #88a2ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
