@@ -42,6 +42,11 @@ export const metadata: Metadata = {
     title: "Akeru AI",
     card: "summary_large_image",
   },
+  verification: {
+    google: "google",
+    yandex: "yandex",
+    yahoo: "yahoo",
+  },
 };
 
 export default function RootLayout({
