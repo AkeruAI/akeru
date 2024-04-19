@@ -8,15 +8,27 @@ from dotenv import load_dotenv
 
 class MinerManager:
     def __init__(self, api_only):
+        """
+        Initialize the MinerManager class.
+
+        Args:
+            api_only (bool): If True, we are running without bittensor operatons.
+        """
         load_dotenv()
-        self.miners = {}
+        self.miners = {}  # Dictionary to store miners
         self.api_only = api_only
         self.bearer_token = os.getenv('SECRET_KEY')
 
     async def run(self):
+        """
+        Run the MinerManager and start the discovery and ping process.
+        """
         await self._discover_and_ping_miners()
 
     async def _discover_and_ping_miners(self):
+        """
+        Discover and ping miners periodically.
+        """
         while True:
             try:
                 async with aiohttp.ClientSession() as session:
@@ -27,9 +39,8 @@ class MinerManager:
                         if response.status == 200:
                             miners_data = await response.json()
                             for miner_data in miners_data:
-                                miner_id = miner_data["id"] if "id" in miner_data else miner_data["netuid"]
+                                miner_id = miner_data["uid"] if "uid" in miner_data else miner_data["netuid"]
                                 miner_address = miner_data["address"]
-                                # Assuming the model is optional
                                 miner_models = miner_data.get("models")
                                 if miner_id not in self.miners:
                                     self.miners[miner_id] = {
@@ -46,7 +57,7 @@ class MinerManager:
                                 ping_task = asyncio.create_task(
                                     self._ping_miner(session, miner_id))
                                 ping_tasks.append(ping_task)
-                                self._update_model_miners()
+                            self._update_model_miners()
 
                             # Wait for all the ping tasks to complete
                             await asyncio.gather(*ping_tasks)
@@ -69,6 +80,13 @@ class MinerManager:
                 await asyncio.sleep(60)  # Sleep for 1 minute before retrying
 
     async def _ping_miner(self, session, miner_id):
+        """
+        Ping a miner to check its availability and update its ping time.
+
+        Args:
+            session (aiohttp.ClientSession): The session to use for the request.
+            miner_id (str): The ID of the miner to ping.
+        """
         try:
             start_time = time.time()
             async with session.get(f"{self.miners[miner_id]['address']}/") as response:
@@ -94,6 +112,9 @@ class MinerManager:
             del self.miners[miner_id]
 
     def _update_model_miners(self):
+        """
+        Update the model_miners dictionary with the available miners and their ping times.
+        """
         self.model_miners = {}
         for miner_id, miner_data in self.miners.items():
             models = miner_data.get("models")
@@ -108,9 +129,19 @@ class MinerManager:
                     })
 
     def get_fastest_miner_for_model(self, model):
+        """
+        Get the fastest miner for a given model.
+
+        Args:
+            model (str): The name of the model.
+
+        Returns:
+            dict: The details of the fastest miner for the given model, or None if no miner is available.
+        """
         if model in self.model_miners:
             miners = self.model_miners[model]
             fastest_miner = min(miners, key=lambda x: x['ping_time'])
+            print(fastest_miner)
             id = fastest_miner['id']
             miner_details = self.miners[id]
             return miner_details
@@ -118,4 +149,10 @@ class MinerManager:
             return None
 
     def get_miners(self):
+        """
+        Get the dictionary of all miners.
+
+        Returns:
+            dict: The dictionary of all miners, with their details.
+        """
         return self.miners

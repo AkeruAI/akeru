@@ -95,7 +95,7 @@ def get_config() -> "bt.Config":
         "--api_only",
         action="store_true",
         help="Bypass connection to metagraph and subtensor and only starts the akeru API layer",
-        default=False,
+        default=True,
     )
 
     # Adds subtensor specific arguments i.e. --subtensor.chain_endpoint ... --subtensor.network ...

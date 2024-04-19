@@ -29,6 +29,7 @@ class StreamMiner(ABC):
     def __init__(self, config=None, axon=None, wallet=None, subtensor=None):
         # load env variables
         load_dotenv()
+        self.api_only = os.getenv('API_ONLY', 'True')
 
         self.CLOUDFLARE_AUTH_TOKEN = os.getenv('CLOUDFLARE_AUTH_TOKEN')
         self.CLOUDFLARE_ACCOUNT_ID = os.getenv('CLOUDFLARE_ACCOUNT_ID')
@@ -48,7 +49,7 @@ class StreamMiner(ABC):
 
         self.prompt_cache: Dict[str, Tuple[str, int]] = {}
 
-        if self.config.api_only != True:
+        if self.api_only != 'True':
             # Activating Bittensor's logging with the set configurations.
             bt.logging(config=self.config, logging_dir=self.config.full_path)
             bt.logging.info("Setting up bittensor objects.")
