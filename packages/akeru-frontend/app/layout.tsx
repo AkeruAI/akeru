@@ -13,19 +13,40 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://akeru.ai"),
+  title: {
+    default: "AkeruAI",
+    template: "%s | Akeru AI",
+  },
+  description: "The best API to setup your AI Project",
+  openGraph: {
+    title: "AKeru AI",
+    description: "The best API to setup your AI Project",
+    url: "https://akeru.ai",
+    siteName: "Akeru AI",
+    locale: "en_US",
+    type: "website",
+  },
   robots: {
     index: true,
     follow: true,
-    "max-snippet": -1,
-    "max-video-preview": -1,
-    "max-image-preview": "large",
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
-
-  keywords: "Open source AI, Decentralized AI, AI, Assistant AI",
   twitter: {
+    title: "Akeru AI",
     card: "summary_large_image",
   },
-  metadataBase: new URL("https://akeru.ai"),
+  verification: {
+    google: "google",
+    yandex: "yandex",
+    yahoo: "yahoo",
+  },
 };
 
 export default function RootLayout({
@@ -42,6 +63,7 @@ export default function RootLayout({
         <meta charSet="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/groove.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:image" content="https://akeru.ai/ogimage" />
         <title>Akeru</title>
         <meta name="description" content="AI for you" />
       </head>
