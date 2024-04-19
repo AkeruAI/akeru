@@ -17,7 +17,6 @@ type MinerService = {
   address: string;
 };
 
-// this is the data format when we are not running the edge network alongside the subnet.
 type MinerServiceApiOnly = {
   uid: string;
   type: string;
@@ -40,18 +39,14 @@ export async function POST(request: Request) {
     ? Boolean(params.get("api-only"))
     : false;
 
-  // if we run with API only mode, we will not register bittensor specific properties in the data model
   if (apiOnly) {
     const miner = (await request.json()) as MinerServiceApiOnly;
-    const pipe = redis
-      .pipeline()
-      .hset(`apionly:miner:${String(miner.uid)}`, miner)
-      .sadd(`apionly:miners:${miner.type}`, miner.uid)
-      .set(`apionly:address:${miner.uid}`, miner.address)
-      .set(`apionly:miner:uid:${miner.uid}:address`, miner.address);
+    const pipe = redis.pipeline().hset(`apionly:miner:${miner.uid}`, miner);
+
+    pipe.sadd(`apionly:miners:type:${miner.type}`, miner.uid);
 
     miner.models.forEach((modelName) => {
-      pipe.sadd(`apionly:${modelName}`, miner.uid);
+      pipe.sadd(`apionly:miners:model:${modelName}`, miner.uid);
     });
 
     await pipe.exec();
@@ -61,15 +56,12 @@ export async function POST(request: Request) {
 
   const miner = (await request.json()) as MinerService;
 
-  const pipe = redis
-    .pipeline()
-    .hset(`miner:${String(miner.netuid)}`, miner)
-    .sadd(`miners:${miner.type}`, miner.netuid)
-    .set(`address:${miner.netuid}`, miner.address)
-    .set(`miner:nuid:${miner.netuid}:address`, miner.address);
+  const pipe = redis.pipeline().hset(`miner:${miner.netuid}`, miner);
+
+  pipe.sadd(`miners:type:${miner.type}`, miner.netuid);
 
   miner.models.forEach((modelName) => {
-    pipe.sadd(modelName, miner.netuid);
+    pipe.sadd(`miners:model:${modelName}`, miner.netuid);
   });
 
   await pipe.exec();
@@ -94,21 +86,24 @@ export async function GET(request: Request) {
 
   const model = params.get("model");
 
-  if (!model) {
-    return new Response("Error: model is missing in search params", {
-      status: 400,
-    });
-  }
+  let minersUidForModel: string[] = [];
 
-  const minersUidForModel = apiOnly
-    ? await redis.smembers(`apionly:${model}`)
-    : await redis.smembers(model);
+  if (model) {
+    minersUidForModel = apiOnly
+      ? await redis.smembers(`apionly:miners:model:${model}`)
+      : await redis.smembers(`miners:model:${model}`);
 
-  // If the model set does not exist, return an error response
-  if (minersUidForModel.length === 0) {
-    return new Response(`Error: no miners found for model ${model}`, {
-      status: 404,
-    });
+    if (minersUidForModel.length === 0) {
+      return new Response(`Error: no miners found for model ${model}`, {
+        status: 404,
+      });
+    }
+  } else {
+    const minerKeys = apiOnly
+      ? await redis.keys("apionly:miner:*")
+      : await redis.keys("miner:*");
+
+    minersUidForModel = minerKeys.map((key) => key.split(":")[apiOnly ? 2 : 1]);
   }
 
   const pipe = redis.pipeline();
@@ -119,7 +114,7 @@ export async function GET(request: Request) {
 
   const miners = await pipe.exec();
 
-  return new Response(JSON.stringify(miners), {
+  return new Response(JSON.stringify(miners.filter(Boolean)), {
     headers: { "Content-Type": "application/json" },
   });
 }
