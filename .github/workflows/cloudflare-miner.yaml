@@ -16,7 +16,7 @@ jobs:
         run: |
           touch subnet/miner-cloudflare/.env
           echo CLOUDFLARE_AUTH_TOKEN=${{ secrets.CLOUDFLARE_AUTH_TOKEN }} >> ./subnet/miner-cloudflare/.env
-          echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> ./subnet/miner-cloudflare/.env/
+          echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> ./subnet/miner-cloudflare/.env
 
       # - name: Build Docker Image
       #   run: docker build -t cloudflare-miner ./subnet/miner-cloudflare/
