@@ -23,8 +23,8 @@ jobs:
           echo SERVICE_MESH_URL=${{ secrets.SERVICE_MESH_URL }} >> ./subnet/miner-cloudflare/.env
           echo API_ONLY=${{ secrets.CLOUDFLARE_MINER_API_ONLY }} >> ./subnet/miner-cloudflare/.env
 
-      # - name: Build Docker Image
-      #   run: docker build -t cloudflare-miner ./subnet/miner-cloudflare/
+      - name: Build Docker Image
+        run: docker build -t cloudflare-miner ./subnet/miner-cloudflare/
       # - name: Create SSH key
       #   env:
       #     SSH_PRIVATE_KEY: ${{ secrets.CLOUDFLARE_MINER_SSH_PRIVATE_KEY }}
