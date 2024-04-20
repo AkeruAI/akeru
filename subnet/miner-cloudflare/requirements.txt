@@ -1,6 +1,5 @@
 bittensor
 torch
-flask
 pydantic
 python-dotenv
 simplejson
