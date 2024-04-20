@@ -20,6 +20,7 @@ jobs:
           echo MINER_ADDRESS=${{ secrets.MINER_ADDRESS }} >> ./subnet/miner-cloudflare/.env
           echo SECRET_KEY=${{ secrets.SERVICE_MESH_SECRET_KEY }} >> ./subnet/miner-cloudflare/.env
           echo UUID=${{ secrets.CLOUDFLARE_MINER_TEST_ID }} >> ./subnet/miner-cloudflare/.env
+          echo SERVICE_MESH_URL=${{ secrets.SERVICE_MESH_URL }} >> ./subnet/miner-cloudflare/.env
           echo API_ONLY=${{ secrets.CLOUDFLARE_MINER_API_ONLY }} >> ./subnet/miner-cloudflare/.env
 
       - name: Build Docker Image
