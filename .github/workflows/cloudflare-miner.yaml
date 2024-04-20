@@ -17,7 +17,7 @@ jobs:
           touch subnet/miner-cloudflare/.env
           echo CLOUDFLARE_AUTH_TOKEN=${{ secrets.CLOUDFLARE_AUTH_TOKEN }} >> ./subnet/miner-cloudflare/.env
           echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> ./subnet/miner-cloudflare/.env
-          echo ADDRESS=${{ secrets.MINER_ADDRESS }} >> ./subnet/miner-cloudflare/.env
+          echo MINER_ADDRESS=${{ secrets.MINER_ADDRESS }} >> ./subnet/miner-cloudflare/.env
           echo SECRET_KEY=${{ secrets.SERVICE_MESH_SECRET_KEY }} >> ./subnet/miner-cloudflare/.env
           echo UUID=${{ secrets.CLOUDFLARE_MINER_TEST_ID }} >> ./subnet/miner-cloudflare/.env
           echo API_ONLY=${{ secrets.CLOUDFLARE_MINER_API_ONLY }} >> ./subnet/miner-cloudflare/.env
