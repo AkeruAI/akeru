@@ -38,6 +38,6 @@ jobs:
 
       - name: Push Docker Image to GitHub Container Registry
         run: |
-          IMAGE_TAG=ghcr.io/${{ github.repository }}/cloudflare-miner:${{ github.sha }}
+          IMAGE_TAG=ghcr.io/${GITHUB_REPOSITORY,,}/cloudflare-miner:${{ github.sha }}
           docker tag cloudflare-miner $IMAGE_TAG
           docker push $IMAGE_TAG
