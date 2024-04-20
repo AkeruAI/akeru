@@ -84,7 +84,7 @@ class StreamMiner(ABC):
 
                 # TODO replace with hosted endpoint of service map
                 url = os.getenv('SERVICE_MESH_URL')
-                secret = os.getenv('SECRET_KEY')
+                secret = os.getenv('SERVICE_MESH_SECRET_KEY')
                 # for now miners are allow listed manually and given a secret key to identify
                 headers = {'Content-Type': 'application/json',
                            'Authorization': f'Bearer {secret}'}
@@ -104,7 +104,7 @@ class StreamMiner(ABC):
         else:
             self.uuid = os.getenv('UUID') or uuid.uuid4()
             url = os.getenv('SERVICE_MESH_URL')
-            secret = os.getenv('SECRET_KEY')
+            secret = os.getenv('SERVICE_MESH_SECRET_KEY')
             # for now miners are allow listed manually and given a secret key to identify
             headers = {'Content-Type': 'application/json',
                        'Authorization': f'Bearer {secret}'}

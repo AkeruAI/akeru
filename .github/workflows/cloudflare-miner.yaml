@@ -18,6 +18,7 @@ jobs:
           echo CLOUDFLARE_AUTH_TOKEN=${{ secrets.CLOUDFLARE_AUTH_TOKEN }} >> ./subnet/miner-cloudflare/.env
           echo CLOUDFLARE_ACCOUNT_ID=${{ secrets.CLOUDFLARE_ACCOUNT_ID }} >> ./subnet/miner-cloudflare/.env
           echo MINER_ADDRESS=${{ secrets.MINER_ADDRESS }} >> ./subnet/miner-cloudflare/.env
+          echo SERVICE_MESH_SECRET_KEY=${{ secrets.SERVICE_MESH_SECRET_KEY }} >> ./subnet/miner-cloudflare/.env
 
       # - name: Build Docker Image
       #   run: docker build -t cloudflare-miner ./subnet/miner-cloudflare/
