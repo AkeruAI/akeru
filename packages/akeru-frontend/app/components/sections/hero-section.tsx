@@ -5,8 +5,8 @@ function HeroSection() {
         The best API to setup your AI Project{" "}
       </h2>
       <p className="font-montserrat mt-3 text-base font-medium opacity-70">
-        Lorem ipsum dolor sit amet consectetur. Turpis pellentesque praesent
-        mattis a nisl augue. Ipsum nullam at facilisis tortor. Feugiat{" "}
+        Open-source AI platform built on the cutting edge of decentralization.
+        Akeru.ai offers transparent, safe, and highly available AI capabilities.
       </p>
     </section>
   );
