@@ -10,7 +10,6 @@ const initialState = {
 
 function FormSection() {
   const [state, formAction] = useFormState(handleSubmit, initialState);
-
   return (
     <section className="text-center mt-10 md:mt-32">
       <Form formAction={formAction} />
