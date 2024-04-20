@@ -17,20 +17,20 @@ jobs:
           touch subnet/miner-cloudflare/.env
           echo CLOUDFLARE_AUTH_TOKEN=${{ secrets.CLOUDFLARE_AUTH_TOKEN }} >> ./subnet/miner-cloudflare/.env
 
-      - name: Build Docker Image
-        run: docker build -t cloudflare-miner ./subnet/miner-cloudflare/
-      - name: Create SSH key
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.CLOUDFLARE_MINER_SSH_PRIVATE_KEY }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-      - name: Deploy to DigitalOcean
-        env:
-          DOCKER_HOST: ssh://root@${{ secrets.MINER_ADDRESS }}
-        run: |
-          docker save cloudflare-miner ./subnet/miner-cloudflare/.env | ssh -i ~/.ssh/id_ed25519 root@${{ secrets.MINER_ADDRESS }} "docker load"
-          docker rm -f cloudflare-miner || true
-          docker run -d --name cloudflare-miner-container -p 8080:8080 --env-file ./subnet/miner-cloudflare/.env cloudflare-miner
-          ssh -i ~/.ssh/id_ed25519 root@${{ secrets.MINER_ADDRESS }} "docker exec cloudflare-miner python main.py"
+      # - name: Build Docker Image
+      #   run: docker build -t cloudflare-miner ./subnet/miner-cloudflare/
+      # - name: Create SSH key
+      #   env:
+      #     SSH_PRIVATE_KEY: ${{ secrets.CLOUDFLARE_MINER_SSH_PRIVATE_KEY }}
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+      #     chmod 600 ~/.ssh/id_ed25519
+      # - name: Deploy to DigitalOcean
+      #   env:
+      #     DOCKER_HOST: ssh://root@${{ secrets.MINER_ADDRESS }}
+      #   run: |
+      #     docker save cloudflare-miner ./subnet/miner-cloudflare/.env | ssh -i ~/.ssh/id_ed25519 root@${{ secrets.MINER_ADDRESS }} "docker load"
+      #     docker rm -f cloudflare-miner || true
+      #     docker run -d --name cloudflare-miner-container -p 8080:8080 --env-file ./subnet/miner-cloudflare/.env cloudflare-miner
+      #     ssh -i ~/.ssh/id_ed25519 root@${{ secrets.MINER_ADDRESS }} "docker exec cloudflare-miner python main.py"
