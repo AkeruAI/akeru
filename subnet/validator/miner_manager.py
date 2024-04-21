@@ -17,7 +17,7 @@ class MinerManager:
         load_dotenv()
         self.miners = {}  # Dictionary to store miners
         self.api_only = api_only
-        self.bearer_token = os.getenv('SECRET_KEY')
+        self.bearer_token = os.getenv('SERVICE_MESH_SECRET_KEY')
 
     async def run(self):
         """
