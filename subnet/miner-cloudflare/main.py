@@ -2,7 +2,7 @@ import argparse
 import os
 import aiohttp
 import bittensor as bt
-from flask.cli import load_dotenv
+from dotenv import load_dotenv
 from protocol import StreamPrompting
 from fastapi import FastAPI
 from pydantic import BaseModel
