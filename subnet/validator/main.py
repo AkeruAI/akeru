@@ -43,6 +43,11 @@ app = FastAPI()
 validator = Validator()
 
 
+@app.get('/')
+async def index():
+    return "OK"
+
+
 @app.post("/chat")
 async def chat(request: Request):
     data = await request.json()
