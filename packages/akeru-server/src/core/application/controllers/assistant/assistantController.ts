@@ -8,18 +8,9 @@ import {
 } from "@/core/application/services/userService";
 import { createAssistant } from "@/core/application/services/assistantService";
 import { AuthMiddleware } from "../../middlewares/authorizationMiddleware";
+import bearer from "@elysiajs/bearer";
 
-type AssistantDecorator = {
-  request: {
-    bearer: string | undefined;
-  };
-  store: {};
-  derive: {};
-  resolve: {};
-};
-
-export const assistants = new Elysia<"/assistant", AssistantDecorator>();
-
+export const assistants = new Elysia().use(bearer());
 assistants.post(
   "/assistant",
   async ({ bearer, body }) => {

@@ -16,17 +16,9 @@ import {
 import { createMessage } from "../../services/messageService";
 import { AuthMiddleware } from "../../middlewares/authorizationMiddleware";
 import { runAssistantWithThread } from "../../services/runService";
+import bearer from "@elysiajs/bearer";
 
-type ThreadDecorator = {
-  request: {
-    bearer: string | undefined;
-  };
-  store: {};
-  derive: {};
-  resolve: {};
-};
-
-export const threads = new Elysia<"/thread", ThreadDecorator>();
+export const threads = new Elysia<"/thread">().use(bearer());
 
 threads.post(
   "/thread",
