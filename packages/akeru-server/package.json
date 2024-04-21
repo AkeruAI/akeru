@@ -7,7 +7,7 @@
     "start": "bun run src/index.ts"
   },
   "dependencies": {
-    "@elysiajs/bearer": "^0.7.0",
+    "@elysiajs/bearer": "^1.0.2",
     "@elysiajs/swagger": "^0.8.5",
     "dayjs": "^1.11.10",
     "elysia": "latest",
