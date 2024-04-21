@@ -41,7 +41,7 @@ class StreamMiner(ABC):
         self.miner_services = {
             "type": 'cloudflare',
             "models": ['llama-2-7b-chat-int8', 'mistral-7b-instruct-v0.1'],
-            "MINER_ADDRESS": os.getenv('MINER_ADDRESS')
+            "address": os.getenv('MINER_ADDRESS')
         }
 
         check_config(StreamMiner, self.config)
