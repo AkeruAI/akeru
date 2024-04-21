@@ -73,7 +73,7 @@ class BaseNeuron(ABC):
         else:
             self.wallet = bt.wallet(config=self.config)
 
-        if os.getenv('API_ONLY') is 'False':
+        if os.getenv('API_ONLY') == 'False':
             self.instantiate_subtensor_and_metagraph()
 
         if self.subtensor_connected:
