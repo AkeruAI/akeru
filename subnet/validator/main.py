@@ -79,4 +79,4 @@ async def startup_event():
 # The main function parses the configuration and runs the validator.
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=os.getenv('PORT', 8080))
