@@ -4,7 +4,7 @@
   "module": "src/indes.ts",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "start": "bun run src/index.ts"
+    "start": "bun src/index.ts"
   },
   "dependencies": {
     "@elysiajs/bearer": "^1.0.2",
