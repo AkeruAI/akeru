@@ -17,6 +17,7 @@
     "ulid": "^2.3.0"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "latest",
     "@types/jsonwebtoken": "^9.0.5",
     "bun-types": "latest",
     "husky": "^8.0.3"
