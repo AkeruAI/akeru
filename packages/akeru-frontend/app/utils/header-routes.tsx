@@ -9,6 +9,6 @@ export const headerRoutes = [
   },
   {
     text: "About",
-    href: "https://github.com/AkeruAI/akeru/blob/main/README.md",
+    href: "#3",
   },
 ];
