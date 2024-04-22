@@ -18,7 +18,7 @@ export default function Home() {
 
       <section className="flex flex-col mt-10 md:mt-36 w-full gap-4 md:flex-row md:gap-10 mx-auto">
         {homeCardData.map((card) => (
-          <HomeCard title={card.title} description={card.description} />
+          <HomeCard key={card.description} title={card.title} description={card.description} />
         ))}
       </section>
     </main>
