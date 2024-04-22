@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import HomeCard from "./components/ui/home-card/home-card";
 import HeroSection from "./components/sections/hero-section";
 import FormSection from "./components/sections/form-section";
+import { homeCardData } from "./utils/data";
 
 export const metadata = {
   title: "AkeruAI - HOME",
@@ -16,18 +17,9 @@ export default function Home() {
       <FormSection />
 
       <section className="flex flex-col mt-10 md:mt-36 w-full gap-4 md:flex-row md:gap-10 mx-auto">
-        <HomeCard
-          title="Fast and secure"
-          description="Lorem ipsum dolor sit amet consectetur. Ac commodo proin montes mattis."
-        />
-        <HomeCard
-          title="Fast and secure"
-          description="Lorem ipsum dolor sit amet consectetur. Ac commodo proin montes mattis."
-        />
-        <HomeCard
-          title="Fast and secure"
-          description="Lorem ipsum dolor sit amet consectetur. Ac commodo proin montes mattis."
-        />
+        {homeCardData.map((card) => (
+          <HomeCard key={card.description} title={card.title} description={card.description} />
+        ))}
       </section>
     </main>
   );
