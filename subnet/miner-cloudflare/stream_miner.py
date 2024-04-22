@@ -29,6 +29,7 @@ class StreamMiner(ABC):
     def __init__(self, config=None, axon=None, wallet=None, subtensor=None):
         # load env variables
         load_dotenv()
+        self.api_only = os.getenv('API_ONLY', 'True')
 
         self.CLOUDFLARE_AUTH_TOKEN = os.getenv('CLOUDFLARE_AUTH_TOKEN')
         self.CLOUDFLARE_ACCOUNT_ID = os.getenv('CLOUDFLARE_ACCOUNT_ID')
@@ -40,7 +41,7 @@ class StreamMiner(ABC):
         self.miner_services = {
             "type": 'cloudflare',
             "models": ['llama-2-7b-chat-int8', 'mistral-7b-instruct-v0.1'],
-            "address": os.getenv('ADDRESS')
+            "address": os.getenv('MINER_ADDRESS')
         }
 
         check_config(StreamMiner, self.config)
@@ -48,7 +49,7 @@ class StreamMiner(ABC):
 
         self.prompt_cache: Dict[str, Tuple[str, int]] = {}
 
-        if self.config.api_only != True:
+        if self.api_only != 'True':
             # Activating Bittensor's logging with the set configurations.
             bt.logging(config=self.config, logging_dir=self.config.full_path)
             bt.logging.info("Setting up bittensor objects.")
@@ -83,7 +84,7 @@ class StreamMiner(ABC):
 
                 # TODO replace with hosted endpoint of service map
                 url = os.getenv('SERVICE_MESH_URL')
-                secret = os.getenv('SECRET_KEY')
+                secret = os.getenv('SERVICE_MESH_SECRET_KEY')
                 # for now miners are allow listed manually and given a secret key to identify
                 headers = {'Content-Type': 'application/json',
                            'Authorization': f'Bearer {secret}'}
@@ -98,12 +99,12 @@ class StreamMiner(ABC):
                 # send to the service map
                 post(f'{url}/api/miner',
                      data=json.dumps(service_map_dict), headers=headers)
-
                 bt.logging.info(f"Running miner on uid: {self.my_subnet_uid}")
+
         else:
             self.uuid = os.getenv('UUID') or uuid.uuid4()
             url = os.getenv('SERVICE_MESH_URL')
-            secret = os.getenv('SECRET_KEY')
+            secret = os.getenv('SERVICE_MESH_SECRET_KEY')
             # for now miners are allow listed manually and given a secret key to identify
             headers = {'Content-Type': 'application/json',
                        'Authorization': f'Bearer {secret}'}

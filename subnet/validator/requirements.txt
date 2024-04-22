@@ -1,9 +1,9 @@
 bittensor
 torch
-flask
 pydantic
 python-dotenv
 simplejson
 starlette
 uvicorn
 requests-async
+loguru

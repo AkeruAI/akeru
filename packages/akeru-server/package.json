@@ -4,11 +4,11 @@
   "module": "src/indes.ts",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "start": "bun run src/index.ts"
+    "start": "bun src/index.ts"
   },
   "dependencies": {
-    "@elysiajs/bearer": "^0.7.0",
-    "@elysiajs/swagger": "^0.8.5",
+    "@elysiajs/bearer": "^1.0.2",
+    "@elysiajs/swagger": "^1.0.4",
     "dayjs": "^1.11.10",
     "elysia": "latest",
     "ioredis": "^5.3.2",

@@ -1,14 +1,21 @@
-import HeroSection from "./components/section/hero-section/hero-section";
+import { Metadata } from "next";
 import HomeCard from "./components/ui/home-card/home-card";
+import HeroSection from "./components/sections/hero-section";
+import FormSection from "./components/sections/form-section";
+
+export const metadata = {
+  title: "AkeruAI - HOME",
+  description: "The best API to setup your AI Project",
+};
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <div className="flex items-center justify-center mt-40 ">
-        <HeroSection />
-      </div>
+      <HeroSection />
 
-      <div className="flex w-full gap-12 mx-auto pt-52 md:pt-12 md:flex-col sm:flex-col md:gap-3.5 ">
+      <FormSection />
+
+      <section className="flex flex-col mt-10 md:mt-36 w-full gap-4 md:flex-row md:gap-10 mx-auto">
         <HomeCard
           title="Fast and secure"
           description="Lorem ipsum dolor sit amet consectetur. Ac commodo proin montes mattis."
@@ -21,7 +28,7 @@ export default function Home() {
           title="Fast and secure"
           description="Lorem ipsum dolor sit amet consectetur. Ac commodo proin montes mattis."
         />
-      </div>
+      </section>
     </main>
   );
 }

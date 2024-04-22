@@ -6,6 +6,7 @@ import {
 } from "./returnValues";
 import { createHumanUser } from "../../services/userService";
 import { AuthMiddleware } from "../../middlewares/authorizationMiddleware";
+import bearer from "@elysiajs/bearer";
 
 type UserDecorator = {
   request: {
@@ -16,7 +17,7 @@ type UserDecorator = {
   resolve: {};
 };
 
-export const users = new Elysia<"/users", UserDecorator>();
+export const users = new Elysia<"/users">().use(bearer());
 
 /**
  * Guard for the user controller.
@@ -30,7 +31,7 @@ users.post(
     const humanUserId = await createHumanUser(body);
     if (humanUserId) {
       const humanUserToken = await createToken(humanUserId);
-
+      
       set.status = USER_CREATED_SUCCESSFULLY.code;
       return {
         ...USER_CREATED_SUCCESSFULLY,

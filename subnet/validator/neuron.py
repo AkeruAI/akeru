@@ -1,4 +1,5 @@
 import copy
+import os
 
 import bittensor as bt
 
@@ -72,7 +73,7 @@ class BaseNeuron(ABC):
         else:
             self.wallet = bt.wallet(config=self.config)
 
-        if self.config.api_only is False:
+        if os.getenv('API_ONLY') == 'False':
             self.instantiate_subtensor_and_metagraph()
 
         if self.subtensor_connected:
