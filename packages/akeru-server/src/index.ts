@@ -1,6 +1,4 @@
 import { Elysia } from "elysia";
-import { bearer } from "@elysiajs/bearer";
-import { swagger } from "@elysiajs/swagger";
 
 import { threads } from "@/core/application/controllers/thread/threadController";
 import { assistants } from "@/core/application/controllers/assistant/assistantController";
@@ -19,8 +17,6 @@ export const healthCheck = async () => {
 };
 
 export const app = new Elysia()
-  .use(swagger())
-  .use(bearer())
   .use(assistants)
   .use(threads)
   .use(users)
