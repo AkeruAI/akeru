@@ -3,7 +3,7 @@ import { OpenAIResponse, gpt4Adapter } from "./gpt4Adapter";
 import { Role } from "@/core/domain/roles";
 
 describe("GPT-4 Adapter", () => {
-  test("Returns validator chat completions response", async () => {
+  test("Returns GPT-4 chat completions response", async () => {
     // Arrange
     const messages = [
       {

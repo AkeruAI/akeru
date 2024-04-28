@@ -4,7 +4,7 @@ import { Role } from "@/core/domain/roles";
 import { ValidatorResponse, validatorAdapter } from "./validatorAdapter";
 
 describe("Validator Adapter", () => {
-  test("Returns GPT-4 chat completions response", async () => {
+  test("Returns validator chat completions response", async () => {
     // Arrange
     const messages = [
       {
