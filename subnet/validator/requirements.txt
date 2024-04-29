@@ -7,3 +7,4 @@ starlette
 uvicorn
 requests-async
 loguru
+zkpy
