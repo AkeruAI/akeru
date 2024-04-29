@@ -5,8 +5,6 @@ import {
 
 async function createSuperAdminWithApiKey() {
   const userData = {
-    name: "Tobiloba",
-    email: "adedejitobiloba7@gmail.com",
   };
 
   const userId = await createSuperAdmin(userData);

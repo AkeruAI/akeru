@@ -1,4 +1,5 @@
 import { Message } from "@/core/domain/messages";
+import { Validator } from "@/core/domain/validators";
 
 interface ChatMessage {
   content: string;
@@ -7,7 +8,7 @@ interface ChatMessage {
 
 interface ChatResponseChoice {
   finish_reason: string;
-  index: number;
+index: number;
   message: ChatMessage;
 }
 
@@ -15,11 +16,10 @@ export interface ValidatorResponse {
   choices: ChatResponseChoice[];
 }
 
-export type ValidatorAIModel = "llama-2-7b-chat-int8" | "whisper";
 
 export async function validatorAdapter(
   messages: Pick<Message, "role" | "content">[],
-  model: ValidatorAIModel,
+  model: Validator,
   assistant_instructions: string
 ): Promise<unknown> {
   // System will always be the assistant_instruction that created the assistant

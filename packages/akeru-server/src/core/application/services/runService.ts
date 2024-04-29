@@ -7,10 +7,7 @@ import { createMessage, getAllMessage } from "./messageService";
 import { gpt4Adapter } from "@/infrastructure/adaptaters/openai/gpt4Adapter";
 import { Role } from "@/core/domain/roles";
 import { v4 as uuidv4 } from "uuid";
-import {
-  ValidatorAIModel,
-  validatorAdapter,
-} from "@/infrastructure/adaptaters/validators/validatorAdapter";
+import { validatorAdapter } from "@/infrastructure/adaptaters/validators/validatorAdapter";
 
 export async function runAssistantWithThread(runData: ThreadRunRequest) {
   // get all messages from the thread, and run it over to the assistant to get a response

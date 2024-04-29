@@ -1,9 +1,9 @@
-import { ValidatorAIModel } from "@/infrastructure/adaptaters/validators/validatorAdapter";
+import { Validator } from "./validators";
 
 export type Assistant = {
   id: string;
   name: string;
-  model: "gpt-4" | ValidatorAIModel;
+  model: Validator;
   tools: { type: string }[];
   fileIds: string[];
   instruction: string;
