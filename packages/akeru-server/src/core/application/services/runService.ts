@@ -3,11 +3,15 @@
 import { ThreadRun, ThreadRunRequest } from "@/core/domain/run";
 import { getAssistantData } from "./assistantService";
 import { getThread } from "./threadService";
-import { createMessage, getAllMessage } from "./messageService";
-import { gpt4Adapter } from "@/infrastructure/adaptaters/openai/gpt4Adapter";
+import { getAllMessage } from "./messageService";
+
 import { Role } from "@/core/domain/roles";
-import { v4 as uuidv4 } from "uuid";
-import { validatorAdapter } from "@/infrastructure/adaptaters/validators/validatorAdapter";
+
+import {
+  AdapterManager,
+  GPT4AdapterManager,
+  ValidatorAdapterManager,
+} from "@/infrastructure/adaptaters/adaptermanager";
 
 export async function runAssistantWithThread(runData: ThreadRunRequest) {
   // get all messages from the thread, and run it over to the assistant to get a response
@@ -32,48 +36,33 @@ export async function runAssistantWithThread(runData: ThreadRunRequest) {
     };
   });
 
+  let adapterManager: AdapterManager;
+
   // Calls the appropriate adapter based on what model the assistant uses
   if (assistantData.model === "gpt-4") {
-    const gpt4AdapterRes: any = await gpt4Adapter(
-      everyRoleAndContent,
-      assistantData.instruction
-    );
-
-    const assistantResponse: string = gpt4AdapterRes.choices[0].message.content;
-
-    // add assistant response to the thread
-    await createMessage(assistant_id, thread_id, assistantResponse);
-
-    const threadRunResponse: ThreadRun = {
-      id: uuidv4(),
-      assistant_id: assistant_id,
-      thread_id: thread_id,
-      created_at: new Date(),
-    };
-
-    return threadRunResponse;
+    adapterManager = new GPT4AdapterManager();
+  } else if (assistantData.model === "llama-2-7b-chat-int8") {
+    adapterManager = new ValidatorAdapterManager("llama-2-7b-chat-int8");
+  } else {
+    throw new Error("Unsupported assistant model");
   }
 
-  if (assistantData.model === "llama-2-7b-chat-int8") {
-    const validatorAdapterRes: any = await validatorAdapter(
-      everyRoleAndContent,
-      "llama-2-7b-chat-int8",
-      assistantData.instruction
-    );
+  // Generate response using the appropriate adapter
+  const assistantResponse: string = await adapterManager.generateResponse(
+    everyRoleAndContent,
+    assistantData.instruction
+  );
 
-    const assistantResponse: string =
-      validatorAdapterRes.choices[0].message.content;
+  // Add assistant response to the thread
+  await adapterManager.createUserMessage(
+    assistant_id,
+    thread_id,
+    assistantResponse
+  );
 
-    // add assistant response to the thread
-    await createMessage(assistant_id, thread_id, assistantResponse);
+  // Create thread run response
+  const threadRunResponse: ThreadRun =
+    await adapterManager.createThreadRunResponse(assistant_id, thread_id);
 
-    const threadRunResponse: ThreadRun = {
-      id: uuidv4(),
-      assistant_id: assistant_id,
-      thread_id: thread_id,
-      created_at: new Date(),
-    };
-
-    return threadRunResponse;
-  }
+  return threadRunResponse;
 }
