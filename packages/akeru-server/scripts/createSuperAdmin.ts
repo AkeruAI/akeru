@@ -14,6 +14,7 @@ async function createSuperAdminWithApiKey() {
   }
 
   const apiKey = await createApiToken(userId);
+
   if (!apiKey) {
     console.error("Failed to create API key for super admin user");
     return;
