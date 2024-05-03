@@ -11,4 +11,4 @@ export interface ThreadRun {
   thread_id: Thread["id"];
 }
 
-export type ThreadRunRequest = Pick<ThreadRun, "thread_id" | "assistant_id"> 
+export type ThreadRunRequest = Pick<ThreadRun, "thread_id" | "assistant_id">;

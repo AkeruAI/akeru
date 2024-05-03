@@ -1,8 +1,10 @@
+import { ModelsType } from "./validators";
+
 export type Assistant = {
   id: string;
   name: string;
-  model: "gpt-4";
+  model: ModelsType;
   tools: { type: string }[];
   fileIds: string[];
-  instruction: string
+  instruction: string;
 };

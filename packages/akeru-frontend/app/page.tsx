@@ -14,6 +14,7 @@ export default function Home() {
     <main className="min-h-screen">
       <HeroSection />
 
+
       <FormSection />
 
       <section className="flex flex-col mt-10 md:mt-36 w-full gap-4 md:flex-row md:gap-10 mx-auto">

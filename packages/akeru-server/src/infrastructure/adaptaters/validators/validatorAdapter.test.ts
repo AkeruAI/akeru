@@ -1,9 +1,11 @@
 import { test, expect, describe } from "bun:test";
-import { OpenAIResponse, gpt4Adapter } from "./gpt4Adapter";
-import { Role } from "@/core/domain/roles";
 
-describe("GPT-4 Adapter", () => {
-  test("Returns GPT-4 chat completions response", async () => {
+import { Role } from "@/core/domain/roles";
+import { ValidatorResponse, validatorAdapter } from "./validatorAdapter";
+import { ModelsType } from "@/core/domain/validators";
+
+describe("Validator Adapter", () => {
+  test("Returns validator chat completions response", async () => {
     // Arrange
     const messages = [
       {
@@ -11,13 +13,15 @@ describe("GPT-4 Adapter", () => {
         content: "hello, who are you?",
       },
     ];
+    const model: ModelsType = "llama-2-7b-chat-int8";
     const assistant_instructions =
       "You're an AI assistant. You're job is to help the user. Always respond with the word akeru.";
     // Act
-    const result = (await gpt4Adapter(
+    const result = (await validatorAdapter(
       messages,
+      model,
       assistant_instructions
-    )) as OpenAIResponse;
+    )) as ValidatorResponse;
 
     // Assert the message content to contain the word akeru
     expect(result.choices[0].message.content.toLocaleLowerCase()).toContain(
@@ -25,5 +29,3 @@ describe("GPT-4 Adapter", () => {
     );
   });
 });
-
-
