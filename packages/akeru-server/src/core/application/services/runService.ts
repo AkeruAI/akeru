@@ -3,15 +3,12 @@
 import { ThreadRun, ThreadRunRequest } from "@/core/domain/run";
 import { getAssistantData } from "./assistantService";
 import { getThread } from "./threadService";
-import { getAllMessage } from "./messageService";
+import { createMessage, getAllMessage } from "./messageService";
 
 import { Role } from "@/core/domain/roles";
+import { AdapterManager } from "@/infrastructure/adapters/AdapterManager";
 
-import {
-  AdapterManager,
-  GPT4AdapterManager,
-  ValidatorAdapterManager,
-} from "@/infrastructure/adaptaters/adaptermanager";
+import { v4 as uuidv4 } from "uuid";
 
 export async function runAssistantWithThread(runData: ThreadRunRequest) {
   // get all messages from the thread, and run it over to the assistant to get a response
@@ -36,33 +33,28 @@ export async function runAssistantWithThread(runData: ThreadRunRequest) {
     };
   });
 
-  let adapterManager: AdapterManager;
+  const adapter = AdapterManager.instance.getBaseAdapter(assistantData.model);
 
-  // Calls the appropriate adapter based on what model the assistant uses
-  if (assistantData.model === "gpt-4") {
-    adapterManager = new GPT4AdapterManager();
-  } else if (assistantData.model === "llama-2-7b-chat-int8") {
-    adapterManager = new ValidatorAdapterManager("llama-2-7b-chat-int8");
-  } else {
-    throw new Error("Unsupported assistant model");
+  if (!adapter) {
+    throw new Error("Adapter not found");
   }
 
   // Generate response using the appropriate adapter
-  const assistantResponse: string = await adapterManager.generateResponse(
-    everyRoleAndContent,
-    assistantData.instruction
-  );
+  const assistantResponse: string = await adapter.generateSingleResponse({
+    message_content: everyRoleAndContent,
+    instruction: assistantData.instruction,
+  });
 
   // Add assistant response to the thread
-  await adapterManager.createUserMessage(
-    assistant_id,
-    thread_id,
-    assistantResponse
-  );
+  await createMessage(assistant_id, thread_id, assistantResponse);
 
-  // Create thread run response
-  const threadRunResponse: ThreadRun =
-    await adapterManager.createThreadRunResponse(assistant_id, thread_id);
+  // Return the thread run response
+  const threadRunResponse: ThreadRun = {
+    assistant_id: assistant_id,
+    thread_id: thread_id,
+    id: uuidv4(),
+    created_at: new Date(),
+  };
 
   return threadRunResponse;
 }

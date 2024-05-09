@@ -1,5 +1,5 @@
 import { Thread } from "@/core/domain/thread";
-import { redis } from "@/infrastructure/adaptaters/redisAdapter";
+import { redis } from "@/infrastructure/adapters/redisAdapter";
 
 /**
  * Creates a new thread in Redis.

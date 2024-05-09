@@ -1,5 +1,5 @@
 import { Message } from "@/core/domain/messages";
-import { ModelsType } from "@/core/domain/validators";
+import { ValidatorModels } from "./models";
 
 type ChatMessage = Pick<Message, "role" | "content">;
 
@@ -15,7 +15,7 @@ export interface ValidatorResponse {
 
 export async function validatorAdapter(
   messages: Pick<Message, "role" | "content">[],
-  model: ModelsType,
+  model: ValidatorModels,
   assistant_instructions: string
 ): Promise<unknown> {
   // System will always be the assistant_instruction that created the assistant

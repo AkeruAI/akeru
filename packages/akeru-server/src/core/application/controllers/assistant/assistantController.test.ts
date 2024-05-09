@@ -1,6 +1,6 @@
 import { createSuperAdminForTesting } from "@/__tests__/utils";
 import { app } from "@/index";
-import { redis } from "@/infrastructure/adaptaters/redisAdapter";
+import { redis } from "@/infrastructure/adapters/redisAdapter";
 import { test, expect, describe } from "bun:test";
 import { UNAUTHORIZED_MISSING_TOKEN } from "../../ports/returnValues";
 

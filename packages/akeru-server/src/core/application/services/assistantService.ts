@@ -1,5 +1,5 @@
 import type { Assistant } from "@/core/domain/assistant";
-import { redis } from "@/infrastructure/adaptaters/redisAdapter";
+import { redis } from "@/infrastructure/adapters/redisAdapter";
 
 /**
  * Creates an assistant in Redis if it does not exist and adds a 'CREATED_BY' relationship to the user.
