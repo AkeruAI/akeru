@@ -1,9 +1,9 @@
-import { ModelsType } from "./validators";
+import { SupportedModels } from "@/infrastructure/adapters/adapter";
 
 export type Assistant = {
   id: string;
   name: string;
-  model: ModelsType;
+  model: SupportedModels;
   tools: { type: string }[];
   fileIds: string[];
   instruction: string;
