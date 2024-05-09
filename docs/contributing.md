@@ -66,7 +66,7 @@ All contributions should include relevant documentation updates:
 
 ### Handling Issues and Pull Requests
 
-- **Reporting Issues**: Use our template [here](/ISSUES_TEMPLATE.md). Ensure to include the detailed steps to reproduce the issue.
+- **Reporting Issues**: Use our template [here](/docs/issue_and_pr_template.md). Ensure to include the detailed steps to reproduce the issue.
 - **Pull Requests**: Use our PR template, link related issues, and provide a detailed description of your changes. Check that out [here](/PULL_REQUEST_DOC_TEMPLATE.md)
 
 ### Community and Communication
