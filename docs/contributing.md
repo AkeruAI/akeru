@@ -26,7 +26,7 @@ Welcome to the Akeru.ai community! We are thrilled to have you onboard. This doc
 
 [Akeru.ai](https://www.akeru.ai) leverages the power of the Akeru AI edge network running on a Bittensor Subnet to offer transparent, safe, and highly available AI capabilities. We strive to maintain a welcoming and inclusive community. 
 
-Our [Code of Conduct](/CODE_OF_CONDUCT.md) outlines expected behavior and practices to ensure a collaborative and respectful environment.
+Our [Code of Conduct](/docs/code_of_conduct.md) outlines expected behavior and practices to ensure a collaborative and respectful environment.
 
 ### Getting Started
 
@@ -49,7 +49,7 @@ To contribute to [Akeru.ai](https://www.akeru.ai):
 
 ### Coding Conventions
 
-[Akeru.ai](https://www.akeru.ai) follows Next.js linting standards in the Next app and plans to setup ESLint for the API and service mesh parts. For coding styles, we use Prettier. Our Prettier config will serve as the source of truth. View the full coding convention [here](/CODING_CONVENTIONS.MD). 
+[Akeru.ai](https://www.akeru.ai) follows Next.js linting standards in the Next app and plans to setup ESLint for the API and service mesh parts. For coding styles, we use Prettier. Our Prettier config will serve as the source of truth. View the full coding convention [here](/docs/coding_conventions.md). 
 
 ### Building and Testing
 
@@ -61,7 +61,7 @@ To contribute to [Akeru.ai](https://www.akeru.ai):
 
 All contributions should include relevant documentation updates:
 
-- **Formatting Guidelines**: Follow our documentation style guide [here](/DOCUMENTATION_STYLE_GUIDE.MD).
+- **Formatting Guidelines**: Follow our documentation style guide [here](/docs/documentation_style_guide.md).
 - **Where to Add Documentation**: Add to `/docs` or inline as appropriate.
 
 ### Handling Issues and Pull Requests
