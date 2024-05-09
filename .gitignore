@@ -180,4 +180,5 @@ dist
 .env.development
 .env.test
 
-.DS_Storepackage-lock.json
+.DS_Store
+package-lock.json
