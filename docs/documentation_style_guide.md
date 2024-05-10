@@ -45,7 +45,7 @@ This guide establishes standards for creating clear, accessible, and effective d
 ### Language and Grammar
 
 - **Grammar and Spelling**: Utilize tools like [Grammarly](https://www.grammarly.com/) and [Hemingway Editor](http://www.hemingwayapp.com/) to ensure correctness. Adhere to American English spelling conventions.
-- **Examples and Tutorials**: Provide clear examples and detailed tutorials. Use [link to a style guide](#) for complex topics.
+- **Examples and Tutorials**: Provide clear examples and detailed tutorials. Use [link to a style guide](/docs/documentation_style_guide.md) for complex topics.
 
 ### Technical Content
 
