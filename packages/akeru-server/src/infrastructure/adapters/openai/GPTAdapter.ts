@@ -99,6 +99,8 @@ export class GPTAdapter extends BaseAdapter implements StreamableAdapter {
         }),
       });
 
+      // This section of the code is taken from...
+      /// https://github.com/openai/openai-node/issues/18
       const reader = res.body?.getReader();
       while (true && reader) {
         const { done, value } = await reader.read();
@@ -110,6 +112,8 @@ export class GPTAdapter extends BaseAdapter implements StreamableAdapter {
 
         for await (const message of linesToMessages) {
           const messageObject: any = JSON.parse(message);
+
+          // MessageObject is the response from the OpenAI API streams
           const messageToYield = messageObject.choices[0].delta.content;
           if (messageToYield) yield messageToYield;
         }
