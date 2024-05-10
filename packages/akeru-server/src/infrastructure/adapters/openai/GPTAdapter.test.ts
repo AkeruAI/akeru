@@ -56,6 +56,8 @@ describe("GPT-4 Adapter", () => {
       responses.push(response);
     }
 
-    console.log(responses.join(""))
+    // Assert the message content to contain the word akeru
+    const generatedResponse = responses.join("");
+    expect(generatedResponse.toLocaleLowerCase()).toContain("akeru");
   });
 });
