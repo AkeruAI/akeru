@@ -3,7 +3,8 @@ import { handleWaitlistSubmit } from '@/app/server'
 import { useFormState, useFormStatus } from 'react-dom'
 
 const initialState = {
-  email: '',
+  message: '',
+  submitted: false,
 }
 
 function ArrowIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
@@ -38,6 +39,8 @@ function CheckMarkIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 export function WaitlistForm() {
   const [state, formAction] = useFormState(handleWaitlistSubmit, initialState)
 
+  console.log(state?.submitted)
+
   return (
     <form className="max-w-sm" action={formAction}>
       <div className="relative mt-6">
@@ -51,14 +54,14 @@ export function WaitlistForm() {
           className="block w-full rounded-2xl border border-neutral-300 bg-transparent py-4 pl-6 pr-20 text-base/6 text-neutral-950 ring-4 ring-transparent transition placeholder:text-neutral-500 focus:border-neutral-950 focus:outline-none focus:ring-neutral-950/5"
         />
         <div className="absolute inset-y-1 right-1 flex justify-end">
-          <FormIconDisplay />
+          <FormIconDisplay submitted={state?.submitted} />
         </div>
       </div>
     </form>
   )
 }
 
-function FormIconDisplay() {
+function FormIconDisplay({ submitted }: { submitted: boolean | undefined }) {
   const { pending } = useFormStatus()
 
   return (
@@ -68,7 +71,7 @@ function FormIconDisplay() {
       disabled={pending}
       className="flex aspect-square h-full items-center justify-center rounded-xl bg-neutral-950 text-white transition hover:bg-neutral-800"
     >
-      {pending ? (
+      {submitted ? (
         <CheckMarkIcon className="w-4" />
       ) : (
         <ArrowIcon className="w-4" />

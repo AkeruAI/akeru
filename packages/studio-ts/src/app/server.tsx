@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation'
 
 export const handleWaitlistSubmit = async (
-  prevState: { email: string },
+  prevState: { message: string; submitted: boolean },
   formData: FormData,
 ) => {
   const url = process.env.NEXT_GOOGLE_SHEETS_API!
@@ -19,7 +19,8 @@ export const handleWaitlistSubmit = async (
     })
 
     if (response.ok) {
-      console.log('Email address sent successfully!')
+      console.log('Email address sent successfully!!!')
+      return { message: 'Email address sent successfully!', submitted: true }
     } else {
       console.error(
         'Failed to send email address. Status code:',
@@ -28,6 +29,7 @@ export const handleWaitlistSubmit = async (
     }
   } catch (error) {
     console.error('Error:', error)
+    return { message: 'Email address not sent', submitted: false}
   }
   //   redirect('/success')
 }
