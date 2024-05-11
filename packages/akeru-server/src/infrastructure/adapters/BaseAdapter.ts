@@ -1,7 +1,7 @@
 import { AdapterRequest } from "./adapter";
 
 export interface StreamableAdapter {
-  generateStreamableResponse(args: AdapterRequest): Promise<string>;
+  generateStreamableResponse(args: AdapterRequest): AsyncGenerator<string>;
 }
 
 /**
