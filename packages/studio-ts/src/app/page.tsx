@@ -20,6 +20,7 @@ import logoPhobiaLight from '@/images/clients/phobia/logo-light.svg'
 import logoUnseal from '@/images/clients/unseal/logo-light.svg'
 import imageLaptop from '@/images/laptop.jpg'
 import { type CaseStudy, type MDXEntry, loadCaseStudies } from '@/lib/mdx'
+import { WaitlistForm } from '@/components/WaitlistForm'
 
 const clients = [
   ['Phobia', logoPhobiaLight],
@@ -185,13 +186,12 @@ export default async function Home() {
       <Container className="mt-24 sm:mt-32 md:mt-56">
         <FadeIn className="max-w-3xl">
           <h1 className="font-display text-5xl font-medium tracking-tight text-neutral-950 [text-wrap:balance] sm:text-7xl">
-            Award-winning development studio based in Denmark.
+            Edge AI Subnet by OSS Capital
           </h1>
-          <p className="mt-6 text-xl text-neutral-600">
-            We are a development studio working at the intersection of design
-            and technology. It’s a really busy intersection though — a lot of
-            our staff have been involved in hit and runs.
-          </p>
+          <p className="mt-6 text-xl text-neutral-600">Join the waiting list</p>
+          <div>
+            <WaitlistForm />
+          </div>
         </FadeIn>
       </Container>
 

@@ -81,10 +81,10 @@ function Header({
           />
         </Link>
         <div className="flex items-center gap-x-8">
-          <Button href="/contact" invert={invert}>
-            Contact us
+          <Button href="https://github.com/AkeruAI" invert={invert}>
+            Star on Github!
           </Button>
-          <button
+          {/* <button
             ref={toggleRef}
             type="button"
             onClick={onToggle}
@@ -104,7 +104,7 @@ function Header({
                   : 'fill-neutral-950 group-hover:fill-neutral-700',
               )}
             />
-          </button>
+          </button> */}
         </div>
       </div>
     </Container>
