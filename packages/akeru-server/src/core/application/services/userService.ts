@@ -2,7 +2,7 @@
 
 import { Role, getRolePermissions } from "@/core/domain/roles";
 import { HumanUserBody, User, UserRole } from "@/core/domain/user";
-import { redis } from "@/infrastructure/adaptaters/redisAdapter";
+import { redis } from "@/infrastructure/adapters/redisAdapter";
 import { ulid } from "ulid";
 
 /**

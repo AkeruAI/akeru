@@ -5,7 +5,6 @@ import {
 
 async function createSuperAdminWithApiKey() {
   const userData = {
-    // Add any necessary user data here
   };
 
   const userId = await createSuperAdmin(userData);
@@ -15,6 +14,7 @@ async function createSuperAdminWithApiKey() {
   }
 
   const apiKey = await createApiToken(userId);
+
   if (!apiKey) {
     console.error("Failed to create API key for super admin user");
     return;

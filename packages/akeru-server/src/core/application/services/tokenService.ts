@@ -1,4 +1,4 @@
-import { redis } from "@/infrastructure/adaptaters/redisAdapter";
+import { redis } from "@/infrastructure/adapters/redisAdapter";
 import { getUserPermissions } from "@/core/application/services/userService";
 import jwt from "jsonwebtoken";
 import { PermissionDetailArray } from "@/core/domain/permissions";

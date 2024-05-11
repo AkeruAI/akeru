@@ -3,6 +3,7 @@
   "description": "This is an internal API mapping what services are available at which address in the network.",
   "module": "NodeNext",
   "dependencies": {
-    "@upstash/redis": "^1.29.0"
+    "@upstash/redis": "^1.29.0",
+    "zod": "^3.23.6"
   }
 }

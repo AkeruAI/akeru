@@ -1,0 +1,42 @@
+import imageAngelaFisher from '@/images/team/angela-fisher.jpg'
+
+export const article = {
+  date: '2022-12-01',
+  title: 'A Short Guide to Component Naming',
+  description:
+    'As a developer,  the most important aspect of your job is naming components. It’s not just about being descriptive and clear, but also about having fun and being creative.',
+  author: {
+    name: 'Angela Fisher',
+    role: 'Front-end Developer',
+    image: { src: imageAngelaFisher },
+  },
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+## 1. Brevity is Key
+
+Time is scarce, don’t waste it typing out long, descriptive component names. One approach is to give them short, cryptic names that only you will understand.
+
+Need a button? Call it "btn". A modal? How about "md"? You’ll save precious minutes per day and you’ll get the added benefit of being the only person in the codebase who knows where anything is. This is called job security.
+
+![](./typewriter.jpg)
+
+## 2. Rank High in Search
+
+When working in large repos with lots of collaborators, it’s important that your component ranks high when people search for anything.
+
+One way to stand out is to include all the possible search terms in your component name. Instead of “SignInButton” you might want call it “SignInButtonAuthenticationCookieUserLogIn” which will ensure that it is returned in almost any related search result.
+
+![](./magnifying-glass.jpg)
+
+## 3. Mix Languages
+
+If you work remotely, it’s likely you are on a global team and yet all your components have English names. This slows down your non-english colleagues considerably so you should allow them to use their native tongue when naming components.
+
+You can create an index file that maps all the different languages within your repo. Need a dropdown? Look for “Desplegable”. A form? Search “Форма”. You’ll learn multiple new languages while being more inclusive to your colleagues.
+
+![](./everyday-english.jpg)

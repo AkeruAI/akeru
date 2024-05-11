@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Important Note
+
+This codebase at the moment is being deprecated due to certain reasons; we have decided to adopt a different setup which is named `studios-ts` for now; that matches the goals of this project.
+
 ## Getting Started
 
 First, run the development server:

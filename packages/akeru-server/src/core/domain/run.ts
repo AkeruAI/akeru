@@ -9,6 +9,7 @@ export interface ThreadRun {
   created_at: Date;
   assistant_id: Assistant["id"];
   thread_id: Thread["id"];
+  stream?: boolean
 }
 
-export type ThreadRunRequest = Pick<ThreadRun, "thread_id" | "assistant_id"> 
+export type ThreadRunRequest = Pick<ThreadRun, "thread_id" | "assistant_id" | 'stream'>;

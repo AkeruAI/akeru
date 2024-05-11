@@ -1,4 +1,4 @@
-import { redis } from "@/infrastructure/adaptaters/redisAdapter";
+import { redis } from "@/infrastructure/adapters/redisAdapter";
 
 const script = async () => {
   try {

@@ -1,8 +1,10 @@
+import { SupportedModels } from "@/infrastructure/adapters/adapter";
+
 export type Assistant = {
   id: string;
   name: string;
-  model: "gpt-4";
+  model: SupportedModels;
   tools: { type: string }[];
   fileIds: string[];
-  instruction: string
+  instruction: string;
 };

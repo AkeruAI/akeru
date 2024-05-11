@@ -1,6 +1,6 @@
 import { assignRole, createUser } from "core/application/services/userService";
 import { createToken } from "@/core/application/services/tokenService";
-import { redis } from "@/infrastructure/adaptaters/redisAdapter";
+import { redis } from "@/infrastructure/adapters/redisAdapter";
 import { ulid } from "ulid";
 
 /**

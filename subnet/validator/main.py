@@ -1,10 +1,12 @@
 import asyncio
 import os
 import bittensor as bt
+from fastapi.params import Depends
 import torch
 from miner_manager import MinerManager
 from validator import BaseValidatorNeuron
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.security import OAuth2PasswordBearer, SecurityScopes
 import aiohttp
 from reward import calculate_total_message_length, get_reward
 from typing import TypedDict, List
@@ -14,6 +16,9 @@ load_dotenv()
 
 
 api_only = os.getenv('API_ONLY')
+VALIDATOR_SECRET = os.getenv('VALIDATOR_SECRET')
+
+
 miner_manager = MinerManager(api_only=api_only == 'True')
 
 
@@ -47,9 +52,14 @@ validator = Validator()
 async def index():
     return "OK"
 
+oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl="auth/token", scopes={"chat": "Access to chat endpoint"})
+
 
 @app.post("/chat")
-async def chat(request: Request):
+async def chat(request: Request, token: str = Depends(oauth2_scheme)):
+    if token != VALIDATOR_SECRET:
+        raise HTTPException(status_code=401, detail="Invalid token")
     data = await request.json()
     model = data['model']
     miner = miner_manager.get_fastest_miner_for_model(model=model)

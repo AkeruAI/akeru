@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
-import { redis } from "@/infrastructure/adaptaters/redisAdapter";
 import { Message } from "@/core/domain/messages";
 import dayjs from "dayjs";
 import { getUserRole } from "./userService";
+import { redis } from "@/infrastructure/adapters/redisAdapter";
 
 export async function createMessage(
   userId: string,

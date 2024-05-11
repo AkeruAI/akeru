@@ -1,0 +1,1 @@
+export type ValidatorModels = 'llama-2-7b-chat-int8'

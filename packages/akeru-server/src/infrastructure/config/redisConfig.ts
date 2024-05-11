@@ -5,5 +5,5 @@ export const redisConfig = {
     ? { password: process.env.REDIS_PASSWORD }
     : {}), // Redis password
   db: process.env.REDIS_DB ? parseInt(process.env.REDIS_DB) : 0, // Redis DB
-  tls: process.env.NODE_ENV === "production" ? {} : undefined,
+  tls: {},
 };
