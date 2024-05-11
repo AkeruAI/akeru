@@ -3,7 +3,6 @@ import bittensor as bt
 import json
 
 from typing import List
-from starlette.responses import StreamingResponse
 
 
 class StreamPrompting(bt.StreamingSynapse):
