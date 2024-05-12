@@ -1,7 +1,12 @@
 'use server'
 
+export type FormState = {
+  message: string
+  submitted: boolean
+}
+
 export const handleWaitlistSubmit = async (
-  prevState: { message: string; submitted: boolean },
+  prevState: FormState | undefined,
   formData: FormData,
 ) => {
   const url = process.env.NEXT_GOOGLE_SHEETS_API!

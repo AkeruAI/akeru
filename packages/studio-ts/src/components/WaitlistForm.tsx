@@ -1,8 +1,8 @@
-'use client'
-import { handleWaitlistSubmit } from '@/app/server'
+"use client"
+import { FormState, handleWaitlistSubmit } from '@/app/server'
 import { useFormState, useFormStatus } from 'react-dom'
 
-const initialState = {
+const initialState: FormState = {
   message: '',
   submitted: false,
 }
