@@ -39,8 +39,6 @@ function CheckMarkIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 export function WaitlistForm() {
   const [state, formAction] = useFormState(handleWaitlistSubmit, initialState)
 
-  console.log(state?.submitted)
-
   return (
     <form className="max-w-sm" action={formAction}>
       <div className="relative mt-6">

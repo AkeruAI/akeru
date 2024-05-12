@@ -1,7 +1,5 @@
 'use server'
 
-import { redirect } from 'next/navigation'
-
 export const handleWaitlistSubmit = async (
   prevState: { message: string; submitted: boolean },
   formData: FormData,
@@ -19,7 +17,6 @@ export const handleWaitlistSubmit = async (
     })
 
     if (response.ok) {
-      console.log('Email address sent successfully!!!')
       return { message: 'Email address sent successfully!', submitted: true }
     } else {
       console.error(
@@ -28,8 +25,6 @@ export const handleWaitlistSubmit = async (
       )
     }
   } catch (error) {
-    console.error('Error:', error)
-    return { message: 'Email address not sent', submitted: false}
+    return { message: 'Email address not sent', submitted: false }
   }
-  //   redirect('/success')
 }
