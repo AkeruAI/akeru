@@ -81,7 +81,7 @@ function Header({
           />
         </Link>
         <div className="flex items-center gap-x-8">
-          <Button href="https://github.com/AkeruAI" invert={invert}>
+          <Button href="https://github.com/AkeruAI/akeru" invert={invert}>
             Star on Github!
           </Button>
           {/* <button
