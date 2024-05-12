@@ -6,7 +6,7 @@ export type FormState = {
 }
 
 export const handleWaitlistSubmit = async (
-  prevState: FormState | undefined,
+  prevState: FormState,
   formData: FormData,
 ) => {
   const url = process.env.NEXT_GOOGLE_SHEETS_API!
@@ -32,4 +32,6 @@ export const handleWaitlistSubmit = async (
   } catch (error) {
     return { message: 'Email address not sent', submitted: false }
   }
+
+  return { message: 'Email address not sent', submitted: false }
 }
