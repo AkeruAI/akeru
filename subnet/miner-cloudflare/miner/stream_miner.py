@@ -16,7 +16,7 @@ from typing import Dict, Tuple
 
 from protocol import StreamPrompting
 
-from config import check_config, get_config, get_ip_address
+from config import check_config, get_config
 from dotenv import load_dotenv
 from requests import post
 
@@ -56,6 +56,7 @@ class StreamMiner(ABC):
 
             # Wallet holds cryptographic information, ensuring secure transactions and communication.
             self.wallet = wallet or bt.wallet(config=self.config)
+            print(self.wallet)
             bt.logging.info(f"Wallet {self.wallet}")
 
             # subtensor manages the blockchain connection, facilitating interaction with the Bittensor blockchain.
@@ -67,6 +68,7 @@ class StreamMiner(ABC):
 
             # metagraph provides the network's current state, holding state about other participants in a subnet.
             self.metagraph = self.subtensor.metagraph(self.config.netuid)
+            print(self.metagraph)
             bt.logging.info(f"Metagraph: {self.metagraph}")
 
             if self.wallet.hotkey.ss58_address not in self.metagraph.hotkeys:
@@ -95,6 +97,8 @@ class StreamMiner(ABC):
                     "hotkey": self.wallet.hotkey.ss58_address,
                     **self.miner_services
                 }
+
+                json.dumps(service_map_dict)
 
                 # send to the service map
                 post(f'{url}/api/miner',
