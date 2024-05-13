@@ -38,7 +38,7 @@ function Clients() {
     <div className="mt-24 rounded-4xl bg-neutral-950 py-20 sm:mt-32 sm:py-32 lg:mt-56">
       <Container>
         <FadeIn className="flex items-center gap-x-8">
-        <h2 className="text-center font-display text-sm font-semibold tracking-wider text-white sm:text-left">
+          <h2 className="text-center font-display text-sm font-semibold tracking-wider text-white sm:text-left">
             We’ve worked with hundreds of amazing people
           </h2>
           <div className="h-px flex-auto bg-neutral-800" />
@@ -186,7 +186,7 @@ export default async function Home() {
       <Container className="mt-24 sm:mt-32 md:mt-56">
         <FadeIn className="max-w-3xl">
           <h1 className="font-display text-5xl font-medium tracking-tight text-neutral-950 [text-wrap:balance] sm:text-7xl">
-            Edge AI Subnet by OSS Capital
+            The open source Assistant Platform
           </h1>
           <p className="mt-6 text-xl text-neutral-600">Join the waiting list</p>
           <div>
