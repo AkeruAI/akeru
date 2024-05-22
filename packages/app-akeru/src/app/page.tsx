@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import HealthBanner from "./components/health-banner";
+import HealthBanner from "./features/health-banner";
 
 export default async function Home() {
   const healthData = await fetch('https://akeru-server.onrender.com');

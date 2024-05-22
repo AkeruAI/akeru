@@ -5,7 +5,7 @@ interface HealthData {
 }
 
 export default async function HealthBanner() {
-  const healthCheck = await fetch('https://akeru-server.onrender.com');
+  const healthCheck = await fetch('https://akeru-server.onrender.com', { cache: 'no-store' });
   const healthData: HealthData = await healthCheck.json();
 
   return (
