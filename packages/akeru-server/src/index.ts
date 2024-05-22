@@ -8,7 +8,7 @@ export const name = "Akeru";
 
 export const healthCheck = async () => {
   return {
-    name: "Your API Name",
+    name: "Akeru Server Up and Running!",
     description:
       "This is an open-source alternative to OpenAI's Assistant API. It provides a powerful, flexible AI model for generating human-like text based on the input provided. It's designed to assist developers in creating applications that require natural language processing and generation, from chatbots to content creators and more.",
     message: "API is up and running",
