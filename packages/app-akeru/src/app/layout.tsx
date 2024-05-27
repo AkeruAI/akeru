@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} antialised`}>
-      <body>{children}</body>
+      <body className="bg-slate-100">{children}</body>
     </html>
   );
 }
