@@ -1,9 +1,0 @@
-bittensor
-torch
-pydantic
-python-dotenv
-simplejson
-requests-async
-gunicorn
-aiohttp
-fastapi

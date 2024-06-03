@@ -1,6 +1,6 @@
 # Akeru.ai
 
-**Akeru.ai** is an open-source AI platform built on the cutting edge of decentralization. Leveraging the power of the Akeru AI edge network running on a Bittensor Subnet, Akeru.ai offers transparent, safe, and highly available AI capabilities.
+Akeru.ai is an API platform that offers transparent, safe, and highly available AI capabilities. We strive to maintain a welcoming and inclusive community.
 
 ## What Sets Akeru.ai Apart?
 
@@ -28,17 +28,6 @@ The Akeru API, currently under development, aims for full compatibility with Ope
 ### Use Cases
 
 The Akeru API is ideal for creating AI agents and enhancing web and mobile applications with advanced AI capabilities. (Rate limits and costs are TBD).
-
-## Bittensor Subnet Design
-
-Akeru.ai's mission is to democratize AI technology. Running on a fleet of Bittensor validators and miners, our subnet is open to all, promoting an equitable AI future.
-
-### Enhancements from Bittensor Subnet
-
-While decentralization poses challenges, slowing development compared to centralized solutions, Akeru.ai embraces these challenges to ensure a decentralized and equitable AI ecosystem. Security features include:
-
-- **Watermarking**: Verifies LLM authenticity.
-- **Network Pings**: Regular checks to ensure miner availability.
 
 ### Rewards for Miners
 
@@ -68,4 +57,3 @@ We welcome contributions of all forms, from code to documentation. Here’s how 
 ## Visuals and Diagrams
 
 Coming soon are detailed diagrams illustrating our network architecture and API workflows, helping clarify the complexities of our systems.
-
