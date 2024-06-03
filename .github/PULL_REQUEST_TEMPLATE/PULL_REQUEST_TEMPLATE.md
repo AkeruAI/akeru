@@ -30,13 +30,12 @@ Briefly describe the purpose of the pull request and what it aims to achieve. In
 
 ### Description
 
-This pull request updates the README to provide a clearer and more comprehensive understanding of Akeru.ai. The enhancements include detailed descriptions of new API features, the Bittensor Subnet integration, and improved section formatting. These updates aim to make the repository more welcoming and informative for new contributors and users.
+This pull request updates the README to provide a clearer and more comprehensive understanding of Akeru.ai. The enhancements include detailed descriptions of new API features, and improved section formatting. These updates aim to make the repository more welcoming and informative for new contributors and users.
 
 ### Key Changes
 
 - **Expanded Introduction**: Better explains Akeru.ai's unique features and its differentiation in the AI space.
 - **Detailed API Features**: Includes use cases and development status for upcoming features.
-- **Clarified Bittensor Subnet Integration**: Details on how the Bittensor Subnet enhances Akeru.ai’s capabilities, including security features and decentralized benefits.
 - **Preliminary Self-Hosting Info**: Provides initial guidelines on self-hosting and the requirements for validators and miners.
 
 ### Link to Issues
