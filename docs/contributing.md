@@ -24,15 +24,13 @@ Welcome to the Akeru.ai community! We are thrilled to have you onboard. This doc
 
 ### Project Overview and Code of Conduct
 
-[Akeru.ai](https://www.akeru.ai) leverages the power of the Akeru AI edge network running on a Bittensor Subnet to offer transparent, safe, and highly available AI capabilities. We strive to maintain a welcoming and inclusive community. 
+Akeru.ai is an API platform that offers transparent, safe, and highly available AI capabilities. We strive to maintain a welcoming and inclusive community.
 
 Our [Code of Conduct](/docs/code_of_conduct.md) outlines expected behavior and practices to ensure a collaborative and respectful environment.
 
 ### Getting Started
 
 Setting up your development environment is the first step in contributing:
-
-- **Subnet Setup Guide**: For working with the subnet, follow the instructions [here](https://github.com/GuiBibeau/akeru/blob/main/subnet/validator/README.md).
 
 - **Platform Setup Guide**: Additional setup instructions for the platform will be provided soon.
 
@@ -49,13 +47,12 @@ To contribute to [Akeru.ai](https://www.akeru.ai):
 
 ### Coding Conventions
 
-[Akeru.ai](https://www.akeru.ai) follows Next.js linting standards in the Next app and plans to setup ESLint for the API and service mesh parts. For coding styles, we use Prettier. Our Prettier config will serve as the source of truth. View the full coding convention [here](/docs/coding_conventions.md). 
+[Akeru.ai](https://www.akeru.ai) follows Next.js linting standards in the Next app and plans to setup ESLint for the API and service mesh parts. For coding styles, we use Prettier. Our Prettier config will serve as the source of truth. View the full coding convention [here](/docs/coding_conventions.md).
 
 ### Building and Testing
 
 - **Website**: Automated by Vercel.
 - **API**: Currently under development for automated processes.
-- **Subnet**: Managed externally; details to be provided later.
 
 ### Documentation Standards
 
@@ -90,4 +87,4 @@ Plans are in development and will be documented accordingly.
 
 ### Security Practices
 
-Detailed security protocols, especially for the subnet, are currently under development and will be added upon completion.
+Detailed security protocols will be added upon completion.
