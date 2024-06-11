@@ -14,6 +14,9 @@ describe.only("threadController", async () => {
         "Content-Type": "application/json",
       },
       method: "POST",
+      body: JSON.stringify({
+        thread_name: "Akeru thread",
+      }),
     });
 
     const response = await app.handle(request);

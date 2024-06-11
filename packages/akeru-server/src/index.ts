@@ -3,6 +3,7 @@ import { Elysia } from "elysia";
 import { threads } from "@/core/application/controllers/thread/threadController";
 import { assistants } from "@/core/application/controllers/assistant/assistantController";
 import { users } from "./core/application/controllers/user/userController";
+import cors from "@elysiajs/cors";
 
 export const name = "Akeru";
 
@@ -17,6 +18,7 @@ export const healthCheck = async () => {
 };
 
 export const app = new Elysia()
+  .use(cors())
   .use(assistants)
   .use(threads)
   .use(users)
