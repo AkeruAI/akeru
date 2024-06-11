@@ -17,6 +17,7 @@ const roles: Record<Role, { permissions: Permission[] }> = {
       "view_own_threads",
       "create_message_in_own_thread",
       "create_assistant",
+      "view_assistants"
     ],
   },
   assistant: {

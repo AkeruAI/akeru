@@ -6,7 +6,10 @@ import {
   assignRole,
   createUser,
 } from "@/core/application/services/userService";
-import { createAssistant } from "@/core/application/services/assistantService";
+import {
+  createAssistant,
+  getAssistantData,
+} from "@/core/application/services/assistantService";
 import { AuthMiddleware } from "../../middlewares/authorizationMiddleware";
 import bearer from "@elysiajs/bearer";
 
@@ -35,7 +38,7 @@ assistants.post(
         name,
         fileIds: [],
         tools: [],
-        instruction: body.instruction
+        instruction: body.instruction,
       });
 
       return {
@@ -48,8 +51,36 @@ assistants.post(
     body: t.Object({
       name: t.String(),
       model: t.Literal("gpt-4"), // add more models here
-      instruction: t.String()
+      instruction: t.String(),
     }),
     beforeHandle: AuthMiddleware(["create_assistant", "*"]),
+  }
+);
+
+/**
+ * Based on the query for the endpoint fetch the appropriate details about the users assistants
+ */
+assistants.get(
+  "/assistant",
+  async ({ query, bearer }) => {
+    console.info("hit")
+    // only support ALL query for now
+    const decodedToken = await parseToken(bearer!);
+    if (!decodedToken) return;
+
+    const { userId } = decodedToken;
+
+    const assistantData = await getAssistantData({
+      query: query.query,
+      userId: userId,
+    });
+
+    return assistantData;
+  },
+  {
+    query: t.Object({
+      query: t.Literal("ALL"),
+    }),
+    beforeHandle: AuthMiddleware(["view_assistants", "*"]),
   }
 );

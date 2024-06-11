@@ -1,4 +1,5 @@
 import type { Assistant } from "@/core/domain/assistant";
+import { User } from "@/core/domain/user";
 import { redis } from "@/infrastructure/adapters/redisAdapter";
 
 /**
@@ -15,7 +16,10 @@ export async function createAssistant(args: Assistant & { userId: string }) {
   const pipeline = redis.pipeline();
 
   // Store the assistant data
-  pipeline.set(`assistant:${id}`, JSON.stringify({ tools, model, name, instruction }));
+  pipeline.set(
+    `assistant:${id}`,
+    JSON.stringify({ tools, model, name, instruction, id })
+  );
 
   // Store the relationship between the assistant and the user
   pipeline.sadd(`user:${userId}:assistants`, id);
@@ -31,11 +35,30 @@ export async function createAssistant(args: Assistant & { userId: string }) {
   }
 
   // Parse the assistant data from JSON
-  return JSON.parse(assistantData);
+  return JSON.parse(assistantData) as Assistant;
 }
 
-export async function getAssistantData(assistant_id: Assistant["id"]) {
-  const assistantData = await redis.get(`assistant:${assistant_id}`);
+export async function getAssistantData(args: {
+  query: Assistant["id"] | "ALL";
+  userId: User["id"];
+}) {
+  const { query, userId } = args;
+
+  // if query is ALL then fetch all relevant assistant data
+  if (query === "ALL") {
+    const allAssistantData = await redis.smembers(`user:${userId}:assistants`);
+    return Promise.all(
+      allAssistantData.map(async (assistantId) => {
+        const assistantData = await redis.get(`assistant:${assistantId}`);
+        if (!assistantData) {
+          throw new Error("Failed to get assistant");
+        }
+        return JSON.parse(assistantData) as Assistant;
+      })
+    );
+  }
+
+  const assistantData = await redis.get(`user:${userId}:assistant:${query}`);
   if (!assistantData) {
     throw new Error("Failed to get assistant");
   }
