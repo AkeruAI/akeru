@@ -22,13 +22,14 @@ export const threads = new Elysia<"/thread">().use(bearer());
 
 threads.post(
   "/thread",
-  async ({ bearer }) => {
+  async ({ bearer, body }) => {
     const decodedToken = await parseToken(bearer!);
 
     if (decodedToken) {
       const { userId } = decodedToken;
       // // Create a new thread
       const threadId = await createThread({
+        name: body.thread_name,
         id: ulid(), // Generate a unique ID for the thread
         createdBy: userId,
         participants: [], // Initialize the participants list
@@ -44,6 +45,9 @@ threads.post(
     }
   },
   {
+    body: t.Object({
+      thread_name: t.String()
+    }), 
     beforeHandle: AuthMiddleware(["create_thread", "*"]),
   },
 );
