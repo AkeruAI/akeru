@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { THREADS_LIST_MOCK_DATA } from "./test-data";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -6,25 +7,24 @@ import ThreadsListItem from "./threads-list-item";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import useThreads from "./use-threads";
+import { useThreadStore } from "./useThreadStore";
+import { useRouter } from "next/navigation";
 
 const ThreadsList = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [activeId, setActiveId] = useState("");
+  const router = useRouter();
+  const activeThread = useThreadStore((state) => state.activeId);
+  const setActiveThread = useThreadStore((state) => state.setActiveId);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
-    };
-    fetchData();
-  }, []);
+  const { isFetchingThreads, threads } = useThreads();
 
   const handleSetActiveId = (id: string) => {
-    setActiveId(id);
+    const parsedString = id.replace(/\s+/g, "-");
+    setActiveThread(id);
+    router.push(`/threads?${parsedString}`);
   };
 
-  const isActive = (id: string) => id === activeId;
+  const isActive = (id: string) => id === activeThread;
 
   return (
     <div className="w-64 rounded-md bg-white p-4 shadow-md">
@@ -36,7 +36,7 @@ const ThreadsList = () => {
         <div className="pointer-events-none absolute right-0 top-0 h-4/5 w-8 bg-gradient-to-r from-transparent to-white"></div>
         {/* This is just for the overflow gradient */}
         <div className="flex flex-col gap-4">
-          {isLoading
+          {isFetchingThreads
             ? Array.from({ length: THREADS_LIST_MOCK_DATA.length }).map(
                 (_, idx) => <Skeleton key={idx} className="h-8" />,
               )
