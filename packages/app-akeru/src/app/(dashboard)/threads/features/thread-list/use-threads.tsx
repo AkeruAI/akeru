@@ -15,6 +15,6 @@ export default function useThreads() {
     error,
     isLoading: isFetchingThreads,
     mutate,
-  } = useSWR("assistant", threadsFetcher);
+  } = useSWR("threads", threadsFetcher);
   return { threads, error, mutate, isFetchingThreads };
 }
