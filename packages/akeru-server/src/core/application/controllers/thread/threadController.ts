@@ -7,6 +7,7 @@ import {
   deleteThread,
   userOwnsOrParticipatesInThread,
   getThread,
+  getThreads,
 } from "@/core/application/services/threadService";
 import {
   THREAD_DELETED_SUCCESSFULLY,
@@ -46,10 +47,10 @@ threads.post(
   },
   {
     body: t.Object({
-      thread_name: t.String()
-    }), 
+      thread_name: t.String(),
+    }),
     beforeHandle: AuthMiddleware(["create_thread", "*"]),
-  },
+  }
 );
 
 threads.delete(
@@ -77,7 +78,7 @@ threads.delete(
   },
   {
     beforeHandle: AuthMiddleware(["delete_own_thread", "*"]),
-  },
+  }
 );
 
 threads.get(
@@ -90,7 +91,7 @@ threads.get(
       const threadId = params.id;
       const isParticipant = await userOwnsOrParticipatesInThread(
         threadId,
-        userId,
+        userId
       );
       const isSuperUser = decodedToken.permissions.some((p) => p.key === "*");
 
@@ -106,7 +107,28 @@ threads.get(
   },
   {
     beforeHandle: AuthMiddleware(["view_own_threads", "*"]),
+  }
+);
+
+/**
+ * Return all threads associated to a specific user
+ */
+threads.get(
+  "/thread",
+  async ({ bearer, set }) => {
+    console.info("all threads baby");
+    const decodedToken = await parseToken(bearer!);
+
+    if (decodedToken) {
+      const { userId } = decodedToken;
+
+      const threads = await getThreads(userId);
+      return threads;
+    }
   },
+  {
+    beforeHandle: AuthMiddleware(["view_own_threads", "*"]),
+  }
 );
 
 /**
@@ -123,9 +145,9 @@ threads.post(
       const isSuperUser = permissions.some((p) => p.key === "*");
       const isParticipant = await userOwnsOrParticipatesInThread(
         threadId,
-        userId,
+        userId
       );
-      
+
       // Check if the user has the permission to add a message
       // if the user has * they can send a message anywhere, if not they need to be in conversation
       if (isSuperUser || isParticipant) {
@@ -144,40 +166,45 @@ threads.post(
       message: t.String(),
     }),
     beforeHandle: AuthMiddleware(["create_message_in_own_thread", "*"]),
-  },
+  }
 );
 
 /**
  * This runs and responds once with anything that's in the thread
  */
-threads.post("/thread/:id/run", async ({ params, bearer, set, body }) => {
-  const decodedToken = await parseToken(bearer!); 
+threads.post(
+  "/thread/:id/run",
+  async ({ params, bearer, set, body }) => {
+    const decodedToken = await parseToken(bearer!);
 
-  if(decodedToken) {
-    const { userId, permissions } = decodedToken
-    const threadId = params.id; 
-    const isSuperUser = permissions.some((p) => p.key === "*");
-    const isParticipant = await userOwnsOrParticipatesInThread(threadId, userId);
+    if (decodedToken) {
+      const { userId, permissions } = decodedToken;
+      const threadId = params.id;
+      const isSuperUser = permissions.some((p) => p.key === "*");
+      const isParticipant = await userOwnsOrParticipatesInThread(
+        threadId,
+        userId
+      );
 
+      if (isSuperUser || isParticipant) {
+        // run the assistant with thread once, and get a single response
+        // this also adds the message to the thread
+        const response = await runAssistantWithThread({
+          thread_id: threadId,
+          assistant_id: body.assistant_id,
+        });
+        set.status = 200;
+        return response;
+      }
 
-    if(isSuperUser || isParticipant) {
-      // run the assistant with thread once, and get a single response
-      // this also adds the message to the thread
-      const response = await runAssistantWithThread({
-        thread_id: threadId,
-        assistant_id: body.assistant_id
-      })
-      set.status = 200
-      return response
-    } 
-
-    set.status = 403
-    return UNAUTHORIZED_USER_NOT_PARTICIPANT;
+      set.status = 403;
+      return UNAUTHORIZED_USER_NOT_PARTICIPANT;
+    }
+  },
+  {
+    body: t.Object({
+      assistant_id: t.String(),
+    }),
+    beforeHandle: AuthMiddleware(["create_message_in_own_thread", "*"]),
   }
-
-}, {
-  body: t.Object({
-    assistant_id: t.String()
-  }),
-  beforeHandle: AuthMiddleware(['create_message_in_own_thread', '*'])
-})
+);

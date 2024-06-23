@@ -96,5 +96,28 @@ export async function getThread(threadId: string): Promise<Thread | null> {
     return null;
   }
 
-  return JSON.parse(threadData);
+  return JSON.parse(threadData) as Thread;
+}
+
+/**
+ * Retrieves threads from Redis.
+ * @param {string} userId - The ID of the user threads to retrieve.
+ * @returns {Promise<Thread[] | null>} A promise that resolves to the threads of a user or null if not found.
+ */
+
+export async function getThreads(userId: string): Promise<Thread[] | null> {
+  const threadIds = await getUserThreads(userId);
+
+  if (!threadIds.length) {
+    return null;
+  }
+
+  const threads = await Promise.all(
+    threadIds.map(async (threadId) => {
+      const thread = await getThread(threadId);
+      return thread as Thread;
+    })
+  );
+
+  return threads;
 }
