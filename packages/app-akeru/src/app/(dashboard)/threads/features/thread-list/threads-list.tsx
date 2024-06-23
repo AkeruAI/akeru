@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { THREADS_LIST_MOCK_DATA } from "./test-data";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import ThreadsListItem from "./threads-list-item";
+import ThreadsListItem, { ThreadsListItemProps } from "./threads-list-item";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -40,13 +40,13 @@ const ThreadsList = () => {
             ? Array.from({ length: THREADS_LIST_MOCK_DATA.length }).map(
                 (_, idx) => <Skeleton key={idx} className="h-8" />,
               )
-            : THREADS_LIST_MOCK_DATA.map((thread, key) => (
+            : threads.map((thread: ThreadsListItemProps) => (
                 <div
-                  key={thread.title + key}
-                  onClick={() => handleSetActiveId(thread.title.toLowerCase())}
+                  key={thread.id}
+                  onClick={() => handleSetActiveId(thread.name.toLowerCase())}
                 >
                   <ThreadsListItem
-                    isActive={isActive(thread.title.toLowerCase())}
+                    isActive={isActive(thread.name.toLowerCase())}
                     {...thread}
                   />
                 </div>

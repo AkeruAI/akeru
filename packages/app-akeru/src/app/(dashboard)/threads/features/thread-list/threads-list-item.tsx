@@ -2,9 +2,11 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 export interface ThreadsListItemProps {
-  title: string;
-  description: string;
-  date: string;
+  id: string;
+  name: string;
+  createdBy?: string;
+  participants?: string[];
+  messageIds?: string[];
   isActive?: boolean;
 }
 
@@ -17,7 +19,7 @@ const ThreadsListItem = (props: ThreadsListItemProps) => {
       )}
     >
       <p className="overflow-hidden text-ellipsis whitespace-nowrap text-sm ">
-        {props.title}
+        {props.name}
       </p>
     </div>
   );

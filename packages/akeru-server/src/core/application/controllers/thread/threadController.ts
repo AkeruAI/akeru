@@ -7,6 +7,7 @@ import {
   deleteThread,
   userOwnsOrParticipatesInThread,
   getThread,
+  getThreads,
 } from "@/core/application/services/threadService";
 import {
   THREAD_DELETED_SUCCESSFULLY,
@@ -83,7 +84,6 @@ threads.delete(
 threads.get(
   "/thread/:id",
   async ({ params, bearer, set }) => {
-    console.log("hey");
     const decodedToken = await parseToken(bearer!);
 
     if (decodedToken) {
@@ -103,6 +103,27 @@ threads.get(
         set.status = 403;
         return UNAUTHORIZED_USER_NOT_PARTICIPANT;
       }
+    }
+  },
+  {
+    beforeHandle: AuthMiddleware(["view_own_threads", "*"]),
+  }
+);
+
+/**
+ * Return all threads associated to a specific user
+ */
+threads.get(
+  "/thread",
+  async ({ bearer, set }) => {
+    console.info("all threads baby");
+    const decodedToken = await parseToken(bearer!);
+
+    if (decodedToken) {
+      const { userId } = decodedToken;
+
+      const threads = await getThreads(userId);
+      return threads;
     }
   },
   {
